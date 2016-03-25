@@ -34,3 +34,16 @@ dependencies {
 task wrapper(type: Wrapper) {
 	gradleVersion = '2.9'
 }
+
+task stage(type: Copy, dependsOn: [clean, build]) {
+	from jar.archivePath
+	into "$buildDir/libs"
+	rename {
+		'app.jar'
+	}
+}
+stage.mustRunAfter(clean)
+
+clean << {
+	project.file("$buildDir/libs/app.jar").delete()
+}

@@ -1,1 +1,1 @@
-web: java -Dserver.port=$PORT -jar build/libs/pet_clinic-0.0.1-SNAPSHOT.jar
+web: java -Dserver.port=$PORT -jar build/libs/app.jar
