@@ -1,5 +1,7 @@
 # IntelliJ
-.idea/
+/build/
+/.idea/
+/.gradle/
 
 # Java
 *.class
