@@ -40,14 +40,14 @@ task wrapper(type: Wrapper) {
 }
 
 task stage(type: Copy, dependsOn: [clean, build]) {
-	from jar.archivePath
+	from war.archivePath
 	into "$buildDir/libs"
 	rename {
-		'app.jar'
+		'app.war'
 	}
 }
 stage.mustRunAfter(clean)
 
 clean << {
-	project.file("$buildDir/libs/app.jar").delete()
+	project.file("$buildDir/libs/app.war").delete()
 }
