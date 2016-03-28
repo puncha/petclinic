@@ -1,4 +1,4 @@
-# Pet Clinic by Spring Boot in Java
+# Pet Clinic by Spring Boot in Java v0.1.0
 
 ------
 
@@ -25,3 +25,7 @@ gradle check
   - GitHub: https://github.com/spring-projects/spring-roo
   - Heroku Demo: http://petclinic.herokuapp.com
   - Official Site: http://projects.spring.io/spring-roo/
+
+## Change logs
+ - v0.1.0:
+  - Index page is implemented.
