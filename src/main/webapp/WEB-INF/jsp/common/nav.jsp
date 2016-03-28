@@ -1,5 +1,6 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <div class="container">
-  <img src="../images/banner-graphic.png"/>
+  <img src="/resources/images/banner-graphic.png"/>
 
   <nav class="navbar navbar-default">
     <div class="navbar-header">

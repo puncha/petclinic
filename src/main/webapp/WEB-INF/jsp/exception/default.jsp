@@ -10,7 +10,7 @@
 <jsp:include page="../common/nav.jsp"/>
 
 <div class="container">
-  <img src="/images/pets.png"/>
+  <img src="/resources/images/pets.png"/>
   <h2>Something happened...</h2>
   <p>${exception.message}</p>
 </div>
