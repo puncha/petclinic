@@ -5,11 +5,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 @Controller
-@RequestMapping("/")
-public class HomeController {
-
+@RequestMapping("/oops")
+public class OopController {
   @RequestMapping(path = {"", "index"}, method = RequestMethod.GET)
   public String index() {
-    return "home/index";
+    throw new RuntimeException();
   }
 }

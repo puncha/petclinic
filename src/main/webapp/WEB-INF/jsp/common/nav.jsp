@@ -15,9 +15,9 @@
     <div class="collapse navbar-collapse" id="bs-navbar-collapse">
       <ul class="nav navbar-nav">
         <li><a href="/"><i class="glyphicon glyphicon-home"></i> Home</a></li>
-        <li><a href="/owners/find.html"><i class="glyphicon glyphicon-search"></i> Find owners</a></li>
-        <li><a href="/vets.html"><i class="glyphicon glyphicon-th-list"></i> Veterinarians</a></li>
-        <li><a href="/oops.html" title="trigger a RuntimeException to see how it is handled">
+        <li><a href="/owners"><i class="glyphicon glyphicon-search"></i> Find owners</a></li>
+        <li><a href="/vets"><i class="glyphicon glyphicon-th-list"></i> Veterinarians</a></li>
+        <li><a href="/oops" title="trigger a RuntimeException to see how it is handled">
           <i class="glyphicon glyphicon-warning-sign"></i> Error</a></li>
       </ul>
     </div>
