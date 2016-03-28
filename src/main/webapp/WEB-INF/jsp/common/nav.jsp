@@ -1,5 +1,6 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <div class="container">
-  <img src="../images/banner-graphic.png"/>
+  <img src="/resources/images/banner-graphic.png"/>
 
   <nav class="navbar navbar-default">
     <div class="navbar-header">
@@ -17,8 +18,17 @@
         <li><a href="/"><i class="glyphicon glyphicon-home"></i> Home</a></li>
         <li><a href="/owners"><i class="glyphicon glyphicon-search"></i> Find owners</a></li>
         <li><a href="/vets"><i class="glyphicon glyphicon-th-list"></i> Veterinarians</a></li>
-        <li><a href="/oops" title="trigger a RuntimeException to see how it is handled">
-          <i class="glyphicon glyphicon-warning-sign"></i> Error</a></li>
+        <li class="dropdown">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+            <i class="glyphicon glyphicon-warning-sign"></i>
+            <span> Errors</span>
+            <span class="caret"></span>
+          </a>
+          <ul class="dropdown-menu">
+            <li><a href="/errors">Default exception</a></li>
+            <li><a href="/errors/oops">Oops exception</a></li>
+          </ul>
+        </li>
       </ul>
     </div>
   </nav>

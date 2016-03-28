@@ -1,0 +1,29 @@
+.container {
+  padding-top: 10px;
+  width: 700px;
+}
+
+.form-horizontal {
+  width: 100%;
+}
+
+input[type="text"] {
+  height: 25px;
+}
+
+nav {
+  width: 601px;
+}
+
+.navbar .nav > li > a {
+  color: #000000;
+}
+
+.form-horizontal .control-label {
+  text-align: left;
+}
+
+.panel-exception > .panel-body {
+  height: 500px;
+  overflow: scroll;
+}
