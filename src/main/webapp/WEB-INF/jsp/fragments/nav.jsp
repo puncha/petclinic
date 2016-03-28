@@ -1,17 +1,5 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>Title</title>
-
-  <link rel="stylesheet" href="//cdn.bootcss.com/bootstrap/3.3.5/css/bootstrap.min.css">
-  <link rel="stylesheet" href="//cdn.bootcss.com/bootstrap/3.3.5/css/bootstrap-theme.min.css">
-  <link rel="stylesheet" href="css/petclinic.css">
-
-</head>
-<body>
 <div class="container">
-  <img src="images/banner-graphic.png"/>
+  <img src="../images/banner-graphic.png"/>
 
   <nav class="navbar navbar-default">
     <div class="navbar-header">
@@ -35,16 +23,4 @@
     </div>
   </nav>
 
-
-  <h2>Welcome</h2>
-  <img src="images/pets.png"/>
 </div>
-<hr/>
-<div class="container">
-  <img class="pull-right" src="images/spring-pivotal-logo.png"/>
-</div>
-
-<script src="//cdn.bootcss.com/jquery/1.11.3/jquery.min.js"></script>
-<script src="//cdn.bootcss.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
-</body>
-</html>
