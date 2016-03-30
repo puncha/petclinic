@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 import tk.puncha.dao.OwnerDAO;
+import tk.puncha.dao.PetDAO;
 import tk.puncha.models.Owner;
 
 import java.util.List;
@@ -17,6 +18,9 @@ public class OwnerController {
 
   @Autowired
   private OwnerDAO ownerDAO;
+
+  @Autowired
+  private PetDAO petDAO;
 
   @RequestMapping(path = {"", "index"}, method = RequestMethod.GET)
   public ModelAndView index() {
@@ -40,8 +44,9 @@ public class OwnerController {
 
   @RequestMapping(path = "delete", method = RequestMethod.POST)
   public String deleteOwner(Owner owner) {
-    int id = owner.getId();
-    ownerDAO.deleteOwner(id);
-    return "redirect:/owner/index";
+    int ownerId = owner.getId();
+    petDAO.deletePetsByOwnerId(ownerId);
+    ownerDAO.deleteOwner(ownerId);
+    return "redirect:/owners";
   }
 }
