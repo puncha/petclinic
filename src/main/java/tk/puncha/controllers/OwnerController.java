@@ -5,7 +5,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
-import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 import tk.puncha.dao.OwnerDAO;
 import tk.puncha.dao.PetDAO;
 import tk.puncha.models.Owner;
@@ -33,13 +32,13 @@ public class OwnerController {
 
   @RequestMapping(path = "new", method = RequestMethod.GET)
   public ModelAndView newOwnerForm() {
-    throw new NotImplementedException();
+    throw new RuntimeException("Not implemented.");
   }
 
   @RequestMapping(path = "new", method = RequestMethod.POST)
   public ModelAndView createNewOwner() {
     // dispatch to ownerDAO to create a new owner
-    throw new NotImplementedException();
+    throw new RuntimeException("Not implemented.");
   }
 
   @RequestMapping(path = "delete", method = RequestMethod.POST)
