@@ -2,6 +2,7 @@ package tk.puncha.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
@@ -27,6 +28,15 @@ public class OwnerController {
     ModelAndView modelView = new ModelAndView();
     modelView.addObject("owners", owners);
     modelView.setViewName("owner/index");
+    return modelView;
+  }
+
+  @RequestMapping(path = {"{ownerId}"}, method = RequestMethod.GET)
+  public ModelAndView viewOwner(@PathVariable int ownerId) {
+    Owner owner = ownerDAO.getOwnerById(ownerId);
+    ModelAndView modelView = new ModelAndView();
+    modelView.addObject(owner);
+    modelView.setViewName("owner/view");
     return modelView;
   }
 

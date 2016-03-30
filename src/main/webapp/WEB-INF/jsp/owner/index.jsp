@@ -30,9 +30,10 @@
         <td>${owner.telephone}</td>
         <td>
           <div class="btn-group btn-group-xs">
-            <button type="button" class="btn btn-xs btn-primary action-show-owner">Show</button>
-            <button type="button" class="btn btn-xs btn-primary action-edit-owner">Edit</button>
-            <button type="button" data-id="${owner.id}" class="btn btn-xs btn-primary action-delete-owner">Delete</button>
+            <a class="btn btn-xs btn-success" href="/owners/${owner.id}">View</a>
+            <button data-id="${owner.id}" class="btn btn-xs btn-primary action-edit-owner">Edit</button>
+            <button data-id="${owner.id}" class="btn btn-xs btn-danger action-delete-owner">Delete
+            </button>
           </div>
         </td>
       </tr>
@@ -46,7 +47,7 @@
 <jsp:include page="../common/footer.jsp"/>
 <jsp:include page="../common/scripts.jsp"/>
 <script type="text/javascript">
-  $(function(){
+  $(function() {
     $("button.action-delete-owner").click(function() {
       var id = $(this).attr("data-id");
       var form = $("form");
