@@ -37,4 +37,11 @@ public class OwnerController {
     // dispatch to ownerDAO to create a new owner
     throw new NotImplementedException();
   }
+
+  @RequestMapping(path = "delete", method = RequestMethod.POST)
+  public String deleteOwner(Owner owner) {
+    int id = owner.getId();
+    ownerDAO.deleteOwner(id);
+    return "redirect:/owner/index";
+  }
 }
