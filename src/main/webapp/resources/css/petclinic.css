@@ -27,3 +27,7 @@ nav {
   height: 500px;
   overflow: scroll;
 }
+
+table.table-owners > tbody > tr > td {
+  vertical-align: middle;
+}

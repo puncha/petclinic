@@ -1,4 +1,4 @@
-# Pet Clinic by Spring Boot in Java v0.2.0
+# Pet Clinic by Spring Boot in Java v0.3.0
 
 ------
 
@@ -27,7 +27,9 @@ gradle check
   - Official Site: http://projects.spring.io/spring-roo/
 
 ## Change Logs
+ - v0.3.0:
+  - Owner page is implemented. Users can list, create, edit and delete owners.
  - v0.2.0:
-  - Error page is implemented.
+  - Error page is implemented. User can see how the site handles exceptions.
  - v0.1.0:
-  - Index page is implemented.
+  - Index page is implemented. User can see the home page of the site.
