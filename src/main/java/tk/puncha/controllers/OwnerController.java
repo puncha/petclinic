@@ -71,7 +71,7 @@ public class OwnerController {
       throw new RuntimeException();
   }
 
-  @RequestMapping(path = "{ownerId}/delete", method = RequestMethod.POST)
+  @RequestMapping(path = "{ownerId}/delete", method = RequestMethod.GET)
   public String deleteOwner(@PathVariable int ownerId) {
     petDAO.deletePetsByOwnerId(ownerId);
     ownerDAO.deleteOwner(ownerId);
