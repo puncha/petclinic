@@ -1,7 +1,7 @@
 package tk.puncha.models;
 
 public class Owner {
-  private int id;
+  private int id = -1;
   private String firstName;
   private String lastName;
   private String address;

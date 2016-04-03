@@ -9,6 +9,10 @@
 <jsp:include page="../common/nav.jsp"/>
 
 <div class="container">
+  <a class="btn btn-xs btn-primary pull-right" href="/owners/new">
+    <i class="glyphicon glyphicon-plus"></i>
+  </a>
+
   <table class="table table-owners">
     <thead>
     <tr>
@@ -31,31 +35,17 @@
         <td>
           <div class="btn-group btn-group-xs">
             <a class="btn btn-xs btn-success" href="/owners/${owner.id}">View</a>
-            <button data-id="${owner.id}" class="btn btn-xs btn-primary action-edit-owner">Edit</button>
-            <button data-id="${owner.id}" class="btn btn-xs btn-danger action-delete-owner">Delete
-            </button>
+            <a class="btn btn-xs btn-primary" href="/owners/${owner.id}/edit">Edit</a>
+            <a class="btn btn-xs btn-danger" href="/owners/${owner.id}/delete">Delete</a>
           </div>
         </td>
       </tr>
     </c:forEach>
     </tbody>
   </table>
-  <form class="invisible" action="/owners/delete" method="post">
-    <input name="id">
-  </form>
+
 </div>
 <jsp:include page="../common/footer.jsp"/>
 <jsp:include page="../common/scripts.jsp"/>
-<script type="text/javascript">
-  $(function() {
-    $("button.action-delete-owner").click(function() {
-      var id = $(this).attr("data-id");
-      var form = $("form");
-      var idField = form.find("input[name='id']");
-      idField.val(id);
-      form.submit();
-    });
-  });
-</script>
 </body>
 </html>

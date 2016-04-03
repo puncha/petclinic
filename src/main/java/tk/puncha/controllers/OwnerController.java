@@ -16,6 +16,12 @@ import java.util.List;
 @RequestMapping("/owners")
 public class OwnerController {
 
+  enum OwnerFormMode {
+    Readonly,
+    Edit
+  }
+
+
   @Autowired
   private OwnerDAO ownerDAO;
 
@@ -34,28 +40,47 @@ public class OwnerController {
   @RequestMapping(path = {"{ownerId}"}, method = RequestMethod.GET)
   public ModelAndView viewOwner(@PathVariable int ownerId) {
     Owner owner = ownerDAO.getOwnerById(ownerId);
-    ModelAndView modelView = new ModelAndView();
-    modelView.addObject(owner);
-    modelView.setViewName("owner/view");
-    return modelView;
+    EnsureOwnerExists(owner);
+    return createOwnerFormModelView("owner/viewOrEdit", owner, OwnerFormMode.Readonly);
   }
 
   @RequestMapping(path = "new", method = RequestMethod.GET)
-  public ModelAndView newOwnerForm() {
-    throw new RuntimeException("Not implemented.");
+  public ModelAndView createOwner() {
+    return createOwnerFormModelView("owner/viewOrEdit", new Owner(), OwnerFormMode.Edit);
   }
 
   @RequestMapping(path = "new", method = RequestMethod.POST)
-  public ModelAndView createNewOwner() {
-    // dispatch to ownerDAO to create a new owner
-    throw new RuntimeException("Not implemented.");
+  public String createOrUpdateOwner(Owner owner) {
+    if (owner.getId() == -1)
+      ownerDAO.insertOwner(owner);
+    else
+      ownerDAO.updateOwner(owner);
+    return "redirect:/owners/" + owner.getId();
   }
 
-  @RequestMapping(path = "delete", method = RequestMethod.POST)
-  public String deleteOwner(Owner owner) {
-    int ownerId = owner.getId();
+  @RequestMapping(path = "{ownerId}/edit", method = RequestMethod.GET)
+  public ModelAndView editOwner(@PathVariable int ownerId) {
+    Owner owner = ownerDAO.getOwnerById(ownerId);
+    EnsureOwnerExists(owner);
+    return createOwnerFormModelView("owner/viewOrEdit", owner, OwnerFormMode.Edit);
+  }
+
+  private void EnsureOwnerExists(Owner owner) {
+    if (owner == null)
+      // TODO: set status code to 404.
+      throw new RuntimeException();
+  }
+
+  @RequestMapping(path = "{ownerId}/delete", method = RequestMethod.POST)
+  public String deleteOwner(@PathVariable int ownerId) {
     petDAO.deletePetsByOwnerId(ownerId);
     ownerDAO.deleteOwner(ownerId);
     return "redirect:/owners";
   }
+
+  public ModelAndView createOwnerFormModelView(String viewName, Owner owner, OwnerFormMode mode) {
+    return new ModelAndView(viewName).addObject("owner", owner).addObject("mode", mode);
+  }
+
 }
+
