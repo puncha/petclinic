@@ -2,12 +2,14 @@ package tk.puncha.dao;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.RowMapper;
+import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.jdbc.core.support.JdbcDaoSupport;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 import tk.puncha.models.Owner;
 
 import javax.sql.DataSource;
+import java.util.HashMap;
 import java.util.List;
 
 @Component
@@ -16,8 +18,9 @@ public class OwnerDAO extends JdbcDaoSupport {
   private final String SQL_QUERY_ALL = "SELECT * FROM owners";
   private final String SQL_QUERY_BY_ID = "SELECT * FROM owners WHERE id = ?";
   private final String SQL_DELETE_BY_ID = "DELETE FROM owners WHERE id = ?";
-  private final String SQL_INSERT = "INSERT INTO owners(first_name, last_name, address, city, telephone) VALUES (?,?,?,?,?)";
   private final String SQL_UPDATE = "UPDATE owners SET first_name = ?, last_name = ?, address = ?, city = ?, telephone = ? WHERE id = ?";
+
+  private SimpleJdbcInsert insertActor;
 
   private RowMapper<Owner> ownerRowMapper;
 
@@ -25,6 +28,7 @@ public class OwnerDAO extends JdbcDaoSupport {
   @Autowired
   public OwnerDAO(DataSource dataSource) {
     setDataSource(dataSource);
+    insertActor = new SimpleJdbcInsert(dataSource).withTableName("owners").usingGeneratedKeyColumns("id");
 
     ownerRowMapper = (rs, rowNum) -> {
       Owner owner = new Owner();
@@ -46,23 +50,18 @@ public class OwnerDAO extends JdbcDaoSupport {
     return this.getJdbcTemplate().queryForObject(SQL_QUERY_BY_ID, ownerRowMapper, ownerId);
   }
 
-@Transactional
-public Owner insertOwner(Owner owner) {
-  this.getJdbcTemplate().update(
-      SQL_INSERT, owner.getFirstName(), owner.getLastName(),
-      owner.getAddress(), owner.getCity(), owner.getTelephone());
+  public Owner insertOwner(Owner owner) {
+    HashMap<String, Object> parameters = new HashMap<>(5);
+    parameters.put("first_name", owner.getFirstName());
+    parameters.put("last_name", owner.getLastName());
+    parameters.put("address", owner.getAddress());
+    parameters.put("city", owner.getCity());
+    parameters.put("telephone", owner.getTelephone());
+    Number newId = insertActor.executeAndReturnKey(parameters);
+    owner.setId((int) newId);
+    return owner;
+  }
 
-  int id = getJdbcTemplate().queryForObject(
-      "CALL IDENTITY()", (rs, rowNum) -> {
-        int identity = rs.getInt(1);
-        logger.info("The generated id is: " + identity);
-        return identity;
-      });
-  owner.setId(id);
-  return owner;
-}
-
-  
   public Owner updateOwner(Owner owner) {
     this.getJdbcTemplate().update(
         SQL_UPDATE, owner.getFirstName(), owner.getLastName(),
