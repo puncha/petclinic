@@ -1,9 +1,16 @@
 package tk.puncha.models;
 
+import javax.validation.constraints.Size;
+
 public class Owner {
   private int id = -1;
+
+  @Size(min = 3, max=30, message = "{error.firstName.length}")
   private String firstName;
+
+  @Size(min = 3, max = 30, message = "{error.lastName.length}")
   private String lastName;
+
   private String address;
   private String city;
   private String telephone;

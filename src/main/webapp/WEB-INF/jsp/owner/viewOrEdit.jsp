@@ -1,5 +1,6 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags/form" %>
 <!DOCTYPE html>
 
 <html lang="en">
@@ -17,6 +18,7 @@
       <div class="col-xs-5">
         <form:input path="firstName" cssClass="col-sm-10 form-control" readonly="${viewOnly}"/>
       </div>
+      <form:errors path="firstName"/>
     </div>
 
     <div class="form-group">
@@ -24,6 +26,7 @@
       <div class="col-xs-5">
         <form:input path="lastName" cssClass="col-sm-10 form-control" readonly="${viewOnly}"/>
       </div>
+      <form:errors path="lastName"/>
     </div>
 
     <div class="form-group">
@@ -31,6 +34,7 @@
       <div class="col-xs-5">
         <form:input path="address" cssClass="col-sm-10 form-control" readonly="${viewOnly}"/>
       </div>
+      <form:errors path="address"/>
     </div>
 
     <div class="form-group">
@@ -38,6 +42,7 @@
       <div class="col-xs-5">
         <form:input path="city" cssClass="col-sm-10 form-control" readonly="${viewOnly}"/>
       </div>
+      <form:errors path="city"/>
     </div>
 
 
@@ -46,10 +51,17 @@
       <div class="col-xs-5">
         <form:input path="telephone" cssClass="col-sm-10 form-control" readonly="${viewOnly}"/>
       </div>
+      <form:errors path="telephone"/>
     </div>
 
     <c:if test="${!viewOnly}">
-      <form:hidden path="id" />
+      <form:hidden path="id"/>
+
+      <div>
+        <label class="label label-danger">Errors:</label>
+        <br/>
+        <ul><form:errors path="*"></form:errors></ul>
+      </div>
 
       <div class="form-group row">
         <div class="col-xs-offset-2 col-xs-3">

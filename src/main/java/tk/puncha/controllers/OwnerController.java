@@ -2,6 +2,9 @@ package tk.puncha.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.WebDataBinder;
+import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -9,7 +12,9 @@ import org.springframework.web.servlet.ModelAndView;
 import tk.puncha.dao.OwnerDAO;
 import tk.puncha.dao.PetDAO;
 import tk.puncha.models.Owner;
+import tk.puncha.validators.OwnerValidator;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @Controller
@@ -21,12 +26,19 @@ public class OwnerController {
     Edit
   }
 
-
   @Autowired
   private OwnerDAO ownerDAO;
 
   @Autowired
   private PetDAO petDAO;
+
+  @Autowired
+  private OwnerValidator ownerValidator;
+
+  @InitBinder
+  public void dataBinding(WebDataBinder binder) {
+    binder.addValidators(ownerValidator);
+  }
 
   @RequestMapping(path = {"", "index"}, method = RequestMethod.GET)
   public ModelAndView index() {
@@ -50,7 +62,10 @@ public class OwnerController {
   }
 
   @RequestMapping(path = "new", method = RequestMethod.POST)
-  public String createOrUpdateOwner(Owner owner) {
+  public String createOrUpdateOwner(@Valid Owner owner, BindingResult bindingResult) {
+    if (bindingResult.hasErrors())
+      return "owner/viewOrEdit";
+
     if (owner.getId() == -1)
       ownerDAO.insertOwner(owner);
     else
