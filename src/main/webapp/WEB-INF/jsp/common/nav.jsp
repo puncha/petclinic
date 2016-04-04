@@ -16,24 +16,8 @@
     <div class="collapse navbar-collapse" id="bs-navbar-collapse">
       <ul class="nav navbar-nav">
         <li><a href="/"><i class="glyphicon glyphicon-home"></i> Home</a></li>
-
-
-        <%-- Owners --%>
-        <li class="dropdown">
-          <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-            <i class="glyphicon glyphicon-search"></i>
-            <span> Owners</span>
-            <span class="caret"></span>
-          </a>
-          <ul class="dropdown-menu">
-            <li><a href="/owners">List all owners</a></li>
-            <li><a href="/owners/new">Create new owner</a></li>
-          </ul>
-        </li>
-
-
-        <li><a href="/vets"><i class="glyphicon glyphicon-th-list"></i> Veterinarians</a></li>
-
+        <li><a href="/owners"><i class="glyphicon glyphicon-search"></i> Owners</a></li>
+        <li><a href="/pets"><i class="glyphicon glyphicon-th-list"></i> Pets</a></li>
 
         <%-- Errors --%>
         <li class="dropdown">

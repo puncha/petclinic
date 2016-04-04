@@ -2,7 +2,9 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags/form" %>
 <jsp:useBean id="mode" scope="request" type="tk.puncha.controllers.ControllerBase.FormMode"/>
-<jsp:useBean id="owner" scope="request" type="tk.puncha.models.Owner"/>
+<jsp:useBean id="pet" scope="request" type="tk.puncha.models.Pet"/>
+<jsp:useBean id="types" scope="request" type="java.util.List<tk.puncha.models.PetType>"/>
+<jsp:useBean id="owners" scope="request" type="java.util.List<tk.puncha.models.Owner>"/>
 <!DOCTYPE html>
 
 <html lang="en">
@@ -14,46 +16,38 @@
 
   <c:if test="${mode == 'Readonly'}" var="viewOnly"/>
 
-  <form:form modelAttribute="owner" cssClass="form-horizontal" action="/owners/new" method="post">
+  <form:form modelAttribute="pet" cssClass="form-horizontal" action="/pets/new" method="post">
     <div class="form-group">
-      <form:label path="firstName" cssClass="col-xs-2 control-label">First name</form:label>
+      <form:label path="name" cssClass="col-xs-2 control-label">Name</form:label>
       <div class="col-xs-5">
-        <form:input path="firstName" cssClass="col-sm-10 form-control" readonly="${viewOnly}"/>
+        <form:input path="name" cssClass="col-sm-10 form-control" readonly="${viewOnly}"/>
       </div>
-      <form:errors path="firstName"/>
-    </div>
-
-    <div class="form-group">
-      <form:label path="lastName" cssClass="col-xs-2 control-label">Last name</form:label>
-      <div class="col-xs-5">
-        <form:input path="lastName" cssClass="col-sm-10 form-control" readonly="${viewOnly}"/>
-      </div>
-      <form:errors path="lastName"/>
-    </div>
-
-    <div class="form-group">
-      <form:label path="address" cssClass="col-xs-2 control-label">Address</form:label>
-      <div class="col-xs-5">
-        <form:input path="address" cssClass="col-sm-10 form-control" readonly="${viewOnly}"/>
-      </div>
-      <form:errors path="address"/>
-    </div>
-
-    <div class="form-group">
-      <form:label path="city" cssClass="col-xs-2 control-label">City</form:label>
-      <div class="col-xs-5">
-        <form:input path="city" cssClass="col-sm-10 form-control" readonly="${viewOnly}"/>
-      </div>
-      <form:errors path="city"/>
+      <form:errors path="name"/>
     </div>
 
 
     <div class="form-group">
-      <form:label path="telephone" cssClass="col-xs-2 control-label">Telephone</form:label>
+      <form:label path="typeId" cssClass="col-xs-2 control-label">Type</form:label>
       <div class="col-xs-5">
-        <form:input path="telephone" cssClass="col-sm-10 form-control" readonly="${viewOnly}"/>
+        <form:select path="typeId" items="${types}" itemLabel="name" itemValue="id" readonly="${viewOnly}"/>
       </div>
-      <form:errors path="telephone"/>
+      <form:errors path="typeId"/>
+    </div>
+
+    <div class="form-group">
+      <form:label path="birthDate" cssClass="col-xs-2 control-label">Birth Date</form:label>
+      <div class="col-xs-5">
+        <form:input placeholder="yyyy-mm-dd" path="birthDate" cssClass="col-sm-10 form-control" readonly="${viewOnly}"/>
+      </div>
+      <form:errors path="birthDate"/>
+    </div>
+
+    <div class="form-group">
+      <form:label path="ownerId" cssClass="col-xs-2 control-label">Owner</form:label>
+      <div class="col-xs-5">
+        <form:select path="ownerId" items="${owners}" itemLabel="lastName" itemValue="id" readonly="${viewOnly}"/>
+      </div>
+      <form:errors path="ownerId"/>
     </div>
 
     <c:if test="${!viewOnly}">
