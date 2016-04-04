@@ -27,6 +27,9 @@ gradle check
   - Official Site: http://projects.spring.io/spring-roo/
 
 ## Change Logs
+ - v0.4.0:
+  - Pet page is implemented. Users can list, create, edit and delete pets.
+  - Known issue: pet with visit events fail to be deleted.
  - v0.3.0:
   - Owner page is implemented. Users can list, create, edit and delete owners.
  - v0.2.0:
