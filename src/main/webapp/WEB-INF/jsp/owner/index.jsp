@@ -9,7 +9,7 @@
 <jsp:include page="../common/nav.jsp"/>
 
 <div class="container">
-  <a class="btn btn-xs btn-primary pull-right" href="/owners/new">
+  <a id="link-create-owner" class="btn btn-xs btn-primary pull-right" href="/owners/new">
     <i class="glyphicon glyphicon-plus"></i>
   </a>
 

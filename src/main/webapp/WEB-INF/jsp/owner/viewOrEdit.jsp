@@ -75,6 +75,19 @@
       </div>
     </c:if>
   </form:form>
+
+  <c:if test="${viewOnly}">
+    <div>
+      <hr/>
+      <label class="col-xs-2 control-label">Pets</label>
+      <ul>
+        <c:forEach var="pet" items="${owner.pets}">
+          <li class="badge">${pet.name}</li>
+        </c:forEach>
+      </ul>
+    </div>
+  </c:if>
+
 </div>
 <jsp:include page="../common/footer.jsp"/>
 <jsp:include page="../common/scripts.jsp"/>

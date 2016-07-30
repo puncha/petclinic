@@ -1,7 +1,15 @@
 package tk.puncha.models;
 
+import javax.persistence.*;
+
+@Entity
+@Table(name = "types")
 public class PetType {
+
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
   private int id = -1;
+
   private String name;
 
   public int getId() {

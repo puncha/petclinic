@@ -21,20 +21,24 @@ import java.util.List;
 @RequestMapping("/owners")
 public class OwnerController extends ControllerBase {
 
-  @Autowired
-  private OwnerRepository ownerRepository;
+  private final OwnerRepository ownerRepository;
+  private final OwnerValidator ownerValidator;
 
   @Autowired
-  private OwnerValidator ownerValidator;
+  public OwnerController(OwnerRepository ownerRepository, OwnerValidator ownerValidator) {
+    this.ownerRepository = ownerRepository;
+    this.ownerValidator = ownerValidator;
+  }
 
   @InitBinder
   public void dataBinding(WebDataBinder binder) {
     binder.addValidators(ownerValidator);
   }
-
+  
   @RequestMapping(path = {"", "index"}, method = RequestMethod.GET)
   public ModelAndView index() {
     List<Owner> owners = ownerRepository.getAllOwners();
+
     ModelAndView modelView = new ModelAndView();
     modelView.addObject("owners", owners);
     modelView.setViewName("owner/index");
@@ -43,7 +47,7 @@ public class OwnerController extends ControllerBase {
 
   @RequestMapping(path = {"{ownerId}"}, method = RequestMethod.GET)
   public ModelAndView view(@PathVariable int ownerId) {
-    Owner owner = ownerRepository.getOwnerById(ownerId);
+    Owner owner = ownerRepository.getOwnerWithPetsById(ownerId);
     ensureExist(owner);
     return createFormModelView("owner/viewOrEdit", owner, FormMode.Readonly);
   }
@@ -86,7 +90,7 @@ public class OwnerController extends ControllerBase {
       throw new RuntimeException();
   }
 
-  public ModelAndView createFormModelView(String viewName, Owner owner, FormMode mode) {
+  private ModelAndView createFormModelView(String viewName, Owner owner, FormMode mode) {
     return new ModelAndView(viewName).addObject("owner", owner).addObject("mode", mode);
   }
 

@@ -1,10 +1,11 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
-<%@ taglib prefix="spring" uri="http://www.springframework.org/tags/form" %>
+<%@ taglib prefix="string" uri="http://www.springframework.org/tags" %>
 <jsp:useBean id="mode" scope="request" type="tk.puncha.controllers.ControllerBase.FormMode"/>
 <jsp:useBean id="pet" scope="request" type="tk.puncha.models.Pet"/>
 <jsp:useBean id="types" scope="request" type="java.util.List<tk.puncha.models.PetType>"/>
 <jsp:useBean id="owners" scope="request" type="java.util.List<tk.puncha.models.Owner>"/>
+
 <!DOCTYPE html>
 
 <html lang="en">
@@ -25,13 +26,17 @@
       <form:errors path="name"/>
     </div>
 
-
     <div class="form-group">
-      <form:label path="typeId" cssClass="col-xs-2 control-label">Type</form:label>
+      <form:label path="type" cssClass="col-xs-2 control-label">Type</form:label>
       <div class="col-xs-5">
-        <form:select path="typeId" items="${types}" itemLabel="name" itemValue="id" readonly="${viewOnly}"/>
+        <c:if test="${viewOnly}">
+          <form:input cssClass="form-control" path="type.name" readonly="true"/>
+        </c:if>
+        <c:if test="${!viewOnly}">
+          <form:select path="type" items="${types}" itemLabel="name" itemValue="id" readonly="${viewOnly}"/>
+        </c:if>
       </div>
-      <form:errors path="typeId"/>
+      <form:errors path="type"/>
     </div>
 
     <div class="form-group">
@@ -43,12 +48,41 @@
     </div>
 
     <div class="form-group">
-      <form:label path="ownerId" cssClass="col-xs-2 control-label">Owner</form:label>
+      <form:label path="owner" cssClass="col-xs-2 control-label">Owner</form:label>
       <div class="col-xs-5">
-        <form:select path="ownerId" items="${owners}" itemLabel="lastName" itemValue="id" readonly="${viewOnly}"/>
+        <c:if test="${viewOnly}">
+          <form:input cssClass="form-control" path="owner.firstName" readonly="true"/>
+        </c:if>
+        <c:if test="${!viewOnly}">
+          <form:select path="owner" items="${owners}" itemLabel="firstName" itemValue="id" readonly="${viewOnly}"/>
+        </c:if>
       </div>
-      <form:errors path="ownerId"/>
     </div>
+    <form:errors path="owner"/>
+
+    <c:if test="${viewOnly}">
+      <hr/>
+      <label class="col-xs-2 control-label">Visits</label>
+      <a class="btn btn-xs btn-primary" href="/pets/${pet.id}/visits/new">
+        <i class="glyphicon glyphicon-plus"></i>
+      </a>
+      <ul>
+        <c:forEach var="pet" items="${owner.pets}">
+          <li class="badge">${pet.name}</li>
+        </c:forEach>
+      </ul>
+      <ol>
+        <c:forEach var="visit" items="#{pet.visits}">
+          <li class="badge">${visit.visitDate} ${visit.description}
+            <string:url var="deleteVisitUrl" value="/pets/${pet.id}/visits/${visit.id}/delete"/>
+            <a class="btn btn-xs btn-danger" href="${deleteVisitUrl}"><i class="glyphicon glyphicon-remove"></i></a>
+          </li>
+        </c:forEach>
+      </ol>
+
+
+    </c:if>
+
 
     <c:if test="${!viewOnly}">
       <form:hidden path="id"/>
@@ -64,11 +98,12 @@
           <button type="submit" class="btn btn-primary">Submit</button>
         </div>
         <div class="col-xs-3">
-          <button type="reset" class="btn btn-primary">Reset</button>
-        </div>
-      </div>
-    </c:if>
-  </form:form>
+<button type="reset" class="btn btn-primary">Reset</button>
+</div>
+</div>
+</c:if>
+</form:form>
+
 </div>
 <jsp:include page="../common/footer.jsp"/>
 <jsp:include page="../common/scripts.jsp"/>

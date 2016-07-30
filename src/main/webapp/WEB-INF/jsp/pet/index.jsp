@@ -31,7 +31,7 @@
         <td>${pet.name}</td>
         <td>${pet.type.name}</td>
         <td>${pet.birthDate}</td>
-        <td>${pet.owner.lastName}</td>
+        <td>${pet.owner.firstName} ${pet.owner.lastName}</td>
         <td>
           <div class="btn-group btn-group-xs">
             <a class="btn btn-xs btn-success" href="/pets/${pet.id}">View</a>

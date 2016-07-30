@@ -1,19 +1,44 @@
 package tk.puncha.models;
 
+import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import java.util.ArrayList;
+import java.util.List;
 
+
+@Entity
+@Table(name = "Owners")
+@NamedEntityGraphs({
+    @NamedEntityGraph(name = "graph.Owners.lazyPets"),
+    @NamedEntityGraph(name = "graph.Owners.withPets",
+        attributeNodes = @NamedAttributeNode(value = "pets", subgraph = "pets"),
+        subgraphs = @NamedSubgraph(name = "pets", attributeNodes = @NamedAttributeNode("type"))
+    )
+})
 public class Owner {
+
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
   private int id = -1;
 
-  @Size(min = 3, max=30, message = "{error.firstName.length}")
+  @Column(name = "first_name")
+  @NotNull
+  @Size(min = 3, max = 30, message = "{error.firstName.length}")
   private String firstName;
 
+  @Column(name = "last_name")
+  @NotNull
   @Size(min = 3, max = 30, message = "{error.lastName.length}")
   private String lastName;
 
   private String address;
   private String city;
   private String telephone;
+
+  @OneToMany(mappedBy = "owner", fetch = FetchType.LAZY,
+      cascade = {CascadeType.REMOVE, CascadeType.PERSIST})
+  private List<Pet> pets = new ArrayList<>();
 
   public int getId() {
     return id;
@@ -61,5 +86,9 @@ public class Owner {
 
   public void setTelephone(String telephone) {
     this.telephone = telephone;
+  }
+
+  public List<Pet> getPets() {
+    return pets;
   }
 }
