@@ -8,9 +8,12 @@ import tk.puncha.exceptions.OopsException;
 @Controller
 @RequestMapping("/errors")
 public class ErrorController {
+
+  public static final String DEFAULT_EXCEPTION = "Expected: controller used to showcase what happens when an exception is thrown";
+
   @RequestMapping(path = {"", "index", "default"}, method = RequestMethod.GET)
   public String index() {
-    final String msg = "Expected: controller used to showcase what happens when an exception is thrown";
+    final String msg = DEFAULT_EXCEPTION;
     throw new RuntimeException(msg);
   }
 

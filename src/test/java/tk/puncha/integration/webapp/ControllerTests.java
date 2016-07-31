@@ -1,4 +1,4 @@
-package tk.puncha.integration.controllers;
+package tk.puncha.integration.webapp;
 
 import com.gargoylesoftware.htmlunit.WebClient;
 import com.gargoylesoftware.htmlunit.html.*;

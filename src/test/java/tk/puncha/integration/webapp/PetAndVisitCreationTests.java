@@ -1,9 +1,9 @@
-package tk.puncha.integration.controllers;
+package tk.puncha.integration.webapp;
 
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
 import org.junit.Before;
 import org.junit.Test;
-import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.context.annotation.Configuration;
 import tk.puncha.Application;
 
@@ -12,6 +12,7 @@ import static org.junit.Assert.assertTrue;
 public class PetAndVisitCreationTests extends ControllerTests {
 
   @Configuration
+  @EnableAutoConfiguration()
   static class Dummy extends Application {
   }
 
