@@ -10,12 +10,10 @@
 <jsp:include page="../common/nav.jsp"/>
 
 <div class="container">
-  <div class="panel panel-danger panel-exception">
-    <div class="panel-heading">Exceptions: ${exception.getMessage()} </div>
-    <div class="panel-body">
+    <h1>Exceptions: ${exception.getMessage()} </h1>
       <c:set var="stack" value="${exception.getStackTrace()}"/>
       <c:forEach var="stackItem" items='${stack}'>
-        ${stackItem}
+        <samp>${stackItem}</samp>
       </c:forEach>
     </div>
   </div>

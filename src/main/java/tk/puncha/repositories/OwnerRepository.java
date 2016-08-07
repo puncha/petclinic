@@ -23,6 +23,10 @@ public class OwnerRepository {
     return ownerDAO.getAllOwners();
   }
 
+  public List<Owner> getOwnersByFirstName(String firstName){
+    return ownerDAO.getOwnersByFirstName(firstName);
+  }
+
   @Transactional
   public Owner getOwnerById(int ownerId) {
     return ownerDAO.getOwnerById(ownerId);

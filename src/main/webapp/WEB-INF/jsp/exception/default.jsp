@@ -12,7 +12,7 @@
 <div class="container">
   <img src="/resources/images/pets.png"/>
   <h2>Something happened...</h2>
-  <p>${exception.message}</p>
+  <samp>${exception.message}</samp>
 </div>
 
 <jsp:include page="../common/footer.jsp"/>

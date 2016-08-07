@@ -8,6 +8,8 @@ import java.util.List;
 public interface OwnerDAO {
   List<Owner> getAllOwners();
 
+  List getOwnersByFirstName(String firstName);
+
   Owner getOwnerById(int ownerId);
 
   Owner getOwnerWithPetsById(int ownerId);

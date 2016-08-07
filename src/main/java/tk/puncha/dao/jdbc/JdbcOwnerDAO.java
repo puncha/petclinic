@@ -49,6 +49,11 @@ public class JdbcOwnerDAO extends JdbcDaoSupport implements OwnerDAO {
     return this.getJdbcTemplate().query(SQL_QUERY_ALL, ownerRowMapper);
   }
 
+  @Override
+  public List<Owner> getOwnersByFirstName(String firstName) {
+    throw new RuntimeException("Not implemented");
+  }
+
   public Owner getOwnerById(int ownerId) {
     return this.getJdbcTemplate().queryForObject(SQL_QUERY_BY_ID, ownerRowMapper, ownerId);
   }

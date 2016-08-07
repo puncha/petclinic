@@ -22,6 +22,11 @@ public class MyBatisOwnerDAO implements OwnerDAO {
   }
 
   @Override
+  public List<Owner> getOwnersByFirstName(String firstName) {
+    throw new RuntimeException("Not implemented");
+  }
+
+  @Override
   public Owner getOwnerById(int ownerId) {
     return mapper.getOwnerById(ownerId);
   }

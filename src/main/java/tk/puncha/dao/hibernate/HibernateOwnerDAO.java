@@ -1,8 +1,10 @@
 package tk.puncha.dao.hibernate;
 
+import org.hibernate.Session;
+import org.hibernate.criterion.Example;
+import org.hibernate.criterion.MatchMode;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 import tk.puncha.controllers.PetController;
@@ -29,6 +31,16 @@ public class HibernateOwnerDAO implements OwnerDAO {
     return em.createQuery("select distinct o from Owner o", Owner.class)
         .setHint(HINT_FETCHGRAPH, em.getEntityGraph("graph.Owners.lazyPets"))
         .getResultList();
+  }
+
+  @Override
+  @SuppressWarnings("unchecked")
+  public List<Owner> getOwnersByFirstName(String firstName) {
+    Owner owner = new Owner();
+    owner.setFirstName(firstName);
+    return em.unwrap(Session.class).createCriteria(Owner.class)
+        .add(Example.create(owner).enableLike(MatchMode.ANYWHERE).ignoreCase())
+        .list();
   }
 
   @Override

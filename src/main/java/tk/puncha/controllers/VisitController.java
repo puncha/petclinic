@@ -14,7 +14,7 @@ import tk.puncha.repositories.VisitRepository;
 import javax.validation.Valid;
 
 @Controller
-@RequestMapping(path = "/pets/{petId}/visits")
+@RequestMapping("/pets/{petId}/visits")
 public class VisitController {
 
   private final PetRepository petRepository;
@@ -36,18 +36,19 @@ public class VisitController {
     return petRepository.getPetById(petId);
   }
 
-  @RequestMapping(path = "{visitId}/delete")
-  public String deleteVisit(@PathVariable int visitId) {
+  @RequestMapping("{visitId}/delete")
+  public String deleteVisit(@ModelAttribute Pet pet, @PathVariable int visitId) {
+    if (pet == null) throw new RuntimeException("Pet doesn't exist!");
     visitRepository.delete(visitId);
     return "redirect:/pets/{petId}";
   }
 
-  @RequestMapping(path = "/new", method = RequestMethod.GET)
+  @GetMapping("/new")
   public ModelAndView initCreationForm() {
     return new ModelAndView("visit/new").addObject(new Visit());
   }
 
-  @RequestMapping(path = "/new", method = RequestMethod.POST)
+  @PostMapping("/new")
   public String processCreationForm(Pet pet, @ModelAttribute @Valid Visit visit, BindingResult bingResult) {
     if (bingResult.hasErrors()) {
       return "visit/new";

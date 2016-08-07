@@ -1,10 +1,13 @@
 package tk.puncha.configuration;
 
+import org.springframework.boot.autoconfigure.web.ErrorViewResolver;
 import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
 import org.springframework.context.support.ResourceBundleMessageSource;
+import org.springframework.http.MediaType;
+import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
@@ -13,9 +16,15 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.validation.Validator;
 import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 import org.springframework.web.servlet.HandlerExceptionResolver;
-import org.springframework.web.servlet.config.annotation.ViewResolverRegistry;
+import org.springframework.web.servlet.config.annotation.ContentNegotiationConfigurer;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 import org.springframework.web.servlet.handler.SimpleMappingExceptionResolver;
+import org.springframework.web.servlet.view.XmlViewResolver;
+import tk.puncha.handlers.MyErrorViewResolver;
+import tk.puncha.viewResolvers.ExcelViewResolver;
+import tk.puncha.viewResolvers.JsonViewResolver;
+import tk.puncha.viewResolvers.PdfViewResolver;
+import tk.puncha.viewResolvers.AtomFeedViewResolver;
 
 import javax.sql.DataSource;
 import java.util.List;
@@ -24,6 +33,16 @@ import java.util.Properties;
 @Configuration
 @EnableTransactionManagement
 public class WebConfig extends WebMvcConfigurerAdapter {
+
+  @Override
+  public void extendMessageConverters(List<HttpMessageConverter<?>> converters) {
+    super.extendMessageConverters(converters);
+  }
+
+  @Bean
+  public ErrorViewResolver errorViewResolver() {
+    return new MyErrorViewResolver();
+  }
 
   @Bean
   Properties exceptionMappings() {
@@ -42,9 +61,41 @@ public class WebConfig extends WebMvcConfigurerAdapter {
   }
 
   @Override
-  public void configureViewResolvers(ViewResolverRegistry registry) {
-    super.configureViewResolvers(registry);
-    registry.jsp("/WEB-INF/jsp/", ".jsp");
+  public void configureContentNegotiation(ContentNegotiationConfigurer configurer) {
+    configurer
+        .defaultContentType(MediaType.TEXT_HTML)
+        .mediaType("html", MediaType.TEXT_HTML)
+        .mediaType("xml", MediaType.APPLICATION_XML)
+        .mediaType("json", MediaType.APPLICATION_JSON)
+        .ignoreAcceptHeader(true)
+        .favorPathExtension(true)
+        .favorParameter(true)
+        .parameterName("mediaType");
+  }
+
+  @Bean
+  public XmlViewResolver xmlViewResolver() {
+    return new XmlViewResolver();
+  }
+
+  @Bean
+  public JsonViewResolver jsonViewResolver() {
+    return new JsonViewResolver();
+  }
+
+  @Bean
+  public ExcelViewResolver excelViewResolver(){
+    return new ExcelViewResolver();
+  }
+
+  @Bean
+  public PdfViewResolver pdfViewResolver(){
+    return new PdfViewResolver();
+  }
+
+  @Bean
+  public AtomFeedViewResolver atomFeedViewResolver() {
+    return new AtomFeedViewResolver();
   }
 
   @Override
@@ -111,5 +162,4 @@ public class WebConfig extends WebMvcConfigurerAdapter {
     messageSource.setDefaultEncoding("utf8");
     return messageSource;
   }
-
 }

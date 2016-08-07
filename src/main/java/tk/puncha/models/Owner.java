@@ -1,8 +1,14 @@
 package tk.puncha.models;
 
+import com.fasterxml.jackson.annotation.JsonView;
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlElementWrapper;
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
+import tk.puncha.views.json.view.OwnerJsonView;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import javax.xml.bind.annotation.XmlElement;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -17,6 +23,8 @@ import java.util.List;
     )
 })
 public class Owner {
+  public Owner() {
+  }
 
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -48,6 +56,7 @@ public class Owner {
     this.id = id;
   }
 
+  @JsonView(OwnerJsonView.Default.class)
   public String getFirstName() {
     return firstName;
   }
@@ -56,6 +65,7 @@ public class Owner {
     this.firstName = firstName;
   }
 
+  @JsonView(OwnerJsonView.Default.class)
   public String getLastName() {
     return lastName;
   }
@@ -64,6 +74,7 @@ public class Owner {
     this.lastName = lastName;
   }
 
+  @JsonView(OwnerJsonView.Default.class)
   public String getAddress() {
     return address;
   }
@@ -72,6 +83,7 @@ public class Owner {
     this.address = address;
   }
 
+  @JsonView(OwnerJsonView.Default.class)
   public String getCity() {
     return city;
   }
@@ -80,6 +92,7 @@ public class Owner {
     this.city = city;
   }
 
+  @JsonView(OwnerJsonView.Default.class)
   public String getTelephone() {
     return telephone;
   }
@@ -88,6 +101,10 @@ public class Owner {
     this.telephone = telephone;
   }
 
+  @XmlElement(name = "pet")
+  @JacksonXmlElementWrapper(localName = "pets")
+  @JacksonXmlProperty(localName = "pet")
+  @JsonView(OwnerJsonView.WithPets.class)
   public List<Pet> getPets() {
     return pets;
   }

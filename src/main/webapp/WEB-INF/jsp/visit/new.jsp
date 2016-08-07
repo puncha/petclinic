@@ -15,8 +15,8 @@
 
   <p>Add visit to ${pet.owner.firstName}'s ${pet.type.name}: ${pet.name}</p>
 
-  <form:form modelAttribute="visit" cssClass="form-horizontal" action="/pets/${pet.id}/visits/new" method="post">
-    <div class="form-group">
+  <form:form modelAttribute="visit" action="/pets/${pet.id}/visits/new" method="post">
+    <div class="form-group row">
       <form:label path="description" cssClass="col-xs-2 control-label">Description</form:label>
       <div class="col-xs-5">
         <form:input path="description" cssClass="col-sm-10 form-control"/>
@@ -24,10 +24,10 @@
       <form:errors path="description"/>
     </div>
 
-    <div class="form-group">
+    <div class="form-group row">
       <form:label path="visitDate" cssClass="col-xs-2 control-label">Visit Date</form:label>
       <div class="col-xs-5">
-        <form:input placeholder="yyyy-mm-dd" path="visitDate" cssClass="col-sm-10 form-control" readonly="${viewOnly}"/>
+        <form:input placeholder="yyyy-mm-dd" path="visitDate" type="date" cssClass="col-sm-10 form-control" readonly="${viewOnly}"/>
       </div>
       <form:errors path="visitDate"/>
     </div>

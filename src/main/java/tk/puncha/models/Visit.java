@@ -1,6 +1,11 @@
 package tk.puncha.models;
 
+import com.fasterxml.jackson.annotation.JsonView;
+import tk.puncha.views.json.view.OwnerJsonView;
+import tk.puncha.views.json.view.PetJsonView;
+
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.sql.Date;
 
 @Entity
@@ -10,7 +15,9 @@ public class Visit {
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private int id;
   private String description;
+
   @Column(name = "VISIT_DATE")
+  @NotNull
   private Date visitDate;
 
   @ManyToOne(fetch = FetchType.LAZY)
@@ -28,6 +35,7 @@ public class Visit {
     this.id = id;
   }
 
+  @JsonView({OwnerJsonView.Default.class, PetJsonView.class})
   public String getDescription() {
     return description;
   }
@@ -36,6 +44,7 @@ public class Visit {
     this.description = description;
   }
 
+  @JsonView({OwnerJsonView.Default.class, PetJsonView.class})
   public Date getVisitDate() {
     return visitDate;
   }

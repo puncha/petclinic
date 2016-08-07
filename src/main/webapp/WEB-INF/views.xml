@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+  <!--<bean id="owner/index" class="org.springframework.web.servlet.view.xml.MarshallingView">-->
+    <!--<property name="marshaller">-->
+      <!--<bean class="org.springframework.oxm.jaxb.Jaxb2Marshaller">-->
+        <!--<property name="classesToBeBound">-->
+          <!--<list>-->
+            <!--<value>tk.puncha.models.Owner</value>-->
+            <!--<value>tk.puncha.models.Pet</value>-->
+            <!--<value>tk.puncha.models.Visit</value>-->
+            <!--<value>tk.puncha.models.PetType</value>-->
+            <!--<value>tk.puncha.models.OwnerList</value>-->
+          <!--</list>-->
+        <!--</property>-->
+      <!--</bean>-->
+    <!--</property>-->
+  <!--</bean>-->
+  <bean id="owner/index" class="org.springframework.web.servlet.view.xml.MappingJackson2XmlView"/>
+
+</beans>

@@ -1,13 +1,16 @@
 package tk.puncha.controllers;
 
+import com.fasterxml.jackson.annotation.JsonView;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.support.SessionStatus;
 import org.springframework.web.servlet.ModelAndView;
 import tk.puncha.formatters.OwnerFormatter;
 import tk.puncha.formatters.PetTypeFormatter;
@@ -16,12 +19,15 @@ import tk.puncha.models.Pet;
 import tk.puncha.models.PetType;
 import tk.puncha.repositories.OwnerRepository;
 import tk.puncha.repositories.PetRepository;
+import tk.puncha.views.json.view.PetJsonView;
 
+import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import java.util.List;
 
 @Controller
 @RequestMapping("/pets")
+@SessionAttributes("id")
 public class PetController extends ControllerBase {
 
   private static final Logger logger = LoggerFactory.getLogger(PetController.class);
@@ -40,10 +46,11 @@ public class PetController extends ControllerBase {
     this.petTypeFormatter = petTypeFormatter;
   }
 
-  @InitBinder
-  void initBinder(WebDataBinder binder) {
+  @InitBinder("pet")
+  void initPetBinder(WebDataBinder binder) {
     binder.addCustomFormatter(ownerFormatter);
     binder.addCustomFormatter(petTypeFormatter);
+    binder.setDisallowedFields("id");
   }
 
   @ModelAttribute("types")
@@ -58,14 +65,24 @@ public class PetController extends ControllerBase {
     return ownerRepository.getAllOwners();
   }
 
-  @RequestMapping(path = {"", "/index", "/default"}, method = RequestMethod.GET)
-  public ModelAndView index() {
+  @GetMapping(value = {"", "/index", "/default"}, produces = MediaType.TEXT_HTML_VALUE)
+  public ModelAndView htmlIndex() {
     logger.debug("index()");
     List<Pet> petViews = petRepository.getAllPets();
     return new ModelAndView("pet/index", "pets", petViews);
   }
 
-  @RequestMapping(path = "{id}", method = RequestMethod.GET)
+  //-----------
+  // Restful to return XML & JSON
+  //-----------
+  @GetMapping(produces = {MediaType.APPLICATION_XML_VALUE, MediaType.APPLICATION_JSON_VALUE})
+  @JsonView(PetJsonView.class)
+  @ResponseBody
+  private List<Pet> restfulIndex() {
+    return petRepository.getAllPets();
+  }
+
+  @GetMapping("{id}")
   public ModelAndView view(@PathVariable int id) {
     logger.debug("view()");
     Pet pet = petRepository.getPetById(id);
@@ -73,39 +90,46 @@ public class PetController extends ControllerBase {
     return createFormModelView(pet, FormMode.Readonly);
   }
 
-  @RequestMapping(path = "{id}/edit", method = RequestMethod.GET)
-  public ModelAndView edit(@PathVariable int id) {
+  @GetMapping("{id}/edit")
+  public ModelAndView edit(@PathVariable int id, HttpSession httpSession) {
     logger.debug("edit()");
     Pet pet = petRepository.getPetById(id);
     ensureExist(pet);
+    httpSession.setAttribute("id", pet.getId());
     return createFormModelView(pet, FormMode.Edit);
   }
 
-  @RequestMapping(path = "new", method = RequestMethod.GET)
-  public ModelAndView initPetCreationForm() {
+  @GetMapping("new")
+  public ModelAndView initPetCreationForm(HttpSession httpSession) {
     logger.debug("initPetCreationForm()");
+    httpSession.setAttribute("id", -1);
     return createFormModelView(new Pet(), FormMode.Edit);
   }
 
-  @RequestMapping(path = "new", method = RequestMethod.POST)
+  @PostMapping("new")
   public String processPetCreationForm(
       @Valid @ModelAttribute Pet pet,
-      BindingResult bindingResult, Model model) {
+      BindingResult bindingResult,
+      Model model,
+      @ModelAttribute("id") int petId,
+      SessionStatus sessionStatus) {
 
     logger.debug("processPetCreationForm()");
     if (bindingResult.hasErrors()) {
       model.addAttribute("mode", FormMode.Edit);
       return "pet/viewOrEdit";
     }
-    int petId = pet.getId();
-    if (petId != -1)
+    if (petId != -1) {
+      pet.setId(petId);
       petRepository.updatePet(pet);
-    else
+    } else {
       petId = petRepository.insertPet(pet);
+    }
+    sessionStatus.setComplete();
     return "redirect:/pets/" + petId;
   }
 
-  @RequestMapping(path = "{id}/delete", method = RequestMethod.GET)
+  @GetMapping("{id}/delete")
   public String delete(@PathVariable int id) {
     logger.debug("delete()");
     petRepository.delete(id);
@@ -123,4 +147,5 @@ public class PetController extends ControllerBase {
         .addObject("pet", pet)
         .addObject("mode", mode);
   }
+
 }
