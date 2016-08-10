@@ -1,6 +1,5 @@
 package tk.puncha.controllers;
 
-import com.fasterxml.jackson.annotation.JsonView;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,7 +18,6 @@ import tk.puncha.models.Pet;
 import tk.puncha.models.PetType;
 import tk.puncha.repositories.OwnerRepository;
 import tk.puncha.repositories.PetRepository;
-import tk.puncha.views.json.view.PetJsonView;
 
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
@@ -70,16 +68,6 @@ public class PetController extends ControllerBase {
     logger.debug("index()");
     List<Pet> petViews = petRepository.getAllPets();
     return new ModelAndView("pet/index", "pets", petViews);
-  }
-
-  //-----------
-  // Restful to return XML & JSON
-  //-----------
-  @GetMapping(produces = {MediaType.APPLICATION_XML_VALUE, MediaType.APPLICATION_JSON_VALUE})
-  @JsonView(PetJsonView.class)
-  @ResponseBody
-  private List<Pet> restfulIndex() {
-    return petRepository.getAllPets();
   }
 
   @GetMapping("{id}")

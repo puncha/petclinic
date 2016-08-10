@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+
+<html lang="en" data-ng-app="ngPetClinicApp">
+<head>
+  <meta charset="UTF-8">
+  <title>Spring PetClinic</title>
+
+  <link rel="stylesheet" href="/resources/vendor/bootstrap/dist/css/bootstrap.min.css"/>
+  <link rel="stylesheet" href="/resources/vendor/tether/dist/css/tether.min.css"/>
+  <link rel="stylesheet" href="/resources/vendor/font-awesome/css/font-awesome.min.css"/>
+  <link rel="stylesheet" href="/resources/vendor/angular/angular-csp.css"/>
+  <link rel="stylesheet" href="/resources/vendor/colors.css/css/colors.min.css"/>
+  <link rel="stylesheet" href="/resources/vendor/angular-toasty/dist/angular-toasty.min.css"/>
+  <link rel="stylesheet" href="/resources/vendor/angular-loading-bar/build/loading-bar.min.css"/>
+  <link rel="stylesheet" href="/resources/css/petclinic.css"/>
+</head>
+
+<body data-ng-cloak="">
+
+<div data-ng-include="'nav.html'"></div>
+<div data-ui-view></div>
+<div data-ng-include="'footer.html'"></div>
+
+<data-toasty></data-toasty>
+
+<script src="/resources/vendor/jquery/dist/jquery.min.js"></script>
+<script src="/resources/vendor/tether/dist/js/tether.min.js"></script>
+<script src="/resources/vendor/bootstrap/dist/js/bootstrap.min.js"></script>
+<script src="/resources/vendor/lodash/dist/lodash.min.js"></script>
+<script src="/resources/vendor/angular/angular.min.js"></script>
+<script src="/resources/vendor/angular-resource/angular-resource.min.js"></script>
+<script src="/resources/vendor/angular-ui-router/release/angular-ui-router.min.js"></script>
+<script src="/resources/vendor/angular-toasty/dist/angular-toasty.js"></script>
+<script src="/resources/vendor/angular-loading-bar/build/loading-bar.min.js"></script>
+<script src="/resources/ng1/app.js"></script>
+<script src="/resources/ng1/owner-list/owner-list.module.js"></script>
+<script src="/resources/ng1/owner-list/owner-list.service.js"></script>
+<script src="/resources/ng1/owner-list/owner-list.component.js"></script>
+<script src="/resources/ng1/pet-list/pet-list.module.js"></script>
+<script src="/resources/ng1/pet-list/pet-list.service.js"></script>
+<script src="/resources/ng1/pet-list/pet-list.component.js"></script>
+</body>
+</html>

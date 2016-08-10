@@ -1,0 +1,145 @@
+<a class="btn btn-xs btn-primary" href data-ng-click="$ctrl.create()">
+  <i class="fa fa-plus fa-2x"></i> Add new owner
+</a>
+<a class="btn btn-xs btn-info" href="/owners.pdf" target="_blank">
+  <i class="fa fa-file-pdf-o"></i> View as PDF
+</a>
+<a class="btn btn-xs btn-info" href="/owners.xml" target="_blank">
+  <i class="fa fa-file-code-o"></i> View as XML
+</a>
+<a class="btn btn-xs btn-info" href="/owners.json" target="_blank">
+  <i class="fa fa-file-o"></i> View as JSON
+</a>
+<a class="btn btn-xs btn-info" href="/owners.atom" target="_blank">
+  <i class="fa fa-rss"></i> View as Atom Feeds
+</a>
+<a class="btn btn-xs btn-info" href="/owners.xls" target="_blank">
+  <i class="fa fa-file-excel-o"></i> Download as Excel
+</a>
+
+<form class="form-inline">
+  <div class="form-group m-y-1">
+    <label class="label m-r-1" for="search-first-name">First Name: </label>
+    <input id="search-first-name" name="search-first-name"
+           data-ng-model="$ctrl.firstNameToSearch"
+           type="text" class="form-control"
+           placeholder="first name to search">
+  </div>
+  <button type="submit" class="btn btn-primary" data-ng-click="$ctrl.search()"><i class="fa fa-search"></i> Search
+  </button>
+</form>
+
+<table class="table table-owners">
+  <thead class="thead-default">
+  <tr>
+    <th>First Name</th>
+    <th>Last Name</th>
+    <th>Address</th>
+    <th>City</th>
+    <th>Telephone</th>
+    <th></th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr data-ng-repeat="owner in $ctrl.owners">
+    <td>{{owner.firstName}}</td>
+    <td>{{owner.lastName}}</td>
+    <td>{{owner.address}}</td>
+    <td>{{owner.city}}</td>
+    <td>{{owner.telephone}}</td>
+    <td>
+      <div class="btn-group btn-group-xs">
+        <a class="btn btn-success" href data-ng-click="$ctrl.view(owner)">View</a>
+        <a class="btn btn-primary" href data-ng-click="$ctrl.edit(owner)">Edit</a>
+        <a class="btn btn-danger" href data-ng-click="$ctrl.delete(owner)">Delete</a>
+      </div>
+    </td>
+  </tr>
+  </tbody>
+</table>
+
+<div class="modal fade" id="ownerDetailModal" tabindex="-1">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <div class="modal-title">View Owner</div>
+      </div>
+      <div class="modal-body">
+        <form name="ownerForm" novalidate>
+
+          <div class="form-group row">
+            <label class="col-xs-4 control-label">First name</label>
+            <div class="col-xs-8"
+                 data-ng-class="{'has-danger': ownerForm.firstName.$invalid, 'has-success': !ownerForm.firstName.$invalid}">
+              <input name="firstName" data-ng-model="$ctrl.currentOwner.firstName" class="form-control" required
+                     data-ng-class="{'form-control-danger': ownerForm.firstName.$invalid, 'form-control-success': !ownerForm.firstName.$invalid}">
+              <div class="form-control-feedback" data-ng-show="ownerForm.firstName.$invalid">First name should not empty!</div>
+            </div>
+          </div>
+
+          <div class="form-group row">
+            <label class="col-xs-4 control-label">Last name</label>
+            <div class="col-xs-8"
+                 data-ng-class="{'has-danger': ownerForm.lastName.$invalid, 'has-success': !ownerForm.lastName.$invalid}">
+              <input name="lastName" data-ng-model="$ctrl.currentOwner.lastName" class="form-control" required
+                     data-ng-class="{'form-control-danger': ownerForm.lastName.$invalid, 'form-control-success': !ownerForm.lastName.$invalid}">
+              <div class="form-control-feedback" data-ng-show="ownerForm.lastName.$invalid">Last name should not empty!</div>
+            </div>
+          </div>
+
+          <div class="form-group row">
+            <label class="col-xs-4 control-label">Address</label>
+            <div class="col-xs-8"
+                 data-ng-class="{'has-danger': ownerForm.address.$invalid, 'has-success': !ownerForm.address.$invalid}">
+              <input name="address" data-ng-model="$ctrl.currentOwner.address" class="form-control"
+                     data-ng-pattern="/($^)|(.){5}/"
+                     data-ng-class="{'form-control-danger': ownerForm.address.$invalid, 'form-control-success': !ownerForm.address.$invalid}">
+              <div class="form-control-feedback" data-ng-show="ownerForm.address.$invalid">Address should be empty or longer than 3 letters!</div>
+            </div>
+          </div>
+
+          <div class="form-group row">
+            <label class="col-xs-4 control-label">City</label>
+            <div class="col-xs-8 has-success">
+              <input name="city" data-ng-model="$ctrl.currentOwner.city" class="form-control form-control-success">
+            </div>
+          </div>
+
+          <div class="form-group row">
+            <label class="col-xs-4 control-label">Telephone</label>
+            <div class="col-xs-8 has-success">
+              <input name="telephone" data-ng-model="$ctrl.currentOwner.telephone"
+                     class="form-control form-control-success">
+            </div>
+          </div>
+
+          <div class="form-group row" data-ng-if="$ctrl.currentOwner.pets && $ctrl.isViewMode">
+            <hr/>
+            <label class="col-xs-4 label h5">Pets</label>
+            <ul class="col-xs-8 m-l-2" data-ng-repeat="pet in $ctrl.currentOwner.pets">
+              <li><a href="#">{{pet.name}}</a></li>
+            </ul>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button data-ng-if="$ctrl.isViewMode"
+                class="btn btn-primary w-100"
+                data-dismiss="modal">
+          Close
+        </button>
+        <button data-ng-if="!$ctrl.isViewMode"
+                class="btn btn-primary col-xs-4 offset-xs-1"
+                data-ng-disabled="ownerForm.$invalid"
+                data-ng-click="$ctrl.save($ctrl.currentOwner)">
+          Save
+        </button>
+        <button data-ng-if="!$ctrl.isViewMode"
+                class="btn btn-default col-xs-4 offset-xs-1"
+                data-dismiss="modal">
+          Cancel
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

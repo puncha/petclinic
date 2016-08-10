@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonView;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlElementWrapper;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 import tk.puncha.views.json.view.OwnerJsonView;
+import tk.puncha.views.json.view.PetJsonView;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -48,6 +49,7 @@ public class Owner {
       cascade = {CascadeType.REMOVE, CascadeType.PERSIST})
   private List<Pet> pets = new ArrayList<>();
 
+  @JsonView({OwnerJsonView.Default.class, PetJsonView.class})
   public int getId() {
     return id;
   }
@@ -56,7 +58,7 @@ public class Owner {
     this.id = id;
   }
 
-  @JsonView(OwnerJsonView.Default.class)
+  @JsonView({OwnerJsonView.Default.class, PetJsonView.class})
   public String getFirstName() {
     return firstName;
   }
@@ -65,7 +67,7 @@ public class Owner {
     this.firstName = firstName;
   }
 
-  @JsonView(OwnerJsonView.Default.class)
+  @JsonView({OwnerJsonView.Default.class, PetJsonView.class})
   public String getLastName() {
     return lastName;
   }
@@ -74,7 +76,7 @@ public class Owner {
     this.lastName = lastName;
   }
 
-  @JsonView(OwnerJsonView.Default.class)
+  @JsonView({OwnerJsonView.Default.class, PetJsonView.class})
   public String getAddress() {
     return address;
   }
@@ -83,7 +85,7 @@ public class Owner {
     this.address = address;
   }
 
-  @JsonView(OwnerJsonView.Default.class)
+  @JsonView({OwnerJsonView.Default.class, PetJsonView.class})
   public String getCity() {
     return city;
   }
@@ -92,7 +94,7 @@ public class Owner {
     this.city = city;
   }
 
-  @JsonView(OwnerJsonView.Default.class)
+  @JsonView({OwnerJsonView.Default.class, PetJsonView.class})
   public String getTelephone() {
     return telephone;
   }

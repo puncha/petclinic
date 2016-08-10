@@ -1,0 +1,25 @@
+<nav class="navbar navbar-dark bg-inverse navbar-full m-b-1">
+  <button class="navbar-toggler hidden-md-up pull-xs-right" data-toggle="collapse" data-target="#collapsingNavbar">
+    <i class="fa fa-bars"></i>
+  </button>
+
+  <div id="collapsingNavbar" class="collapse navbar-toggleable-sm">
+    <div class="navbar-brand hidden-sm-down m-r-1">
+      <a data-ui-sref="welcome"><img src="/resources/images/spring-pivotal-logo.png"/></a>
+    </div>
+    <ul class="nav navbar-nav">
+      <li class="nav-item h3 m-r-1"><a class="nav-link" data-ui-sref="ownerList"><i class="fa fa-user"></i> Owners</a></li>
+      <li class="nav-item h3 m-r-1"><a class="nav-link" data-ui-sref="petList"><i class="fa fa-paw"></i> Pets</a></li>
+
+      <li class="nav-item h3 dropdown">
+        <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">
+          <i class="fa fa-exclamation-triangle"></i> Exceptions
+        </a>
+        <div class="dropdown-menu">
+          <a class="dropdown-item h4" href="#">Default exception</a>
+          <a class="dropdown-item h4" href="#">Oops exception</a>
+        </div>
+      </li>
+    </ul>
+  </div>
+</nav>

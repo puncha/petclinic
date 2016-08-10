@@ -19,7 +19,7 @@ public class OwnerValidator implements Validator {
   @Override
   public void validate(Object target, Errors errors) {
     Owner owner = (Owner) target;
-    if (owner.getAddress() != null) {
+    if (owner.getAddress() != null && owner.getAddress().length() != 0) {
       int length = owner.getAddress().length();
       if (length < MIN_ADDRESS_LENGTH || length > MAX_ADDRESS_LENGTH) {
         errors.rejectValue("address", "error.address.length");

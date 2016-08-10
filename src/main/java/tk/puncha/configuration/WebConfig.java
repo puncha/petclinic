@@ -15,16 +15,16 @@ import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.validation.Validator;
 import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
-import org.springframework.web.servlet.HandlerExceptionResolver;
 import org.springframework.web.servlet.config.annotation.ContentNegotiationConfigurer;
+import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 import org.springframework.web.servlet.handler.SimpleMappingExceptionResolver;
 import org.springframework.web.servlet.view.XmlViewResolver;
 import tk.puncha.handlers.MyErrorViewResolver;
+import tk.puncha.viewResolvers.AtomFeedViewResolver;
 import tk.puncha.viewResolvers.ExcelViewResolver;
 import tk.puncha.viewResolvers.JsonViewResolver;
 import tk.puncha.viewResolvers.PdfViewResolver;
-import tk.puncha.viewResolvers.AtomFeedViewResolver;
 
 import javax.sql.DataSource;
 import java.util.List;
@@ -35,30 +35,15 @@ import java.util.Properties;
 public class WebConfig extends WebMvcConfigurerAdapter {
 
   @Override
+  public void addResourceHandlers(ResourceHandlerRegistry registry) {
+    registry.addResourceHandler("/ng1/**").addResourceLocations("/resources/ng1/");
+  }
+
+  @Override
   public void extendMessageConverters(List<HttpMessageConverter<?>> converters) {
     super.extendMessageConverters(converters);
   }
 
-  @Bean
-  public ErrorViewResolver errorViewResolver() {
-    return new MyErrorViewResolver();
-  }
-
-  @Bean
-  Properties exceptionMappings() {
-    Properties mappings = new Properties();
-    mappings.put("OopsException", "exception/oops");
-    return mappings;
-  }
-
-  @Bean
-  public HandlerExceptionResolver handlerExceptionResolver() {
-    SimpleMappingExceptionResolver resolver = new SimpleMappingExceptionResolver();
-    resolver.setDefaultErrorView("exception/default");
-    resolver.setExceptionAttribute("exception");
-    resolver.setExceptionMappings(exceptionMappings());
-    return resolver;
-  }
 
   @Override
   public void configureContentNegotiation(ContentNegotiationConfigurer configurer) {
@@ -67,10 +52,10 @@ public class WebConfig extends WebMvcConfigurerAdapter {
         .mediaType("html", MediaType.TEXT_HTML)
         .mediaType("xml", MediaType.APPLICATION_XML)
         .mediaType("json", MediaType.APPLICATION_JSON)
-        .ignoreAcceptHeader(true)
         .favorPathExtension(true)
         .favorParameter(true)
-        .parameterName("mediaType");
+        .parameterName("mediaType")
+        .ignoreAcceptHeader(false);
   }
 
   @Bean
@@ -98,9 +83,22 @@ public class WebConfig extends WebMvcConfigurerAdapter {
     return new AtomFeedViewResolver();
   }
 
-  @Override
-  public void configureHandlerExceptionResolvers(List<HandlerExceptionResolver> exceptionResolvers) {
-    exceptionResolvers.add(handlerExceptionResolver());
+  @Bean
+  public SimpleMappingExceptionResolver simpleMappingExceptionResolver() {
+    Properties mappings = new Properties();
+    mappings.put("OopsException", "exception/oops");
+
+    SimpleMappingExceptionResolver resolver = new SimpleMappingExceptionResolver();
+    resolver.setDefaultErrorView("exception/default");
+    resolver.setExceptionAttribute("exception");
+    resolver.setOrder(Integer.MAX_VALUE);
+    resolver.setExceptionMappings(mappings);
+    return resolver;
+  }
+
+  @Bean
+  public ErrorViewResolver errorViewResolver() {
+    return new MyErrorViewResolver();
   }
 
   @Bean

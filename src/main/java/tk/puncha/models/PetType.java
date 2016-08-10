@@ -9,6 +9,8 @@ import javax.persistence.*;
 @Entity
 @Table(name = "types")
 public class PetType {
+  public PetType() {
+  }
 
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)

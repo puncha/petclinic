@@ -44,6 +44,7 @@ public class Pet {
   @OneToMany(mappedBy = "pet", cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REMOVE})
   private Set<Visit> visits = new HashSet<>();
 
+  @JsonView({PetJsonView.class})
   public int getId() {
     return id;
   }
@@ -61,6 +62,7 @@ public class Pet {
     this.name = name;
   }
 
+  @JsonView({OwnerJsonView.Default.class, PetJsonView.class})
   public Date getBirthDate() {
     return birthDate;
   }
@@ -79,6 +81,7 @@ public class Pet {
   }
 
   @XmlTransient
+  @JsonView({PetJsonView.class})
   public Owner getOwner() {
     return owner;
   }
