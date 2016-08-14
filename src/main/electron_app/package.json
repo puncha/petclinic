@@ -1,0 +1,18 @@
+{
+  "name": "petclinictron",
+  "version": "0.1.0",
+  "description": "Electron Application for PetClinic",
+  "main": "main.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "PunCha Feng",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/spring-projects/spring-petclinic.git"
+  },
+  "dependencies": {
+    "electron": "latest"
+  }
+}
