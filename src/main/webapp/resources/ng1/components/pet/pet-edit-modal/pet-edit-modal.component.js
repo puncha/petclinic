@@ -8,16 +8,19 @@ angular.module('pet').component('petEditModal', {
     onSaved: '&'
   },
   templateUrl: 'components/pet/pet-edit-modal/pet-edit-modal.tpl.html',
-  controller: ['$scope', 'Pet', 'PetType', 'Owner', 'Visit', 'toaster', petEditModalController]
+  controller: ['$scope', '$element', 'Pet', 'PetType', 'Owner', 'Visit',
+    'toaster', petEditModalController]
 });
 
-function petEditModalController($scope, Pet, PetType, Owner, Visit, toaster) {
+function petEditModalController($scope, $element, Pet, PetType, Owner, Visit, toaster) {
   this.pet = null;
   this.owners = null;
   this.petTypes = null;
+  this.modalDialog = null;
 
   this.$onInit = function() {
-    $("#petEditModal").on('hidden.bs.modal', ()=> {
+    this.modalDialog = $element.find(".modal");
+    this.modalDialog.on('hidden.bs.modal', ()=> {
       $scope.$apply(()=>this.notifyVisibilityChanged(false));
     });
   };
@@ -84,7 +87,7 @@ function petEditModalController($scope, Pet, PetType, Owner, Visit, toaster) {
 
   this.edit = function view() {
     return this.getPet().then(
-      ()=>$('#petEditModal').modal('show'),
+      ()=>this.modalDialog.modal('show'),
       ()=>this.notifyVisibilityChanged(false)
     )
   };
@@ -96,7 +99,7 @@ function petEditModalController($scope, Pet, PetType, Owner, Visit, toaster) {
     let petCopy = _.omit(this.pet, 'visits');
     Pet.save(queryParam, petCopy,
       ()=> {
-        $('#petEditModal').modal('hide');
+        this.modalDialog.modal('hide');
         toaster.success("Pet is saved");
         this.notifyVisibilityChanged(false);
         this.notifySaved();

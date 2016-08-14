@@ -7,14 +7,16 @@ angular.module('pet').component('petViewModal', {
     onVisibilityChanged: '&',
   },
   templateUrl: 'components/pet/pet-view-modal/pet-view-modal.tpl.html',
-  controller: ['$scope', 'Pet', 'toaster', petViewModalController]
+  controller: ['$scope', "$element", 'Pet', 'toaster', petViewModalController]
 });
 
-function petViewModalController($scope, Pet, toaster) {
+function petViewModalController($scope, $element, Pet, toaster) {
   this.pet = null;
+  this.modalDialog = null;
 
   this.$onInit = function() {
-    $("#petViewModal").on('hidden.bs.modal', ()=> {
+    this.modalDialog = $element.find(".modal");
+    this.modalDialog.on('hidden.bs.modal', ()=> {
       $scope.$apply(()=>this.notifyVisibilityChanged(false));
     });
   };
@@ -49,7 +51,7 @@ function petViewModalController($scope, Pet, toaster) {
 
   this.viewPet = function viewPet() {
     return this.getPet().then(
-      ()=>$('#petViewModal').modal('show'),
+      ()=>this.modalDialog.modal('show'),
       ()=>this.notifyVisibilityChanged(false)
     )
   };

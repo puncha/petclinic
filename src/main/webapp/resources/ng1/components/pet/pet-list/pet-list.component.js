@@ -42,14 +42,12 @@ function petListController(Pet, toaster) {
     petId: null,
     visibility: false,
     onVisibilityChanged: function(visibility) {
-      console.log(`Visibility ${this.visibility} --> ${visibility}`);
       this.visibility = visibility;
     },
     onSaved: (pet)=>this.refresh()  // this === $ctrl
   };
 
   this.editPet = function view(pet) {
-    console.log(`Edit ${this.petEditModal.visibility} --> true`);
     _.assignIn(this.petEditModal, {
       petId: pet.id,
       visibility: true

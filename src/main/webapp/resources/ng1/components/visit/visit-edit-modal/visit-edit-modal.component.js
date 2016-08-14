@@ -8,14 +8,16 @@ angular.module('visit').component('visitEditModal', {
     onSaved: '&'
   },
   templateUrl: 'components/visit/visit-edit-modal/visit-edit-modal.tpl.html',
-  controller: ['$scope', 'Visit', 'toaster', visitEditModalController]
+  controller: ['$scope', '$element', 'Visit', 'toaster', visitEditModalController]
 });
 
-function visitEditModalController($scope, Visit, toaster) {
+function visitEditModalController($scope, $element, Visit, toaster) {
   this.visit = null;
+  this.modalDialog = null;
 
   this.$onInit = function() {
-    $("#visitEditModal").on('hidden.bs.modal', ()=> {
+    this.modalDialog = $element.find(".modal");
+    this.modalDialog.on('hidden.bs.modal', ()=> {
       $scope.$apply(()=>this.notifyVisibilityChanged(false));
     });
   };
@@ -35,14 +37,14 @@ function visitEditModalController($scope, Visit, toaster) {
 
   this.createVisit = function() {
     this.visit = {};
-    $('#visitEditModal').modal('show').css("z-index", 1500);
+    this.modalDialog.modal('show').css("z-index", 1500);
 
   };
 
   this.save = function() {
     Visit.save({petId: this.petId}, this.visit,
       ()=> {
-        $('#visitEditModal').modal('hide');
+        this.modalDialog.modal('hide');
         toaster.success("Visit is saved");
         this.notifyVisibilityChanged(false);
         this.notifySaved();
