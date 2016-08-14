@@ -10,6 +10,8 @@ function createWindow() {
   window.loadURL("http://localhost:8080/ng1/index.html");
 }
 
+app.commandLine.appendSwitch('--disable-http-cache');
+
 app.on("ready", createWindow);
 
 app.on('window-all-closed', ()=> {
