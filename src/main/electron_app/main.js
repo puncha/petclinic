@@ -6,7 +6,7 @@ const {app, BrowserWindow} = require('electron');
 let window = null;
 
 function createWindow() {
-  window = new BrowserWindow({width: 800, height: 600});
+  window = new BrowserWindow({width: 1024, height: 768});
   window.loadURL("http://localhost:8080/ng1/index.html");
 }
 

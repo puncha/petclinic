@@ -21,6 +21,11 @@
 <div data-ui-view></div>
 <div data-ng-include="'fragments/footer.html'"></div>
 
+<!--Hack for Electron-->
+<script>if(typeof module === 'object') {
+  window.module = module;
+  module = undefined;
+}</script>
 
 <script src="/resources/vendor/jquery/dist/jquery.min.js"></script>
 <script src="/resources/vendor/tether/dist/js/tether.min.js"></script>
