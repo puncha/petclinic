@@ -1,20 +1,7 @@
-<a class="btn btn-xs btn-primary" href data-ng-click="$ctrl.create()">
+<data-toaster></data-toaster>
+
+<a class="btn btn-xs btn-primary" href data-ng-click="$ctrl.createPet()">
   <i class="fa fa-plus fa-2x"></i> Add new pet
-</a>
-<a class="btn btn-xs btn-info" href="/pets.pdf" target="_blank">
-  <i class="fa fa-file-pdf-o"></i> View as PDF
-</a>
-<a class="btn btn-xs btn-info" href="/pets.xml" target="_blank">
-  <i class="fa fa-file-code-o"></i> View as XML
-</a>
-<a class="btn btn-xs btn-info" href="/pets.json" target="_blank">
-  <i class="fa fa-file-o"></i> View as JSON
-</a>
-<a class="btn btn-xs btn-info" href="/pets.atom" target="_blank">
-  <i class="fa fa-rss"></i> View as Atom Feeds
-</a>
-<a class="btn btn-xs btn-info" href="/pets.xls" target="_blank">
-  <i class="fa fa-file-excel-o"></i> Download as Excel
 </a>
 
 <div class="card-columns m-t-1">
@@ -38,6 +25,20 @@
   </div>
 </div>
 
-<div data-ng-include="'pet-list/pet-view-modal.template.html'"></div>
-<div data-ng-include="'pet-list/pet-edit-modal.template.html'"></div>
+<data-pet-view-modal
+    pet-id="{{$ctrl.petViewModal.petId}}"
+    visibility="$ctrl.petViewModal.visibility"
+    on-visibility-changed="$ctrl.petViewModal.onVisibilityChanged(visibility)"
+></data-pet-view-modal>
+
+
+<data-pet-edit-modal
+    pet-id="{{$ctrl.petEditModal.petId}}"
+    visibility="$ctrl.petEditModal.visibility"
+    on-visibility-changed="$ctrl.petEditModal.onVisibilityChanged(visibility)"
+    on-saved="$ctrl.petEditModal.onSaved(pet)"
+></data-pet-edit-modal>
+
+<!--<div data-ng-include="'pet-list/pet-view-modal.template.html'"></div>-->
+<!--<div data-ng-include="'pet-list/pet-edit-modal.template.html'"></div>-->
 

@@ -17,11 +17,10 @@
 
 <body data-ng-cloak="">
 
-<div data-ng-include="'nav.html'"></div>
+<div data-ng-include="'fragments/nav.html'"></div>
 <div data-ui-view></div>
-<div data-ng-include="'footer.html'"></div>
+<div data-ng-include="'fragments/footer.html'"></div>
 
-<data-toasty></data-toasty>
 
 <script src="/resources/vendor/jquery/dist/jquery.min.js"></script>
 <script src="/resources/vendor/tether/dist/js/tether.min.js"></script>
@@ -33,11 +32,26 @@
 <script src="/resources/vendor/angular-toasty/dist/angular-toasty.js"></script>
 <script src="/resources/vendor/angular-loading-bar/build/loading-bar.min.js"></script>
 <script src="/resources/ng1/app.js"></script>
-<script src="/resources/ng1/owner-list/owner-list.module.js"></script>
-<script src="/resources/ng1/owner-list/owner-list.service.js"></script>
-<script src="/resources/ng1/owner-list/owner-list.component.js"></script>
-<script src="/resources/ng1/pet-list/pet-list.module.js"></script>
-<script src="/resources/ng1/pet-list/pet-list.service.js"></script>
-<script src="/resources/ng1/pet-list/pet-list.component.js"></script>
+
+<script src="/resources/ng1/components/toaster/toaster.module.js"></script>
+<script src="/resources/ng1/components/toaster/toaster.config.js"></script>
+<script src="/resources/ng1/components/toaster/toaster.service.js"></script>
+<script src="/resources/ng1/components/toaster/toaster.component.js"></script>
+
+<script src="/resources/ng1/components/pet/pet.module.js"></script>
+<script src="/resources/ng1/components/pet/pet.service.js"></script>
+<script src="/resources/ng1/components/pet/pet-list/pet-list.component.js"></script>
+<script src="/resources/ng1/components/pet/pet-view-modal/pet-view-modal.component.js"></script>
+<script src="/resources/ng1/components/pet/pet-edit-modal/pet-edit-modal.component.js"></script>
+
+<script src="/resources/ng1/components/owner/owner.module.js"></script>
+<script src="/resources/ng1/components/owner/owner.service.js"></script>
+<script src="/resources/ng1/components/owner/owner-list/owner-list.component.js"></script>
+
+<script src="/resources/ng1/components/visit/visit.module.js"></script>
+<script src="/resources/ng1/components/visit/visit.service.js"></script>
+<script src="/resources/ng1/components/visit/visit-edit-modal/visit-edit-modal.component.js"></script>
+
+
 </body>
 </html>

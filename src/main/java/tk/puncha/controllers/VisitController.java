@@ -51,12 +51,12 @@ public class VisitController {
   @PostMapping("/new")
   public String processCreationForm(Pet pet, @ModelAttribute @Valid Visit visit, BindingResult bingResult) {
     if (bingResult.hasErrors()) {
-      return "visit/new";
-    }
+    return "visit/new";
+  }
 
     pet.getVisits().add(visit);
     visit.setPet(pet);
     petRepository.updatePet(pet);
     return "redirect:/pets/{petId}";
-  }
+}
 }

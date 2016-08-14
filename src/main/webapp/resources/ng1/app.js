@@ -1,30 +1,28 @@
 "use strict";
 
-angular
-  .module('ngPetClinicApp', [
-    'ui.router',
-    'angular-loading-bar',
-    'ownerList',
-    'petList'
-  ])
-  .config(['toastyConfigProvider', function(toastyConfigProvider) {
-    toastyConfigProvider.setConfig({
-      clickToClose: true, position: 'top-right', theme: 'bootstrap'
-    });
-  }])
-  .config(['$stateProvider', '$urlRouterProvider', function($stateProvider, $urlRouterProvider) {
-    $stateProvider
-      .state('welcome', {
-        url: '/welcome',
-        templateUrl: 'welcome.html'
-      })
-      .state('ownerList', {
-        url: '/ownerList',
-        templateUrl: 'owner-list.html'
-      })
-      .state('petList', {
-        url: '/petList',
-        templateUrl: 'pet-list.html'
-      });
-  }]);
+const dependencies = [
+  'ui.router',
+  'angular-loading-bar',
+  'pet'
+];
 
+angular.module('ngPetClinicApp', dependencies).config([
+  '$stateProvider', '$urlRouterProvider', appConfig
+]);
+
+
+function appConfig($stateProvider, $urlRouterProvider) {
+  $stateProvider
+    .state('welcome', {
+      url: '/welcome',
+      templateUrl: 'fragments/welcome.html'
+    })
+    .state('ownerList', {
+      url: '/ownerList',
+      templateUrl: 'fragments/owners.html'
+    })
+    .state('petList', {
+      url: '/petList',
+      templateUrl: 'fragments/pets.html'
+    });
+}

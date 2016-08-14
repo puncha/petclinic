@@ -1,3 +1,5 @@
+<data-toaster></data-toaster>
+
 <div class="modal fade" id="petViewModal" tabindex="-1">
   <div class="modal-dialog">
     <div class="modal-content">
@@ -9,21 +11,21 @@
           <div class="form-group row">
             <label class="col-xs-4 control-label">Name</label>
             <div class="col-xs-8">
-              <input readonly type="text" class="form-control" value="{{$ctrl.petToView.name}}">
+              <input readonly type="text" class="form-control" value="{{$ctrl.pet.name}}">
             </div>
           </div>
 
           <div class="form-group row">
             <label class="col-xs-4 control-label">Type</label>
             <div class="col-xs-8">
-              <input readonly type="text" class="form-control" value="{{$ctrl.petToView.type.name}}">
+              <input readonly type="text" class="form-control" value="{{$ctrl.pet.type.name}}">
             </div>
           </div>
 
           <div class="form-group row">
             <label class="col-xs-4 control-label">Birthday</label>
             <div class="col-xs-8">
-              <input readonly type="text" class="form-control" value="{{$ctrl.petToView.birthDate}}">
+              <input readonly type="text" class="form-control" value="{{$ctrl.pet.birthDate}}">
             </div>
           </div>
 
@@ -31,13 +33,14 @@
             <label class="col-xs-4 control-label">Owner</label>
             <div class="col-xs-8">
               <input readonly type="text" class="form-control"
-                     value="{{$ctrl.petToView.owner.firstName}} {{$ctrl.petToView.owner.lastName}}">
+                     value="{{$ctrl.pet.owner.firstName}} {{$ctrl.pet.owner.lastName}}">
             </div>
           </div>
+
         </form>
       </div>
       <div class="modal-footer">
-        <button class="btn btn-primary w-100" data-dismiss="modal">Close</button>
+        <button class="btn btn-secondary w-100" data-dismiss="modal">Close</button>
       </div>
     </div>
   </div>

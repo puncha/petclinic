@@ -27,6 +27,7 @@ public class Visit {
   public Visit() {
   }
 
+  @JsonView({OwnerJsonView.Default.class, PetJsonView.class})
   public int getId() {
     return id;
   }
