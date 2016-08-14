@@ -21,6 +21,16 @@
           <a class="dropdown-item h4" href="/errors/oops">Oops exception</a>
         </div>
       </li>
+
+      <li class="nav-item h3 dropdown pull-xs-right">
+        <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">
+          <i class="fa fa-html5 fa-spin"></i> More Versions
+        </a>
+        <div class="dropdown-menu">
+          <a class="dropdown-item h4" href="/ng1/index.html">AngularJs 1.5.8</a>
+        </div>
+      </li>
+
     </ul>
   </div>
 </nav>

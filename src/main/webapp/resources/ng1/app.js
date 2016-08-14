@@ -12,6 +12,11 @@ angular.module('ngPetClinicApp', dependencies).config([
 
 
 function appConfig($stateProvider, $urlRouterProvider) {
+
+  $urlRouterProvider
+    .when('', '/welcome')
+    .otherwise('/welcome');
+
   $stateProvider
     .state('welcome', {
       url: '/welcome',
