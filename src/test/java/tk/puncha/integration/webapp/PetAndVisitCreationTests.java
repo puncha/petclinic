@@ -25,7 +25,7 @@ public class PetAndVisitCreationTests extends ControllerTests {
   public void shouldCreatePet() throws Exception {
     HtmlPage page = getPage("/pets/new");
     setInput(page, "name", "kasper");
-    setInput(page, "birthDate", "1999-09-09");
+    setDateInput(page, "birthDate", "1999-09-09");
     selectItem(page, "type", "lizard");
     selectItem(page, "owner", "Peter");
     HtmlPage petDetailPage = clickButton(page, "//button[@type='submit']");
@@ -37,7 +37,7 @@ public class PetAndVisitCreationTests extends ControllerTests {
   public void shouldCreateVisit() throws Exception {
     HtmlPage page = getPage("/pets/1/visits/new");
     setInput(page, "description", "Hello, world!");
-    setInput(page, "visitDate", "2000-02-02");
+    setDateInput(page, "visitDate", "2000-02-02");
     HtmlPage petDetailPage = clickButton(page, "//button[@type='submit']");
     assertTrue(petDetailPage.getUrl().toString().matches(".*/pets/1$"));
     String content =petDetailPage.asText();

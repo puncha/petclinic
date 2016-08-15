@@ -11,7 +11,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 @RunWith(SpringRunner.class)
 @AutoConfigureTestDatabase
-@TestPropertySource(locations="classpath:test.properties")
+@TestPropertySource(locations = "classpath:test.properties")
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 class ControllerTests {
 
@@ -28,6 +28,10 @@ class ControllerTests {
 
   void setInput(HtmlPage page, String elementId, String value) {
     ((HtmlTextInput) page.getElementById(elementId)).setValueAttribute(value);
+  }
+
+  void setDateInput(HtmlPage page, String elementId, String value) {
+    ((HtmlDateInput) page.getElementById(elementId)).setValueAttribute(value);
   }
 
   void selectItem(HtmlPage page, String elementId, String itemToSelect) {
