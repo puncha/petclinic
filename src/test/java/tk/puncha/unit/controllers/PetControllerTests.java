@@ -98,11 +98,13 @@ public class PetControllerTests {
   }
 
   @Test
-  public void shouldCreateOwnerAndShowOwnerDetail() throws Exception {
+  public void shouldCreatePet() throws Exception {
     when(petRepository.insertPet(any())).thenReturn(123);
     when(petTypeFormatter.parse(any(), any())).thenReturn(mock(PetType.class));
     when(ownerFormatter.parse(any(), any())).thenReturn(mock(Owner.class));
     MockHttpServletRequestBuilder req = post("/pets/new")
+        .sessionAttr("id", "-1")
+        .param("id", "111") // cheat
         .param("name", "puncha")
         .param("owner", "1")
         .param("type", "1");
@@ -115,6 +117,7 @@ public class PetControllerTests {
   public void shouldFailToCreatePetWhenPetInformationIsIncomplete() throws Exception {
     when(petRepository.insertPet(any())).thenReturn(123);
     MockHttpServletRequestBuilder req = post("/pets/new")
+        .sessionAttr("id", "-1")
         .param("name", "puncha");
     mockMvc.perform(req)
         .andExpect(status().isOk())
@@ -149,12 +152,13 @@ public class PetControllerTests {
     when(petTypeFormatter.parse(any(), any())).thenReturn(mock(PetType.class));
     when(ownerFormatter.parse(any(), any())).thenReturn(mock(Owner.class));
     MockHttpServletRequestBuilder req = post("/pets/new")
-        .param("id", "123")
+        .sessionAttr("id", "123")
+        .param("id", "456")  // cheat the server
         .param("owner", "1")
         .param("type", "1");
     mockMvc.perform(req)
         .andExpect(status().is(302))
-        .andExpect(redirectedUrl("/pets/123"));
+        .andExpect(redirectedUrl("/pets/123")); // make sure the server not cheated
   }
 
   @Test
