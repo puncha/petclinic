@@ -22,7 +22,7 @@ import static org.junit.Assert.*;
 @RunWith(SpringRunner.class)
 @AutoConfigureTestDatabase
 @TestPropertySource(locations="classpath:test.properties")
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.NONE)
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.MOCK)
 public class OwnerRepositoryTests{
   @Configuration
   @EnableAutoConfiguration()
