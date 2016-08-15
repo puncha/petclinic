@@ -1,8 +1,10 @@
 package tk.puncha.controllers;
 
+import com.fasterxml.jackson.annotation.JsonView;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -18,6 +20,7 @@ import tk.puncha.models.Pet;
 import tk.puncha.models.PetType;
 import tk.puncha.repositories.OwnerRepository;
 import tk.puncha.repositories.PetRepository;
+import tk.puncha.views.json.view.PetJsonView;
 
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
@@ -134,6 +137,15 @@ public class PetController extends ControllerBase {
     return new ModelAndView("pet/viewOrEdit")
         .addObject("pet", pet)
         .addObject("mode", mode);
+  }
+
+  // This method is for JSON/XML view
+  @GetMapping(produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE})
+  @JsonView(PetJsonView.class)
+  @ResponseStatus(HttpStatus.OK)
+  @ResponseBody
+  public List<Pet> getAllPets() {
+    return petRepository.getAllPets();
   }
 
 }
