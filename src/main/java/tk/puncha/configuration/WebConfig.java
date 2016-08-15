@@ -58,6 +58,7 @@ public class WebConfig extends WebMvcConfigurerAdapter {
         .ignoreAcceptHeader(false);
   }
 
+  @Profile("webApp")
   @Bean
   public XmlViewResolver xmlViewResolver() {
     return new XmlViewResolver();
