@@ -1,6 +1,6 @@
 package tk.puncha.integration.webapp;
 
-import com.gargoylesoftware.htmlunit.html.HtmlAnchor;
+import com.gargoylesoftware.htmlunit.html.DomAttr;
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
 import org.junit.Before;
 import org.junit.Test;
@@ -28,18 +28,20 @@ public class PetControllerTests extends ControllerTests {
   @Test
   public void shouldShowPetIndexPage() throws Exception {
     HtmlPage ownerIndexPage = getPage("/pets");
-    assertEquals(13.0, ownerIndexPage.getByXPath("count(//tbody/tr)").get(0));
+    assertEquals(13.0, ownerIndexPage.getByXPath("count(//div[@class='card'])").get(0));
 
-    List ownerProperties = ownerIndexPage.getByXPath("//tbody/tr[1]/td/text()");
-    assertEquals("Leo", ownerProperties.get(0).toString());
-    assertEquals("cat", ownerProperties.get(1).toString());
-    assertEquals("2010-09-07", ownerProperties.get(2).toString());
-    assertEquals("George Franklin", ownerProperties.get(3).toString());
+    String content = ownerIndexPage.asText();
+    assertTrue(content.contains("Leo"));
+    assertTrue(content.contains("Owned by: George Franklin"));
+    assertTrue(content.contains("Birthday: 2010-09-07"));
+    assertTrue(content.contains("Type: cat"));
 
-    List viewEditDeleteLinks = ownerIndexPage.getByXPath("//tbody/tr[1]/td[5]//a");
-    assertEquals("/pets/1", ((HtmlAnchor) viewEditDeleteLinks.get(0)).getHrefAttribute());
-    assertEquals("/pets/1/edit", ((HtmlAnchor) viewEditDeleteLinks.get(1)).getHrefAttribute());
-    assertEquals("/pets/1/delete", ((HtmlAnchor) viewEditDeleteLinks.get(2)).getHrefAttribute());
+
+    List viewEditDeleteLinks = ownerIndexPage.getByXPath("//div[@class='card'][1]//@href");
+    assertEquals("/owners/1", ((DomAttr) viewEditDeleteLinks.get(0)).getValue());
+    assertEquals("/pets/1", ((DomAttr) viewEditDeleteLinks.get(1)).getValue());
+    assertEquals("/pets/1/edit", ((DomAttr) viewEditDeleteLinks.get(2)).getValue());
+    assertEquals("/pets/1/delete", ((DomAttr) viewEditDeleteLinks.get(3)).getValue());
   }
 
   @Test
