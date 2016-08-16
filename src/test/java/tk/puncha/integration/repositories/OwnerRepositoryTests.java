@@ -19,11 +19,11 @@ import java.util.List;
 
 import static org.junit.Assert.*;
 
-@AutoConfigureTestDatabase
 @RunWith(SpringRunner.class)
-@TestPropertySource(locations = {"/test.properties", "/integration-test.properties"})
+@AutoConfigureTestDatabase
+@TestPropertySource(locations="classpath:test.properties")
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.MOCK)
-public class OwnerRepositoryTests {
+public class OwnerRepositoryTests{
   @Configuration
   @EnableAutoConfiguration()
   static class Dummy extends Application {
