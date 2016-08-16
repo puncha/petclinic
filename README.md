@@ -1,4 +1,4 @@
-# Pet Clinic by Spring Boot in Java v0.3.0
+# Pet Clinic by Spring Boot in Java v0.9.0
 
 ------
 
@@ -8,7 +8,8 @@ Implement the Spring 4 Sample Pet Clinic project for practice.
 ## Source
 1. GitHub: https://github.com/puncha/java-petclinic
 2. Travis CI: [![Build Status](https://travis-ci.org/puncha/java-petclinic.svg)](https://travis-ci.org/puncha/java-petclinic)
-3. Heroku Demo: https://java-petclinic.herokuapp.com/
+3. CodeShip CI: [![Build Status](https://codeship.com/projects/4b274a90-45f7-0134-2d77-0aad117e5610/status?branch=develop)](https://codeship.com/projects/168779)
+4. Heroku Demo: https://java-petclinic.herokuapp.com/
 
 ## Run
 ```bash
