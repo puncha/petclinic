@@ -9,11 +9,13 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit4.SpringRunner;
 
+// We need mark this concrete class as abstract to avoid JUnit
+// complains there is "No runnable methods".
 @RunWith(SpringRunner.class)
 @AutoConfigureTestDatabase
 @TestPropertySource(locations = "classpath:test.properties")
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-class ControllerTests {
+abstract class ControllerTests {
 
   @Value("${local.server.port}")
   private String PORT;
@@ -47,4 +49,5 @@ class ControllerTests {
   HtmlPage getPage(String path) throws java.io.IOException {
     return webClient.getPage(SERVER + ":" + PORT + path);
   }
+
 }
