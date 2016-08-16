@@ -2,7 +2,6 @@ package tk.puncha.integration.webapp;
 
 import com.gargoylesoftware.htmlunit.WebClient;
 import com.gargoylesoftware.htmlunit.html.*;
-import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.autoconfigure.orm.jpa.AutoConfigureTestDatabase;
@@ -12,9 +11,9 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 @RunWith(SpringRunner.class)
 @AutoConfigureTestDatabase
-@TestPropertySource(locations = {"/test.properties", "/integration-test.properties"})
+@TestPropertySource(locations = "classpath:test.properties")
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-public class ControllerTests {
+class ControllerTests {
 
   @Value("${local.server.port}")
   private String PORT;
@@ -47,10 +46,5 @@ public class ControllerTests {
 
   HtmlPage getPage(String path) throws java.io.IOException {
     return webClient.getPage(SERVER + ":" + PORT + path);
-  }
-
-  @Test
-  public void dummy() throws Exception {
-    // Make jUnit happy
   }
 }
