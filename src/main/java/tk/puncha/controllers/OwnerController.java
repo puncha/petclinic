@@ -1,18 +1,17 @@
 package tk.puncha.controllers;
 
+import com.fasterxml.jackson.annotation.JsonView;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.WebDataBinder;
-import org.springframework.web.bind.annotation.InitBinder;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import tk.puncha.models.Owner;
 import tk.puncha.repositories.OwnerRepository;
 import tk.puncha.validators.OwnerValidator;
+import tk.puncha.views.json.view.OwnerJsonView;
 
 import javax.validation.Valid;
 import java.util.List;
@@ -21,39 +20,49 @@ import java.util.List;
 @RequestMapping("/owners")
 public class OwnerController extends ControllerBase {
 
-  @Autowired
-  private OwnerRepository ownerRepository;
+  private final OwnerRepository ownerRepository;
+  private final OwnerValidator ownerValidator;
 
   @Autowired
-  private OwnerValidator ownerValidator;
+  public OwnerController(OwnerRepository ownerRepository, OwnerValidator ownerValidator) {
+    this.ownerRepository = ownerRepository;
+    this.ownerValidator = ownerValidator;
+  }
 
-  @InitBinder
+  @InitBinder("owner")
   public void dataBinding(WebDataBinder binder) {
     binder.addValidators(ownerValidator);
   }
 
-  @RequestMapping(path = {"", "index"}, method = RequestMethod.GET)
-  public ModelAndView index() {
-    List<Owner> owners = ownerRepository.getAllOwners();
+  // Multiple Views supported! Html, XML, Json
+  @GetMapping({"", "index"})
+  public ModelAndView index(@RequestParam(name = "search-first-name", required = false) String firstNameToSearch) {
+    List<Owner> owners;
+    if (firstNameToSearch == null || firstNameToSearch.isEmpty())
+      owners = ownerRepository.getAllOwners();
+    else
+      owners = ownerRepository.getOwnersByFirstName(firstNameToSearch);
+
     ModelAndView modelView = new ModelAndView();
     modelView.addObject("owners", owners);
+    modelView.addObject(JsonView.class.getName(), OwnerJsonView.WithPets.class);
     modelView.setViewName("owner/index");
     return modelView;
   }
 
-  @RequestMapping(path = {"{ownerId}"}, method = RequestMethod.GET)
+  @GetMapping("{ownerId}")
   public ModelAndView view(@PathVariable int ownerId) {
-    Owner owner = ownerRepository.getOwnerById(ownerId);
+    Owner owner = ownerRepository.getOwnerWithPetsById(ownerId);
     ensureExist(owner);
     return createFormModelView("owner/viewOrEdit", owner, FormMode.Readonly);
   }
 
-  @RequestMapping(path = "new", method = RequestMethod.GET)
+  @GetMapping("new")
   public ModelAndView create() {
     return createFormModelView("owner/viewOrEdit", new Owner(), FormMode.Edit);
   }
 
-  @RequestMapping(path = "new", method = RequestMethod.POST)
+  @PostMapping("new")
   public String createOrUpdate(@Valid Owner owner, BindingResult bindingResult, Model model) {
     if (bindingResult.hasErrors()) {
       model.addAttribute("mode", FormMode.Edit);
@@ -67,14 +76,14 @@ public class OwnerController extends ControllerBase {
     return "redirect:/owners/" + owner.getId();
   }
 
-  @RequestMapping(path = "{ownerId}/edit", method = RequestMethod.GET)
+  @GetMapping("{ownerId}/edit")
   public ModelAndView editOwner(@PathVariable int ownerId) {
     Owner owner = ownerRepository.getOwnerById(ownerId);
     ensureExist(owner);
     return createFormModelView("owner/viewOrEdit", owner, FormMode.Edit);
   }
 
-  @RequestMapping(path = "{ownerId}/delete", method = RequestMethod.GET)
+  @GetMapping("{ownerId}/delete")
   public String delete(@PathVariable int ownerId) {
     ownerRepository.deleteOwner(ownerId);
     return "redirect:/owners";
@@ -86,7 +95,7 @@ public class OwnerController extends ControllerBase {
       throw new RuntimeException();
   }
 
-  public ModelAndView createFormModelView(String viewName, Owner owner, FormMode mode) {
+  private ModelAndView createFormModelView(String viewName, Owner owner, FormMode mode) {
     return new ModelAndView(viewName).addObject("owner", owner).addObject("mode", mode);
   }
 

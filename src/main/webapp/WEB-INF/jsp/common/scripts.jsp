@@ -1,3 +1,10 @@
-<script src="//cdn.bootcss.com/jquery/1.11.3/jquery.min.js"></script>
-<script src="//cdn.bootcss.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
-<script src="//cdn.bootcss.com/lodash.js/4.6.1/lodash.min.js"></script>
+<!--Hack for Electron-->
+<script>if(typeof module === 'object') {
+  window.module = module;
+  module = undefined;
+}</script>
+
+<script src="${pageContext.request.contextPath}/resources/vendor/jquery/dist/jquery.min.js"></script>
+<script src="${pageContext.request.contextPath}/resources/vendor/tether/dist/js/tether.min.js"></script>
+<script src="${pageContext.request.contextPath}/resources/vendor/bootstrap/dist/js/bootstrap.min.js"></script>
+<script src="${pageContext.request.contextPath}/resources/vendor/lodash/dist/lodash.min.js"></script>

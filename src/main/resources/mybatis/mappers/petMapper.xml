@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="tk.puncha.mappers.PetMapper">
+
+  <resultMap id="PetResult" type="Pet">
+    <id column="id" property="id"/>
+    <result column="name" property="name"/>
+    <result column="birth_date" property="birthDate"/>
+    <association property="type" column="type_id" javaType="PetType">
+      <result column="type_name" property="name"/>
+    </association>
+    <association property="owner" column="owner_id" javaType="Owner">
+      <result column="first_name" property="firstName"/>
+      <result column="last_name" property="lastName"/>
+    </association>
+  </resultMap>
+
+  <select id="getAllPets" resultMap="PetResult">
+    SELECT pets.*, types.name AS type_name, owners.last_name, owners.first_name
+    FROM (pets LEFT JOIN types ON pets.type_id = types.id)
+    LEFT JOIN owners ON owners.id = pets.owner_id
+  </select>
+
+  <select id="getPetById" resultMap="PetResult">
+    SELECT pets.*, types.name AS type_name, owners.last_name, owners.first_name
+    FROM (pets LEFT JOIN types ON pets.type_id = types.id)
+    LEFT JOIN owners ON owners.id = pets.owner_id
+    WHERE pets.id = #{id}
+  </select>
+
+  <delete id="deletePetsByOwnerId">
+    DELETE FROM pets WHERE id = #{id}
+  </delete>
+
+  <update id="updatePet">
+    UPDATE pets SET name = #{name}, owner_id = #{ownerId}, type_id = #{typeId}, birth_date = #{birthDate}
+    WHERE id = #{id}
+  </update>
+
+  <insert id="insertPet" useGeneratedKeys="true">
+    INSERT INTO pets(name, owner_id, type_id, birth_date)
+    VALUES( #{name}, #{ownerId}, #{typeId}, #{birthDate})
+    <selectKey keyProperty="id" order="AFTER" resultType="int">
+      CALL IDENTITY()
+    </selectKey>
+  </insert>
+
+  <delete id="delete">
+    DELETE FROM pets WHERE id = #{id}
+  </delete>
+</mapper>

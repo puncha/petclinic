@@ -1,0 +1,1 @@
+This pet component split pet list, pet view modal and pet edit modal into sub components.

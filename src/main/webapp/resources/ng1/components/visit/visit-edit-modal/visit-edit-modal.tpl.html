@@ -1,0 +1,45 @@
+<data-toaster></data-toaster>
+
+<div class="modal fade" tabindex="-1">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <div class="modal-title">Edit Visit</div>
+      </div>
+      <div class="modal-body">
+        <form name="visitEditForm" novalidate>
+          <div class="form-group row">
+            <label class="col-xs-4 control-label">Description</label>
+            <div class="col-xs-8">
+              <input name="description" data-ng-model="$ctrl.visit.description" class="form-control">
+            </div>
+          </div>
+
+          <div class="form-group row">
+            <label class="col-xs-4 control-label">Visit Date</label>
+            <div class="col-xs-8"
+                 data-ng-class="{'has-danger': visitEditForm.visitDate.$invalid, 'has-success': !visitEditForm.visitDate.$invalid}">
+              <input type="date" name="visitDate" data-ng-model="$ctrl.visit.visitDate"
+                     class="form-control" required
+                     data-ng-class="{'form-control-danger': visitEditForm.visitDate.$invalid, 'form-control-success': !visitEditForm.visitDate.$invalid}">
+              <div class="form-control-feedback" data-ng-show="visitEditForm.visitDate.$invalid">Birthday is required.
+              </div>
+            </div>
+          </div>
+
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-primary col-xs-4 offset-xs-1"
+                data-ng-disabled="visitEditForm.$invalid"
+                data-ng-click="$ctrl.save($ctrl.visit)">
+          Save
+        </button>
+        <button class="btn btn-default col-xs-4 offset-xs-1"
+                data-dismiss="modal">
+          Cancel
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

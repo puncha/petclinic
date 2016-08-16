@@ -1,0 +1,1 @@
+This owner component does not split owner list, owner view modal and owner edit modal into sub components. Check out pet module to see how sub components work.

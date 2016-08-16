@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="tk.puncha.mappers.OwnerMapper">
+
+  <resultMap id="PetResult" type="Pet">
+    <id column="pet_id" property="id"/>
+    <result column="name" property="name"/>
+  </resultMap>
+
+  <resultMap id="OwnerWithPets" type="Owner">
+    <id column="id" property="id"/>
+    <result column="first_name" property="firstName"/>
+    <result column="last_name" property="lastName"/>
+    <result column="address" property="address"/>
+    <result column="city" property="city"/>
+    <result column="telephone" property="telephone"/>
+    <collection property="pets" ofType="Pet"
+                resultMap="PetResult">
+    </collection>
+  </resultMap>
+
+  <select id="getAllOwners" resultType="Owner">
+    SELECT *
+    FROM owners
+  </select>
+
+  <select id="getOwnerById" resultType="Owner">
+    SELECT *
+    FROM owners
+    WHERE id = #{id}
+  </select>
+
+  <select id="getOwnerWithPetsById" resultMap="OwnerWithPets">
+    SELECT owners.*, pets.id as pet_id, pets.name, pets.birth_date, pets.type_id, pets.owner_id
+    FROM owners LEFT JOIN pets ON owners.id = pets.owner_id
+    WHERE owners.id = #{id}
+  </select>
+
+  <insert id="insertOwner" useGeneratedKeys="true" parameterType="Owner">
+    INSERT INTO owners(first_name, last_name, address, city, telephone)
+    VALUES(#{firstName}, #{lastName}, #{address}, #{city}, #{telephone})
+    <selectKey keyProperty="id" resultType="int" order="AFTER">
+      CALL IDENTITY()
+    </selectKey>
+  </insert>
+
+  <update id="updateOwner" parameterType="Owner">
+    UPDATE owners
+    SET first_name = #{firstName}, last_name=#{lastName}, address=#{address}, city=#{city}, telephone=#{telephone}
+    WHERE id = #{id}
+  </update>
+
+  <delete id="deleteOwner">
+    DELETE FROM owners
+    WHERE id = #{id}
+  </delete>
+</mapper>

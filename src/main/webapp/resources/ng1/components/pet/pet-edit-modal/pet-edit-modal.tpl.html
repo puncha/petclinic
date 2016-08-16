@@ -1,0 +1,101 @@
+<data-toaster></data-toaster>
+
+<div class="modal fade" tabindex="-1">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <div class="modal-title">Edit Pet</div>
+      </div>
+      <div class="modal-body">
+        <form name="petEditForm" novalidate>
+          <div class="form-group row">
+            <label class="col-xs-4 control-label">Name</label>
+            <div class="col-xs-8"
+                 data-ng-class="{'has-danger': petEditForm.name.$invalid, 'has-success': !petEditForm.name.$invalid}">
+              <input name="name" data-ng-model="$ctrl.pet.name" required data-ng-minlength="3"
+                     class="form-control"
+                     data-ng-class="{'form-control-danger': petEditForm.name.$invalid, 'form-control-success': !petEditForm.name.$invalid}">
+              <div class="form-control-feedback" data-ng-show="petEditForm.name.$invalid">First name is required.</div>
+            </div>
+          </div>
+
+          <div class="form-group row">
+            <label class="col-xs-4 control-label">Type</label>
+            <div class="col-xs-8"
+                 data-ng-class="{'has-danger': petEditForm.petType.$invalid, 'has-success': !petEditForm.petType.$invalid}">
+              <select required name="petType" data-ng-model="$ctrl.pet.type"
+                      class="custom-select"
+                      data-ng-options="type.name for type in $ctrl.petTypes"
+                      data-ng-class="{'form-control-danger': petEditForm.petType.$invalid, 'form-control-success': !petEditForm.petType.$invalid}">
+              </select>
+              <div class="form-control-feedback" data-ng-show="petEditForm.petType.$invalid">Pet Type is required!</div>
+            </div>
+          </div>
+
+          <div class="form-group row">
+            <label class="col-xs-4 control-label">Birthday</label>
+            <div class="col-xs-8"
+                 data-ng-class="{'has-danger': petEditForm.birthDate.$invalid, 'has-success': !petEditForm.birthDate.$invalid}">
+              <input type="date" name="birthDate" data-ng-model="$ctrl.pet.birthDate"
+                     class="form-control" required
+                     data-ng-class="{'form-control-danger': petEditForm.birthDate.$invalid, 'form-control-success': !petEditForm.birthDate.$invalid}">
+              <div class="form-control-feedback" data-ng-show="petEditForm.birthDate.$invalid">Birthday is required.
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group row">
+            <label class="col-xs-4 control-label">Owner</label>
+            <div class="col-xs-8"
+                 data-ng-class="{'has-danger': petEditForm.owner.$invalid, 'has-success': !petEditForm.owner.$invalid}">
+              <select required name="owner" data-ng-model="$ctrl.pet.owner"
+                      class="custom-select"
+                      data-ng-options="(owner.firstName + ' ' + owner.lastName) for owner in $ctrl.owners"
+                      data-ng-class="{'form-control-danger': petEditForm.owner.$invalid, 'form-control-success': !petEditForm.owner.$invalid}">
+              </select>
+              <div class="form-control-feedback" data-ng-show="petEditForm.owner.$invalid">Owner is required!</div>
+            </div>
+          </div>
+
+          <!--HIDE visit CRUD panel when creating a new pet!-->
+          <div class="row" data-ng-hide="$ctrl.isNewPet()">
+            <hr/>
+            <label class="col-xs-12 control-label h5">
+              Visits
+              <a class="btn btn-sm btn-outline-primary" href data-ng-click="$ctrl.createVisit()">
+                <i class="fa fa-plus"></i>
+              </a>
+            </label>
+            <ul class="col-xs-12 m-l-1">
+              <li class="m-y-1" data-ng-repeat="visit in $ctrl.pet.visits">
+                {{visit.visitDate}} {{visit.description}}
+                <a class="btn btn-sm btn-link red" href data-ng-click="$ctrl.deleteVisit(visit)">
+                  <i class="fa fa-remove"></i>
+                </a>
+              </li>
+            </ul>
+          </div>
+
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-primary col-xs-4 offset-xs-1"
+                data-ng-disabled="petEditForm.$invalid"
+                data-ng-click="$ctrl.save($ctrl.pet)">
+          Save
+        </button>
+        <button class="btn btn-default col-xs-4 offset-xs-1"
+                data-dismiss="modal">
+          Cancel
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<data-visit-edit-modal
+    pet-id="{{$ctrl.visitEditModal.petId}}"
+    visibility="$ctrl.visitEditModal.visibility"
+    on-visibility-changed="$ctrl.visitEditModal.onVisibilityChanged(visibility)"
+    on-saved="$ctrl.visitEditModal.onSaved(visit)">
+</data-visit-edit-modal>

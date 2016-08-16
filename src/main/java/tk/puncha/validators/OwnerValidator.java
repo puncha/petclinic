@@ -7,6 +7,10 @@ import tk.puncha.models.Owner;
 
 @Component
 public class OwnerValidator implements Validator {
+
+  public static final int MIN_ADDRESS_LENGTH = 5;
+  public static final int MAX_ADDRESS_LENGTH = 80;
+
   @Override
   public boolean supports(Class<?> clazz) {
     return Owner.class.isAssignableFrom(clazz);
@@ -15,9 +19,9 @@ public class OwnerValidator implements Validator {
   @Override
   public void validate(Object target, Errors errors) {
     Owner owner = (Owner) target;
-    if (owner.getAddress() != null) {
+    if (owner.getAddress() != null && owner.getAddress().length() != 0) {
       int length = owner.getAddress().length();
-      if (length < 5 || length > 80) {
+      if (length < MIN_ADDRESS_LENGTH || length > MAX_ADDRESS_LENGTH) {
         errors.rejectValue("address", "error.address.length");
       }
     }

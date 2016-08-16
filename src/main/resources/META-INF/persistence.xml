@@ -1,0 +1,20 @@
+<persistence
+  version="2.1"
+  xmlns="http://xmlns.jcp.org/xml/ns/persistence"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence
+   http://java.sun.com/xml/ns/persistence/persistence_2_1.xsd">
+  <persistence-unit name="StudyHibernatePU">
+    <class>tk.puncha.models.Owner</class>
+    <class>tk.puncha.models.Pet</class>
+    <class>tk.puncha.models.PetType</class>
+    <class>tk.puncha.models.Visit</class>
+    <properties>
+      <property name="hibernate.show_sql" value="true"/>
+      <property name="hibernate.format_sql" value="true"/>
+      <property name="hibernate.use_sql_comments" value="true"/>
+      <property name="hibernate.connection.isolation" value="4"/>
+      <property name="hibernate.connection.autocommit" value="false"/>
+    </properties>
+  </persistence-unit>
+</persistence>

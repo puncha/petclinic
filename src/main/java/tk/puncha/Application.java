@@ -5,7 +5,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.context.web.SpringBootServletInitializer;
 
-@SpringBootApplication
+@SpringBootApplication //includes @EnableAutoConfiguration
 public class Application extends SpringBootServletInitializer {
 
   @Override

@@ -1,38 +1,36 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<div class="container">
-  <img src="/resources/images/banner-graphic.png"/>
+<nav class="navbar navbar-dark bg-inverse navbar-full m-b-1">
+  <button class="navbar-toggler hidden-md-up pull-xs-right" data-toggle="collapse" data-target="#collapsingNavbar">
+    <i class="fa fa-bars"></i>
+  </button>
 
-  <nav class="navbar navbar-default">
-    <div class="navbar-header">
-      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
-              data-target="#bs-navbar-collapse" aria-expanded="false">
-        <span class="sr-only">Toggle navigation</span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-      </button>
+  <div id="collapsingNavbar" class="collapse navbar-toggleable-sm">
+    <div class="navbar-brand hidden-sm-down m-r-1">
+      <a href="/"><img src="/resources/images/spring-pivotal-logo.png"/></a>
     </div>
+    <ul class="nav navbar-nav">
+      <li class="nav-item h3 m-r-1"><a class="nav-link" href="/owners"><i class="fa fa-user"></i> Owners</a></li>
+      <li class="nav-item h3 m-r-1"><a class="nav-link" href="/pets"><i class="fa fa-paw"></i> Pets</a></li>
 
-    <div class="collapse navbar-collapse" id="bs-navbar-collapse">
-      <ul class="nav navbar-nav">
-        <li><a href="/"><i class="glyphicon glyphicon-home"></i> Home</a></li>
-        <li><a href="/owners"><i class="glyphicon glyphicon-search"></i> Owners</a></li>
-        <li><a href="/pets"><i class="glyphicon glyphicon-th-list"></i> Pets</a></li>
+      <li class="nav-item h3 dropdown">
+        <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">
+          <i class="fa fa-exclamation-triangle"></i> Exceptions
+        </a>
+        <div class="dropdown-menu">
+          <a class="dropdown-item h4" href="/errors">Default exception</a>
+          <a class="dropdown-item h4" href="/errors/oops">Oops exception</a>
+        </div>
+      </li>
 
-        <%-- Errors --%>
-        <li class="dropdown">
-          <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-            <i class="glyphicon glyphicon-warning-sign"></i>
-            <span> Errors</span>
-            <span class="caret"></span>
-          </a>
-          <ul class="dropdown-menu">
-            <li><a href="/errors">Default exception</a></li>
-            <li><a href="/errors/oops">Oops exception</a></li>
-          </ul>
-        </li>
-      </ul>
-    </div>
-  </nav>
+      <li class="nav-item h3 dropdown pull-xs-right">
+        <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">
+          <i class="fa fa-html5 fa-spin"></i> More Versions
+        </a>
+        <div class="dropdown-menu">
+          <a class="dropdown-item h4" href="/ng1/index.html">AngularJs 1.5.8</a>
+        </div>
+      </li>
 
-</div>
+    </ul>
+  </div>
+</nav>

@@ -1,0 +1,27 @@
+{
+  "name": "PetClinictron",
+  "productName": "Pet Clinic Electron Application",
+  "version": "0.1.0",
+  "description": "Electron Application for PetClinic",
+  "main": "main.js",
+  "scripts": {
+    "start": "node_modules/.bin/electron .",
+    "dev": "node_modules/.bin/electron . --debug",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "PunCha Feng",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/puncha/java-petclinic.git"
+  },
+  "homepage": "https://java-petclinic.herokuapp.com",
+  "keywords": [
+    "Electron",
+    "PetClinic",
+    "study"
+  ],
+  "dependencies": {
+    "electron-prebuilt": "latest"
+  }
+}
