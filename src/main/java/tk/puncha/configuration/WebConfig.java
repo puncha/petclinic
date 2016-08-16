@@ -9,6 +9,8 @@ import org.springframework.context.support.ResourceBundleMessageSource;
 import org.springframework.http.MediaType;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
+import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseBuilder;
+import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseType;
 import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
@@ -70,12 +72,12 @@ public class WebConfig extends WebMvcConfigurerAdapter {
   }
 
   @Bean
-  public ExcelViewResolver excelViewResolver(){
+  public ExcelViewResolver excelViewResolver() {
     return new ExcelViewResolver();
   }
 
   @Bean
-  public PdfViewResolver pdfViewResolver(){
+  public PdfViewResolver pdfViewResolver() {
     return new PdfViewResolver();
   }
 
@@ -100,6 +102,19 @@ public class WebConfig extends WebMvcConfigurerAdapter {
   @Bean
   public ErrorViewResolver errorViewResolver() {
     return new MyErrorViewResolver();
+  }
+
+  @Bean
+  @Profile("embeddedHsqldb")
+  public DataSource embeddedHsqldb() {
+    return new EmbeddedDatabaseBuilder()
+        .generateUniqueName(true)
+        .setType(EmbeddedDatabaseType.HSQL)
+        .setScriptEncoding("UTF-8")
+        .ignoreFailedDrops(true)
+        .addScript("schema-hsqldb.sql")
+        .addScripts("data-hsqldb.sql")
+        .build();
   }
 
   @Bean
