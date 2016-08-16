@@ -1,4 +1,4 @@
-# Pet Clinic by Spring Boot in Java v0.9.0
+# Pet Clinic by Spring Boot in Java v1.0.0
 
 ------
 
@@ -8,17 +8,25 @@ Implement the Spring 4 Sample Pet Clinic project for practice.
 ## Source
 1. GitHub: https://github.com/puncha/java-petclinic
 2. Travis CI: [![Build Status](https://travis-ci.org/puncha/java-petclinic.svg)](https://travis-ci.org/puncha/java-petclinic)
-3. CodeShip CI: [![Build Status](https://codeship.com/projects/4b274a90-45f7-0134-2d77-0aad117e5610/status?branch=develop)](https://codeship.com/projects/168779)
+3. CodeShip CI: [![Build Status](https://codeship.com/projects/4b274a90-45f7-0134-2d77-0aad117e5610/status)](https://codeship.com/projects/168779)
 4. Heroku Demo: https://java-petclinic.herokuapp.com/
 
 ## Run
 ```bash
-gradle bootRun
+./gradlew bootRun
 ```
 
 ## Test
 ```bash
-gradle check
+./gradlew check
+```
+
+## Cross platform desktop app
+Install nodejs 6.x first and run:
+```bash
+cd src/main/electron_app/
+npm i
+node_modules/.bin/electron .
 ```
 
 ## References
@@ -28,6 +36,12 @@ gradle check
   - Official Site: http://projects.spring.io/spring-roo/
 
 ## Change Logs
+ - v1.0.0:
+  - CSS is changed to Bootstrap 4 alpha3.
+  - Form validation is added.
+  - Site of JSP version is implemented. 
+  - Site of AngularJs1 + Restful Controller is implemented.
+  - Prototype of Electron App is ready for try.
  - v0.4.0:
   - Pet page is implemented. Users can list, create, edit and delete pets.
   - Known issue: pet with visit events fail to be deleted.
