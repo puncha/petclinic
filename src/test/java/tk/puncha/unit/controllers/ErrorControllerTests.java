@@ -3,6 +3,7 @@ package tk.puncha.unit.controllers;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.orm.jpa.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit4.SpringRunner;
@@ -14,6 +15,7 @@ import static org.hamcrest.object.HasToString.hasToString;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
+@AutoConfigureTestDatabase
 @TestPropertySource(locations = {"/test.properties", "/unit-test.properties"})
 @RunWith(SpringRunner.class)
 @WebMvcTest(ErrorController.class)
