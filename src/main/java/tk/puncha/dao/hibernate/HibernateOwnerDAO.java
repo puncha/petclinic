@@ -7,6 +7,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 import tk.puncha.controllers.PetController;
 import tk.puncha.dao.OwnerDAO;
 import tk.puncha.models.Owner;
@@ -52,7 +53,7 @@ public class HibernateOwnerDAO implements OwnerDAO {
     String query = "select owner from Owner owner left join fetch owner.pets where owner.id = :ownerId";
     return em.createQuery(query, Owner.class)
         .setParameter("ownerId", ownerId)
-        .getSingleResult();
+        .getResultList().stream().findFirst().orElse(null);
   }
 
   @Override
