@@ -20,35 +20,35 @@ public class OwnerRepository {
 
   @Transactional
   public List<Owner> getAllOwners() {
-    return ownerDAO.getAllOwners();
+    return ownerDAO.getAll();
   }
 
   public List<Owner> getOwnersByFirstName(String firstName){
-    return ownerDAO.getOwnersByFirstName(firstName);
+    return ownerDAO.findByFirstName(firstName);
   }
 
   @Transactional
   public Owner getOwnerById(int ownerId) {
-    return ownerDAO.getOwnerById(ownerId);
+    return ownerDAO.getById(ownerId);
   }
 
   @Transactional
   public Owner getOwnerWithPetsById(int ownerId) {
-    return ownerDAO.getOwnerWithPetsById(ownerId);
+    return ownerDAO.getByIdWithPets(ownerId);
   }
 
   @Transactional
   public void insertOwner(Owner owner) {
-    ownerDAO.insertOwner(owner);
+    ownerDAO.insert(owner);
   }
 
   @Transactional
   public void updateOwner(Owner owner) {
-    ownerDAO.updateOwner(owner);
+    ownerDAO.update(owner);
   }
 
   @Transactional
   public void deleteOwner(int ownerId) {
-    ownerDAO.deleteOwner(ownerId);
+    ownerDAO.deleteById(ownerId);
   }
 }

@@ -18,33 +18,33 @@ public class MyBatisPetDAO implements PetDAO {
   private PetMapper mapper;
 
   @Override
-  public List<Pet> getAllPets() {
+  public List<Pet> getAll() {
     return mapper.getAllPets();
   }
 
   @Override
-  public Pet getPetById(int petId) {
+  public Pet getById(int petId) {
     return mapper.getPetById(petId);
   }
 
   @Override
-  public int insertPet(Pet pet) {
+  public int insert(Pet pet) {
     return mapper.insertPet(pet);
   }
 
   @Override
-  public void updatePet(Pet pet) {
+  public void update(Pet pet) {
     mapper.updatePet(pet);
   }
 
   @Override
-  public void deletePetsByOwnerId(int ownerId) {
+  public void deleteByOwnerId(int ownerId) {
     mapper.deletePetsByOwnerId(ownerId);
   }
 
   @Override
   @Transactional
-  public void delete(int id) {
+  public void deleteById(int id) {
     mapper.delete(id);
   }
 

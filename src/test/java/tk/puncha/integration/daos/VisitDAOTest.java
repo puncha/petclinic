@@ -39,31 +39,31 @@ public class VisitDAOTest {
     Visit visit = new Visit();
     visit.setVisitDate(Date.valueOf("2011-08-09"));
     visit.setDescription("A test visit");
-    visit.setPet(petDAO.getPetById(1));
-    int id = visitDAO.insertVisit(visit);
+    visit.setPet(petDAO.getById(1));
+    int id = visitDAO.insert(visit);
     assertNotEquals(-1, id);
   }
 
   @Test(expected = ConstraintViolationException.class)
   public void shouldInsertVisitThrowExceptionWhenVisitIsInvalid() throws Exception {
     Visit Visit = new Visit();
-    visitDAO.insertVisit(Visit);
+    visitDAO.insert(Visit);
   }
 
   @Test(expected = PersistenceException.class)
   public void shouldInsertVisitThrowExceptionWhenVisitIdIsNotDefault() throws Exception {
     Visit Visit = new Visit();
     Visit.setId(123);
-    visitDAO.insertVisit(Visit);
+    visitDAO.insert(Visit);
   }
 
   @Test
   public void shouldDeleteVisitWhenVisitExists() throws Exception {
-    visitDAO.deleteVisit(1);
+    visitDAO.deleteById(1);
   }
 
   @Test(expected = EntityNotFoundException.class)
   public void shouldDeleteVisitThrowExceptionWhenVisitNotExists() throws Exception {
-    visitDAO.deleteVisit(123);
+    visitDAO.deleteById(123);
   }
 }

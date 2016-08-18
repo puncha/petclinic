@@ -18,10 +18,10 @@ public class PetTypeRepository {
   }
 
   public List<PetType> getAllTypes() {
-    return petTypeDAO.getAllTypes();
+    return petTypeDAO.getAll();
   }
 
   public PetType getPetTypeById(int id) {
-    return petTypeDAO.getTypeById(id);
+    return petTypeDAO.getById(id);
   }
 }

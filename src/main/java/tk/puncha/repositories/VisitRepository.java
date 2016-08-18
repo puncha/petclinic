@@ -18,11 +18,11 @@ public class VisitRepository {
 
   @Transactional
   public int insertVisit(Visit visit) {
-    return visitDAO.insertVisit(visit);
+    return visitDAO.insert(visit);
   }
 
   @Transactional
   public void delete(int id) {
-    visitDAO.deleteVisit(id);
+    visitDAO.deleteById(id);
   }
 }

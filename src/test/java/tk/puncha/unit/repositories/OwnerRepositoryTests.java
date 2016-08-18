@@ -41,13 +41,13 @@ public class OwnerRepositoryTests {
 
   @Test
   public void shouldGetAllOwnersReturnListOfOwners() throws Exception {
-    when(ownerDAOMock.getAllOwners()).thenReturn(ownerListSample);
+    when(ownerDAOMock.getAll()).thenReturn(ownerListSample);
     assertEquals(ownerListSample, ownerRepository.getAllOwners());
   }
 
   @Test
   public void shouldGetOwnerByIdReturnAnOwnerIfExists() throws Exception {
-    when(ownerDAOMock.getOwnerById(0)).thenReturn(ownerSample);
+    when(ownerDAOMock.getById(0)).thenReturn(ownerSample);
     assertEquals(ownerSample, ownerRepository.getOwnerById(0));
   }
 }

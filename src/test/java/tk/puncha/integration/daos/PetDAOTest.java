@@ -38,25 +38,25 @@ public class PetDAOTest {
   private PetTypeDAO petTypeDAO;
 
   public void forceFlush() {
-    petDAO.getAllPets();
+    petDAO.getAll();
   }
 
   @Test
   public void shouldGetAllPetsReturnAllPetsList() throws Exception {
-    List<Pet> Pets = petDAO.getAllPets();
+    List<Pet> Pets = petDAO.getAll();
     assertEquals(13, Pets.size());
   }
 
   @Test
   public void shouldGetPetByIdReturnPetWhenPetExists() throws Exception {
-    Pet pet = petDAO.getPetById(1);
+    Pet pet = petDAO.getById(1);
     assertNotNull(pet);
     assertEquals(1, pet.getId());
   }
 
   @Test
   public void shouldGetPetByIdReturnNullWhenPetNotExists() throws Exception {
-    Pet pet = petDAO.getPetById(-1);
+    Pet pet = petDAO.getById(-1);
     assertNull(pet);
   }
 
@@ -64,71 +64,71 @@ public class PetDAOTest {
   public void shouldInsertPetSuccessWhenPetIsValid() throws Exception {
     Pet pet = new Pet();
     pet.setName("puncha");
-    pet.setType(petTypeDAO.getTypeById(1));
-    pet.setOwner(ownerDAO.getOwnerById(1));
-    int id = petDAO.insertPet(pet);
+    pet.setType(petTypeDAO.getById(1));
+    pet.setOwner(ownerDAO.getById(1));
+    int id = petDAO.insert(pet);
     assertNotEquals(-1, id);
   }
 
   @Test(expected = ConstraintViolationException.class)
   public void shouldInsertPetThrowExceptionWhenPetIsInvalid() throws Exception {
     Pet Pet = new Pet();
-    petDAO.insertPet(Pet);
+    petDAO.insert(Pet);
   }
 
   @Test(expected = PersistenceException.class)
   public void shouldInsertPetThrowExceptionWhenPetIdIsNotDefault() throws Exception {
     Pet Pet = new Pet();
     Pet.setId(123);
-    petDAO.insertPet(Pet);
+    petDAO.insert(Pet);
   }
 
   @Test
   public void shouldUpdatePetSucceededWhenPetIsValid() {
-    Pet pet = petDAO.getPetById(1);
+    Pet pet = petDAO.getById(1);
     pet.setName("puncha");
-    petDAO.updatePet(pet);
+    petDAO.update(pet);
     forceFlush();
   }
 
 
   @Test(expected = ConstraintViolationException.class)
   public void shouldUpdatePetThrowExceptionWhenPetIsInvalid() throws Exception {
-    Pet pet = petDAO.getPetById(1);
+    Pet pet = petDAO.getById(1);
     pet.setName("AB");
-    petDAO.updatePet(pet);
+    petDAO.update(pet);
     forceFlush();
   }
 
   @Test(expected = PersistenceException.class)
   public void shouldUpdatePetThrowExceptionWhenPetNotExists() throws Exception {
-    Pet pet = petDAO.getPetById(1);
+    Pet pet = petDAO.getById(1);
     pet.setId(123);
-    petDAO.updatePet(pet);
+    petDAO.update(pet);
     forceFlush();
 
   }
 
   @Test
   public void shouldDeletePetWhenPetExists() throws Exception {
-    petDAO.delete(1);
-    assertEquals(12, petDAO.getAllPets().size());
+    petDAO.deleteById(1);
+    assertEquals(12, petDAO.getAll().size());
   }
 
   @Test(expected = EntityNotFoundException.class)
   public void shouldDeletePetThrowExceptionWhenPetNotExists() throws Exception {
-    petDAO.delete(123);
+    petDAO.deleteById(123);
   }
 
   @Test
   public void shouldDeletePetsByOwnerIdDeletePetsWhenOwnerExists() {
-    petDAO.deletePetsByOwnerId(3);  // Eduardo has two pets
-    assertEquals(11, petDAO.getAllPets().size());
+    petDAO.deleteByOwnerId(3);  // Eduardo has two pets
+    assertEquals(11, petDAO.getAll().size());
   }
 
 
   @Test(expected = EntityNotFoundException.class)
   public void shouldDeletePetsByOwnerIdThrowExceptionWhenOwnerNotExists() {
-    petDAO.deletePetsByOwnerId(123);
+    petDAO.deleteByOwnerId(123);
   }
 }

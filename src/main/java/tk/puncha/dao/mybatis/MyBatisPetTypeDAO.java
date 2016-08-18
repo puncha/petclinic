@@ -17,12 +17,12 @@ public class MyBatisPetTypeDAO implements PetTypeDAO {
   private PetTypeMapper mapper;
 
   @Override
-  public List<PetType> getAllTypes() {
+  public List<PetType> getAll() {
     return mapper.getAllTypes();
   }
 
   @Override
-  public PetType getTypeById(int id) {
+  public PetType getById(int id) {
     return mapper.getTypeById(id);
   }
 }

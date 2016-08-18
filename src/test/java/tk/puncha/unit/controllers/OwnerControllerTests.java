@@ -122,7 +122,7 @@ public class OwnerControllerTests {
         .andExpect(redirectedUrl("/owners/123"));
     // The following verification passes if remove @WebMvc, so
     // this should be a bug in Spring Boot.
-    // verify(ownerRepository).insertOwner(any(Owner.class));
+    // verify(ownerRepository).insert(any(Owner.class));
   }
 
   @Test
@@ -140,7 +140,7 @@ public class OwnerControllerTests {
     ;
     // The following verification passes if remove @WebMvc, so
     // this should be a bug in Spring Boot.
-    // verify(ownerRepository).insertOwner(any(Owner.class));
+    // verify(ownerRepository).insert(any(Owner.class));
   }
 
   @Test
@@ -189,7 +189,7 @@ public class OwnerControllerTests {
         .andExpect(status().isOk())
         .andExpect(view().name("exception/default"))
         .andExpect(model().attribute("exception", exception));
-//    verify(ownerRepository).updateOwner(any());
+//    verify(ownerRepository).update(any());
   }
 
   @Test

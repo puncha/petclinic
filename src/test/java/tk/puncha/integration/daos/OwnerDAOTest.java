@@ -35,13 +35,13 @@ public class OwnerDAOTest {
 
   @Test
   public void shouldGetAllOwnersReturnAllOwnersList() throws Exception {
-    List<Owner> owners = ownerDAO.getAllOwners();
+    List<Owner> owners = ownerDAO.getAll();
     assertEquals(10, owners.size());
   }
 
   @Test
   public void shouldGetOwnerByIdReturnOwnerWhenOwnerExists() throws Exception {
-    Owner owner = ownerDAO.getOwnerById(1);
+    Owner owner = ownerDAO.getById(1);
     assertNotNull(owner);
     assertEquals(1, owner.getId());
     assertFalse(Persistence.getPersistenceUtil().isLoaded(owner.getPets()));
@@ -49,13 +49,13 @@ public class OwnerDAOTest {
 
   @Test
   public void shouldGetOwnerByIdReturnNullWhenOwnerNotExists() throws Exception {
-    Owner owner = ownerDAO.getOwnerById(-1);
+    Owner owner = ownerDAO.getById(-1);
     assertNull(owner);
   }
 
   @Test
   public void shouldGetOwnerWithPetsByIdReturnOwnerWithPetsWhenOwnerExists() throws Exception {
-    Owner owner = ownerDAO.getOwnerWithPetsById(1);
+    Owner owner = ownerDAO.getByIdWithPets(1);
     assertNotNull(owner);
     assertEquals(1, owner.getId());
     assertTrue(Persistence.getPersistenceUtil().isLoaded(owner.getPets()));
@@ -63,19 +63,19 @@ public class OwnerDAOTest {
 
   @Test
   public void shouldGetOwnerWithPetsByIdReturnNullWhenOwnerNotExists() throws Exception {
-    Owner owner = ownerDAO.getOwnerWithPetsById(-1);
+    Owner owner = ownerDAO.getByIdWithPets(-1);
     assertNull(owner);
   }
 
   @Test
   public void shouldGetOwnersByFirstNameReturnMatchedOwnersList() throws Exception {
-    List owners = ownerDAO.getOwnersByFirstName("eT");
+    List owners = ownerDAO.findByFirstName("eT");
     assertEquals(2, owners.size());
   }
 
   @Test
   public void shouldGetOwnersByFirstNameReturnEmptyListWhenOnMatchedOwners() throws Exception {
-    List owners = ownerDAO.getOwnersByFirstName("puncha");
+    List owners = ownerDAO.findByFirstName("puncha");
     assertTrue(owners.isEmpty());
   }
 
@@ -85,62 +85,62 @@ public class OwnerDAOTest {
     owner.setFirstName("puncha");
     owner.setLastName("feng");
     owner.setAddress("sample address");
-    int id = ownerDAO.insertOwner(owner);
+    int id = ownerDAO.insert(owner);
     assertNotEquals(-1, id);
   }
 
   @Test(expected = ConstraintViolationException.class)
   public void shouldInsertOwnerThrowExceptionWhenOwnerIsInvalid() throws Exception {
     Owner owner = new Owner();
-    ownerDAO.insertOwner(owner);
+    ownerDAO.insert(owner);
   }
 
   @Test(expected = PersistenceException.class)
   public void shouldInsertOwnerThrowExceptionWhenOwnerIdIsNotDefault() throws Exception {
     Owner owner = new Owner();
     owner.setId(123);
-    ownerDAO.insertOwner(owner);
+    ownerDAO.insert(owner);
   }
 
   @Test
   public void shouldUpdateOwnerSucceededWhenOwnerIsValid() {
-    Owner owner = ownerDAO.getOwnerById(1);
+    Owner owner = ownerDAO.getById(1);
     owner.setFirstName("puncha");
-    ownerDAO.updateOwner(owner);
-    List matchedOwners = ownerDAO.getOwnersByFirstName("puncha");
+    ownerDAO.update(owner);
+    List matchedOwners = ownerDAO.findByFirstName("puncha");
     assertEquals(1, matchedOwners.size());
   }
 
   @Test(expected = ConstraintViolationException.class)
   public void shouldUpdateOwnerThrowExceptionWhenOwnerIsInvalid() throws Exception {
-    Owner owner = ownerDAO.getOwnerById(1);
+    Owner owner = ownerDAO.getById(1);
     owner.setFirstName("AB");
-    ownerDAO.updateOwner(owner);
+    ownerDAO.update(owner);
     // HACK: the query actually force Hibernate to execute the UPDATE SQL statement,
     // or the @Rollback suppresses the Update SQL statement to fail the test.
-    List matchedOwners = ownerDAO.getOwnersByFirstName("AB");
+    List matchedOwners = ownerDAO.findByFirstName("AB");
     assertTrue(matchedOwners.isEmpty());
   }
 
   @Test(expected = PersistenceException.class)
   public void shouldUpdateOwnerThrowExceptionWhenOwnerNotExists() throws Exception {
-    Owner owner = ownerDAO.getOwnerById(1);
+    Owner owner = ownerDAO.getById(1);
     owner.setId(123);
-    ownerDAO.updateOwner(owner);
+    ownerDAO.update(owner);
     // HACK: the query actually force Hibernate to execute the UPDATE SQL statement,
     // or the @Rollback suppresses the Update SQL statement to fail the test.
-    // Note, to use getOwnerById() won't force the UPDATE SQL to execute.
-    assertNull(ownerDAO.getOwnerWithPetsById(123));
+    // Note, to use getById() won't force the UPDATE SQL to execute.
+    assertNull(ownerDAO.getByIdWithPets(123));
   }
 
   @Test
   public void shouldDeleteOwnerWhenOwnerExists() throws Exception {
-    ownerDAO.deleteOwner(1);
-    assertEquals(9, ownerDAO.getAllOwners().size());
+    ownerDAO.deleteById(1);
+    assertEquals(9, ownerDAO.getAll().size());
   }
 
   @Test(expected = EntityNotFoundException.class)
   public void shouldDeleteOwnerThrowExceptionWhenOwnerNotExists() throws Exception {
-    ownerDAO.deleteOwner(123);
+    ownerDAO.deleteById(123);
   }
 }

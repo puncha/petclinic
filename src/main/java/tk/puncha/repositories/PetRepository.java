@@ -26,33 +26,33 @@ public class PetRepository {
 
   @Transactional(readOnly = true)
   public List<Pet> getAllPets() {
-    return petDAO.getAllPets();
+    return petDAO.getAll();
   }
 
 
   @Transactional(readOnly = true)
   public Pet getPetById(int id) {
-    return petDAO.getPetById(id);
+    return petDAO.getById(id);
   }
 
   public void updatePet(Pet pet) {
-    petDAO.updatePet(pet);
+    petDAO.update(pet);
   }
 
   public int insertPet(Pet pet) {
-    return petDAO.insertPet(pet);
+    return petDAO.insert(pet);
   }
 
   public void delete(int id) {
-    petDAO.delete(id);
+    petDAO.deleteById(id);
   }
 
   @Transactional(readOnly = true)
   public List<PetType> getAllTypes() {
-    return petTypeDAO.getAllTypes();
+    return petTypeDAO.getAll();
   }
 
   public void deletePetsByOwnerId(int ownerId) {
-    petDAO.deletePetsByOwnerId(ownerId);
+    petDAO.deleteByOwnerId(ownerId);
   }
 }

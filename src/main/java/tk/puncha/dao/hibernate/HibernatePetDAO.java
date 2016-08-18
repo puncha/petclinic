@@ -21,7 +21,7 @@ public class HibernatePetDAO implements PetDAO {
   private EntityManager em;
 
   @Override
-  public List<Pet> getAllPets() {
+  public List<Pet> getAll() {
     CriteriaBuilder cb = em.getCriteriaBuilder();
     CriteriaQuery<Pet> cbQuery = cb.createQuery(Pet.class);
     cbQuery.select(cbQuery.from(Pet.class));
@@ -29,7 +29,7 @@ public class HibernatePetDAO implements PetDAO {
   }
 
   @Override
-  public Pet getPetById(int petId) {
+  public Pet getById(int petId) {
     CriteriaBuilder cb = em.getCriteriaBuilder();
     CriteriaQuery<Pet> cbQuery = cb.createQuery(Pet.class);
     Root<Pet> root = cbQuery.from(Pet.class);
@@ -38,18 +38,18 @@ public class HibernatePetDAO implements PetDAO {
   }
 
   @Override
-  public int insertPet(Pet pet) {
+  public int insert(Pet pet) {
     em.persist(pet);
     return pet.getId();
   }
 
   @Override
-  public void updatePet(Pet pet) {
+  public void update(Pet pet) {
     em.merge(pet);
   }
 
   @Override
-  public void deletePetsByOwnerId(int ownerId) {
+  public void deleteByOwnerId(int ownerId) {
     // TODO: the logic should be in OwnerDAO
     Owner owner = em.getReference(Owner.class, ownerId);
     owner.getPets().clear();
@@ -57,7 +57,7 @@ public class HibernatePetDAO implements PetDAO {
   }
 
   @Override
-  public void delete(int id) {
+  public void deleteById(int id) {
     Pet pet = em.getReference(Pet.class, id);
     em.remove(pet);
   }

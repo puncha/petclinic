@@ -30,13 +30,13 @@ public class PetTypeDAOTest {
 
   @Test
   public void shouldGetAllPetTypesReturnAllPetTypesList() throws Exception {
-    List<PetType> Pets = petTypeDAO.getAllTypes();
+    List<PetType> Pets = petTypeDAO.getAll();
     assertEquals(6, Pets.size());
   }
 
   @Test
   public void shouldGetPetByIdReturnPetWhenPetExists() throws Exception {
-    PetType petType = petTypeDAO.getTypeById(1);
+    PetType petType = petTypeDAO.getById(1);
     assertNotNull(petType);
     assertEquals(1, petType.getId());
     assertEquals("cat", petType.getName());
@@ -44,7 +44,7 @@ public class PetTypeDAOTest {
 
   @Test
   public void shouldGetPetByIdReturnNullWhenPetNotExists() throws Exception {
-    PetType petType = petTypeDAO.getTypeById(-1);
+    PetType petType = petTypeDAO.getById(-1);
     assertNull(petType);
   }
 
