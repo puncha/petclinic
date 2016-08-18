@@ -111,7 +111,6 @@ public class OwnerDAOTest {
     assertEquals(1, matchedOwners.size());
   }
 
-
   @Test(expected = ConstraintViolationException.class)
   public void shouldUpdateOwnerThrowExceptionWhenOwnerIsInvalid() throws Exception {
     Owner owner = ownerDAO.getOwnerById(1);

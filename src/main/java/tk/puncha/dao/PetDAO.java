@@ -10,11 +10,11 @@ public interface PetDAO {
 
   Pet getPetById(int id);
 
-  void deletePetsByOwnerId(int ownerId);
+  int insertPet(Pet pet);
 
   void updatePet(Pet pet);
 
-  int insertPet(Pet pet);
-
   void delete(int id);
+
+  void deletePetsByOwnerId(int ownerId);
 }

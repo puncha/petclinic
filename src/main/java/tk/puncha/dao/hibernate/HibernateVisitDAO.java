@@ -22,7 +22,7 @@ public class HibernateVisitDAO implements VisitDAO {
 
   @Override
   public int insertVisit(Visit visit) {
-    visit = em.merge(visit);
+    em.persist(visit);
     return visit.getId();
   }
 

@@ -34,7 +34,7 @@ public class HibernatePetDAO implements PetDAO {
     CriteriaQuery<Pet> cbQuery = cb.createQuery(Pet.class);
     Root<Pet> root = cbQuery.from(Pet.class);
     cbQuery.select(root).where(cb.equal(root.get("id"), petId));
-    return em.createQuery(cbQuery).getSingleResult();
+    return em.createQuery(cbQuery).getResultList().stream().findFirst().orElse(null);
   }
 
   @Override
