@@ -19,7 +19,7 @@ public class PetTypeRepository {
     this.petTypeDAO = petTypeDAO;
   }
 
-  public List<PetType> getAllTypes() {
+  public List<PetType> getAll() {
     return petTypeDAO.getAll();
   }
 

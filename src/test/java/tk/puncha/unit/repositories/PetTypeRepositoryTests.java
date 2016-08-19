@@ -30,7 +30,7 @@ public class PetTypeRepositoryTests {
   @Test
   public void shouldGetAllDispatchCallToDAO() throws Exception {
     when(petTypeDAOMock.getAll()).thenReturn(petTypeListMock);
-    assertEquals(petTypeListMock, petTypeRepository.getAllTypes());
+    assertEquals(petTypeListMock, petTypeRepository.getAll());
     verify(petTypeDAOMock).getAll();
     verifyNoMoreInteractions(petTypeDAOMock);
   }

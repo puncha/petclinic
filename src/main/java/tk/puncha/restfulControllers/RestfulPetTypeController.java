@@ -31,6 +31,6 @@ public class RestfulPetTypeController {
   @GetMapping
   @JsonView(PetJsonView.class)
   public List<PetType> query() {
-    return petTypeRepository.getAllTypes();
+    return petTypeRepository.getAll();
   }
 }

@@ -60,7 +60,7 @@ public class PetController extends ControllerBase {
   @ModelAttribute("types")
   List<PetType> getPetTypes() {
     logger.debug("getPetTypes()");
-    return petTypeRepository.getAllTypes();
+    return petTypeRepository.getAll();
   }
 
   @ModelAttribute("owners")
