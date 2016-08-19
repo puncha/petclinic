@@ -44,6 +44,11 @@ public class OwnerDAOTest {
     Owner owner = ownerDAO.getById(1);
     assertNotNull(owner);
     assertEquals(1, owner.getId());
+    assertEquals("George", owner.getFirstName());
+    assertEquals("Franklin", owner.getLastName());
+    assertEquals("110 W. Liberty St.", owner.getAddress());
+    assertEquals("Madison", owner.getCity());
+    assertEquals("6085551023", owner.getTelephone());
     assertFalse(Persistence.getPersistenceUtil().isLoaded(owner.getPets()));
   }
 
