@@ -17,7 +17,7 @@ public class PetTypeFormatter implements Formatter<PetType> {
 
   @Override
   public PetType parse(String text, Locale locale) throws ParseException {
-    return petTypeRepository.getPetTypeById(Integer.parseInt(text, 10));
+    return petTypeRepository.getById(Integer.parseInt(text, 10));
   }
 
   @Override

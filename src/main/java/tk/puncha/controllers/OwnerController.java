@@ -39,9 +39,9 @@ public class OwnerController extends ControllerBase {
   public ModelAndView index(@RequestParam(name = "search-first-name", required = false) String firstNameToSearch) {
     List<Owner> owners;
     if (firstNameToSearch == null || firstNameToSearch.isEmpty())
-      owners = ownerRepository.getAllOwners();
+      owners = ownerRepository.getAll();
     else
-      owners = ownerRepository.getOwnersByFirstName(firstNameToSearch);
+      owners = ownerRepository.findByFirstName(firstNameToSearch);
 
     ModelAndView modelView = new ModelAndView();
     modelView.addObject("owners", owners);
@@ -52,7 +52,7 @@ public class OwnerController extends ControllerBase {
 
   @GetMapping("{ownerId}")
   public ModelAndView view(@PathVariable int ownerId) {
-    Owner owner = ownerRepository.getOwnerWithPetsById(ownerId);
+    Owner owner = ownerRepository.getByIdWithPets(ownerId);
     ensureExist(owner);
     return createFormModelView("owner/viewOrEdit", owner, FormMode.Readonly);
   }
@@ -70,22 +70,22 @@ public class OwnerController extends ControllerBase {
     }
 
     if (owner.getId() == -1)
-      ownerRepository.insertOwner(owner);
+      ownerRepository.insert(owner);
     else
-      ownerRepository.updateOwner(owner);
+      ownerRepository.update(owner);
     return "redirect:/owners/" + owner.getId();
   }
 
   @GetMapping("{ownerId}/edit")
   public ModelAndView editOwner(@PathVariable int ownerId) {
-    Owner owner = ownerRepository.getOwnerById(ownerId);
+    Owner owner = ownerRepository.getById(ownerId);
     ensureExist(owner);
     return createFormModelView("owner/viewOrEdit", owner, FormMode.Edit);
   }
 
   @GetMapping("{ownerId}/delete")
   public String delete(@PathVariable int ownerId) {
-    ownerRepository.deleteOwner(ownerId);
+    ownerRepository.deleteById(ownerId);
     return "redirect:/owners";
   }
 

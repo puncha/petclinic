@@ -39,7 +39,7 @@ public class RestfulPetController {
   @GetMapping("{id}")
   @JsonView(PetJsonView.class)
   public Pet get(@PathVariable int id) {
-    return petRepository.getPetById(id);
+    return petRepository.getById(id);
   }
 
   @PostMapping
@@ -47,7 +47,7 @@ public class RestfulPetController {
     if (bindingResult.hasErrors()) {
       throw new RuntimeException("Invalid data.");
     }
-    petRepository.insertPet(pet);
+    petRepository.insert(pet);
   }
 
   @PostMapping("{id}")
@@ -55,11 +55,11 @@ public class RestfulPetController {
     if (bindingResult.hasErrors()) {
       throw new RuntimeException("Invalid data.");
     }
-    petRepository.updatePet(pet);
+    petRepository.update(pet);
   }
 
   @DeleteMapping("{id}")
   public void delete(@PathVariable int id) {
-    petRepository.delete(id);
+    petRepository.deleteById(id);
   }
 }

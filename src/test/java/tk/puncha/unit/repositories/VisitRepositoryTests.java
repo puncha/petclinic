@@ -24,7 +24,7 @@ public class VisitRepositoryTests {
   @Test
   public void shouldInsertDispatchCallToDAO() throws Exception {
     when(visitDAOMock.insert(any(Visit.class))).thenReturn(123);
-    assertEquals(123, visitRepository.insertVisit(any(Visit.class)));
+    assertEquals(123, visitRepository.insert(any(Visit.class)));
     verify(visitDAOMock).insert(any(Visit.class));
     verifyNoMoreInteractions(visitDAOMock);
   }
@@ -32,7 +32,7 @@ public class VisitRepositoryTests {
   @Test
   public void shouldDeleteByIdDispatchCallToDAO() throws Exception {
     doNothing().when(visitDAOMock).deleteById(anyInt());
-    visitRepository.delete(anyInt());
+    visitRepository.deleteById(anyInt());
     verify(visitDAOMock).deleteById(anyInt());
     verifyNoMoreInteractions(visitDAOMock);
   }

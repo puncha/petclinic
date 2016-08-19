@@ -1,12 +1,13 @@
 package tk.puncha.repositories;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 import tk.puncha.dao.VisitDAO;
 import tk.puncha.models.Visit;
 
-@Component
+@Repository
+@Transactional
 public class VisitRepository {
 
   private final VisitDAO visitDAO;
@@ -16,13 +17,11 @@ public class VisitRepository {
     this.visitDAO = visitDAO;
   }
 
-  @Transactional
-  public int insertVisit(Visit visit) {
+  public int insert(Visit visit) {
     return visitDAO.insert(visit);
   }
 
-  @Transactional
-  public void delete(int id) {
+  public void deleteById(int id) {
     visitDAO.deleteById(id);
   }
 }

@@ -34,13 +34,13 @@ public class OwnerRepositoryTests{
 
   @Test
   public void shouldGetAllOwnersReturnListOfOwners() throws Exception {
-    List<Owner> allOwners = ownerRepository.getAllOwners();
+    List<Owner> allOwners = ownerRepository.getAll();
     assertEquals(10, allOwners.size());
   }
 
   @Test
   public void shouldGetOwnerByIdReturnAnOwnerIfExists() throws Exception {
-    Owner owner = ownerRepository.getOwnerById(1);
+    Owner owner = ownerRepository.getById(1);
     assertEquals(1, owner.getId());
     assertEquals("George", owner.getFirstName());
     assertEquals("Franklin", owner.getLastName());
@@ -52,13 +52,13 @@ public class OwnerRepositoryTests{
 
   @Test
   public void shouldGetOwnerByIdReturnNullIfOwnerNotExists() throws Exception {
-    Owner owner = ownerRepository.getOwnerById(-1);
+    Owner owner = ownerRepository.getById(-1);
     assertNull(owner);
   }
 
   @Test
   public void shouldGetOwnerWithPetsByIdReturnInitializedPetsCollection() throws Exception {
-    Owner owner = ownerRepository.getOwnerWithPetsById(1);
+    Owner owner = ownerRepository.getByIdWithPets(1);
     assertEquals(1, owner.getId());
     assertTrue(Persistence.getPersistenceUtil().isLoaded(owner.getPets()));
   }
@@ -68,21 +68,21 @@ public class OwnerRepositoryTests{
     Owner owner = new Owner();
     owner.setFirstName("puncha");
     owner.setLastName("feng");
-    ownerRepository.insertOwner(owner);
-    assertNotNull(ownerRepository.getOwnerById(owner.getId()));
+    ownerRepository.insert(owner);
+    assertNotNull(ownerRepository.getById(owner.getId()));
   }
 
   @Test(expected = ConstraintViolationException.class)
   public void shouldInsertOwnerThrowIfOwnerIsInvalid() throws Exception {
     Owner owner = new Owner();
-    ownerRepository.insertOwner(owner);
+    ownerRepository.insert(owner);
   }
 
   @Test
   public void shouldUpdateOwner() throws Exception {
-    Owner owner = ownerRepository.getOwnerById(2);
+    Owner owner = ownerRepository.getById(2);
     owner.setFirstName("puncha");
-    ownerRepository.updateOwner(owner);
-    assertEquals("puncha", ownerRepository.getOwnerById(2).getFirstName());
+    ownerRepository.update(owner);
+    assertEquals("puncha", ownerRepository.getById(2).getFirstName());
   }
 }

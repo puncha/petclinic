@@ -42,32 +42,32 @@ public class OwnerControllerTests {
   @Test
   public void shouldShowAllOwners() throws Exception {
     List<Owner> owners = new ArrayList<>();
-    when(ownerRepository.getAllOwners()).thenReturn(owners);
+    when(ownerRepository.getAll()).thenReturn(owners);
 
     mockMvc.perform(get("/owners"))
         .andExpect(status().isOk())
         .andExpect(view().name("owner/index"))
         .andExpect(model().attributeExists("owners"));
-    verify(ownerRepository).getAllOwners();
+    verify(ownerRepository).getAll();
   }
 
   @Test
   public void shouldShowOwnersMatchedByFirstName() throws Exception {
     List<Owner> owners = new ArrayList<>();
-    when(ownerRepository.getOwnersByFirstName(anyString())).thenReturn(owners);
+    when(ownerRepository.findByFirstName(anyString())).thenReturn(owners);
 
     // search for George
     mockMvc.perform(get("/owners").param("search-first-name", "gEora"))
         .andExpect(status().isOk())
         .andExpect(view().name("owner/index"))
         .andExpect(model().attributeExists("owners"));
-    verify(ownerRepository).getOwnersByFirstName("gEora");
+    verify(ownerRepository).findByFirstName("gEora");
   }
 
   @Test
   public void shouldShowOwnerDetail() throws Exception {
     Owner owner = mock(Owner.class);
-    when(ownerRepository.getOwnerWithPetsById(1)).thenReturn(owner);
+    when(ownerRepository.getByIdWithPets(1)).thenReturn(owner);
     when(ownerValidator.supports(owner.getClass())).thenReturn(true);
 
     mockMvc.perform(get("/owners/1"))
@@ -76,21 +76,21 @@ public class OwnerControllerTests {
         .andExpect(model().attribute("owner", owner))
         .andExpect(model().attribute("mode", ControllerBase.FormMode.Readonly));
 
-    verify(ownerRepository).getOwnerWithPetsById(1);
+    verify(ownerRepository).getByIdWithPets(1);
     // validator is called even if we return the model
     verify(ownerValidator).supports(owner.getClass());
   }
 
   @Test
   public void shouldFailToShowOwnerDetailWhenOwnerDoesNotExist() throws Exception {
-    when(ownerRepository.getOwnerWithPetsById(anyInt())).thenReturn(null);
+    when(ownerRepository.getByIdWithPets(anyInt())).thenReturn(null);
 
     mockMvc.perform(get("/owners/100"))
         .andExpect(status().isOk())
         .andExpect(view().name("exception/default"))
         .andExpect(model().attributeExists("exception"));
 
-    verify(ownerRepository).getOwnerWithPetsById(100);
+    verify(ownerRepository).getByIdWithPets(100);
   }
 
   @Test
@@ -110,7 +110,7 @@ public class OwnerControllerTests {
       Owner owner = invocation.getArgumentAt(0, Owner.class);
       owner.setId(123);
       return null;
-    }).when(ownerRepository).insertOwner(any(Owner.class));
+    }).when(ownerRepository).insert(any(Owner.class));
     MockHttpServletRequestBuilder req = post("/owners/new")
         .param("firstName", "PunCha")
         .param("lastName", "Feng")
@@ -146,7 +146,7 @@ public class OwnerControllerTests {
   @Test
   public void shouldShowOwnerEditForm() throws Exception {
     Owner owner = mock(Owner.class);
-    when(ownerRepository.getOwnerById(1)).thenReturn(owner);
+    when(ownerRepository.getById(1)).thenReturn(owner);
     when(ownerValidator.supports(owner.getClass())).thenReturn(true);
 
     mockMvc.perform(get("/owners/1/edit"))
@@ -155,7 +155,7 @@ public class OwnerControllerTests {
         .andExpect(model().attribute("owner", owner))
         .andExpect(model().attribute("mode", ControllerBase.FormMode.Edit));
 
-    verify(ownerRepository).getOwnerById(1);
+    verify(ownerRepository).getById(1);
     // validator is called even if we return the model
     verify(ownerValidator).supports(owner.getClass());
   }
@@ -178,7 +178,7 @@ public class OwnerControllerTests {
   @Test
   public void shouldFailToUpdateOwnerWhenOwnerIdIsInvalid() throws Exception {
     RuntimeException exception = new RuntimeException();
-    doThrow(exception).when(ownerRepository).updateOwner(any());
+    doThrow(exception).when(ownerRepository).update(any());
 
     when(ownerValidator.supports(any())).thenReturn(true);
     MockHttpServletRequestBuilder req = post("/owners/new")
@@ -197,17 +197,17 @@ public class OwnerControllerTests {
     mockMvc.perform(get("/owners/1/delete"))
         .andExpect(status().is(302))
         .andExpect(redirectedUrl("/owners"));
-    verify(ownerRepository).deleteOwner(1);
+    verify(ownerRepository).deleteById(1);
   }
 
   @Test
   public void shouldFailToDeleteOwnerWhenOwnerDoesNotExist() throws Exception {
     RuntimeException exception = new RuntimeException();
-    doThrow(exception).when(ownerRepository).deleteOwner(100);
+    doThrow(exception).when(ownerRepository).deleteById(100);
     mockMvc.perform(get("/owners/100/delete"))
         .andExpect(status().isOk())
         .andExpect(view().name("exception/default"))
         .andExpect(model().attribute("exception", exception));
-    verify(ownerRepository).deleteOwner(100);
+    verify(ownerRepository).deleteById(100);
   }
 }

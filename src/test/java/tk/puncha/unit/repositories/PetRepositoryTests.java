@@ -34,7 +34,7 @@ public class PetRepositoryTests {
   private PetRepository petRepository;
 
   @Test
-  public void shouldGetAllPetsDispatchCallToDAO() throws Exception {
+  public void shouldGetAllDispatchCallToDAO() throws Exception {
     when(petDAOMock.getAll()).thenReturn(petListMock);
     assertEquals(petListMock, petRepository.getAllPets());
     verify(petDAOMock).getAll();
@@ -42,25 +42,17 @@ public class PetRepositoryTests {
   }
 
   @Test
-  public void shouldGetPetByIdDispatchCallToDAO() throws Exception {
+  public void shouldGetByIdDispatchCallToDAO() throws Exception {
     when(petDAOMock.getById(anyInt())).thenReturn(petMock);
-    assertEquals(petMock, petRepository.getPetById(anyInt()));
+    assertEquals(petMock, petRepository.getById(anyInt()));
     verify(petDAOMock).getById(anyInt());
     verifyNoMoreInteractions(petDAOMock);
   }
 
   @Test
-  public void shouldGetAllTypesDispatchCallToDAO() throws Exception {
-    when(petTypeDAOMock.getAll()).thenReturn(petTypeListMock);
-    assertEquals(petTypeListMock, petRepository.getAllTypes());
-    verify(petTypeDAOMock).getAll();
-    verifyNoMoreInteractions(petDAOMock, petTypeDAOMock);
-  }
-
-  @Test
   public void shouldInsertDispatchCallToDAO() throws Exception {
     when(petDAOMock.insert(any(Pet.class))).thenReturn(123);
-    assertEquals(123, petRepository.insertPet(any(Pet.class)));
+    assertEquals(123, petRepository.insert(any(Pet.class)));
     verify(petDAOMock).insert(any(Pet.class));
     verifyNoMoreInteractions(petDAOMock);
   }
@@ -68,14 +60,14 @@ public class PetRepositoryTests {
   @Test
   public void shouldUpdateDispatchCallToDAO() throws Exception {
     doNothing().when(petDAOMock).update(any(Pet.class));
-    petRepository.updatePet(any(Pet.class));
+    petRepository.update(any(Pet.class));
     verify(petDAOMock).update(any(Pet.class));
   }
 
   @Test
   public void shouldDeleteByIdDispatchCallToDAO() throws Exception {
     doNothing().when(petDAOMock).deleteById(anyInt());
-    petRepository.delete(anyInt());
+    petRepository.deleteById(anyInt());
     verify(petDAOMock).deleteById(anyInt());
     verifyNoMoreInteractions(petDAOMock);
   }
@@ -83,7 +75,7 @@ public class PetRepositoryTests {
   @Test
   public void shouldDeleteByOwnerIdDispatchCallToDAO() throws Exception {
     doNothing().when(petDAOMock).deleteByOwnerId(anyInt());
-    petRepository.deletePetsByOwnerId(anyInt());
+    petRepository.deleteByOwnerId(anyInt());
     verify(petDAOMock).deleteByOwnerId(anyInt());
     verifyNoMoreInteractions(petDAOMock);
   }

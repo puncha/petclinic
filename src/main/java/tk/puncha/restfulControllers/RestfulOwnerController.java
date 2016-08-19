@@ -47,20 +47,20 @@ public class RestfulOwnerController {
   @JsonView(OwnerJsonView.Default.class)
   public List<Owner> getAllOwners(@RequestParam(required = false) String firstName) {
     if (firstName != null && !firstName.isEmpty())
-      return ownerRepository.getOwnersByFirstName(firstName);
+      return ownerRepository.findByFirstName(firstName);
     else
-      return ownerRepository.getAllOwners();
+      return ownerRepository.getAll();
   }
 
   @GetMapping("{ownerId}")
   @JsonView(OwnerJsonView.WithPets.class)
   public Owner getOwner(@PathVariable int ownerId) {
-    return ownerRepository.getOwnerWithPetsById(ownerId);
+    return ownerRepository.getByIdWithPets(ownerId);
   }
 
   @DeleteMapping("{ownerId}")
   public void deleteOwner(@PathVariable int ownerId) {
-    ownerRepository.deleteOwner(ownerId);
+    ownerRepository.deleteById(ownerId);
   }
 
   @PostMapping
@@ -70,7 +70,7 @@ public class RestfulOwnerController {
           String.format("Field: %s is invalid.", error.getFieldError().getField()));
       return ResponseEntity.badRequest().body(errorInfo);
     }
-    ownerRepository.insertOwner(owner);
+    ownerRepository.insert(owner);
     return ResponseEntity.ok(owner);
   }
 
@@ -83,7 +83,7 @@ public class RestfulOwnerController {
     }
     // clear the pet collection to avoid updating pets
     owner.getPets().clear();
-    ownerRepository.updateOwner(owner);
+    ownerRepository.update(owner);
     return ResponseEntity.noContent().build();
   }
 }

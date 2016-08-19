@@ -28,7 +28,7 @@ public class PetTypeRepositoryTests {
   private PetTypeRepository petTypeRepository;
 
   @Test
-  public void shouldGetAllPetTypesDispatchCallToDAO() throws Exception {
+  public void shouldGetAllDispatchCallToDAO() throws Exception {
     when(petTypeDAOMock.getAll()).thenReturn(petTypeListMock);
     assertEquals(petTypeListMock, petTypeRepository.getAllTypes());
     verify(petTypeDAOMock).getAll();
@@ -36,9 +36,9 @@ public class PetTypeRepositoryTests {
   }
 
   @Test
-  public void shouldGetPetTypeByIdDispatchCallToDAO() throws Exception {
+  public void shouldGetByIdDispatchCallToDAO() throws Exception {
     when(petTypeDAOMock.getById(anyInt())).thenReturn(petTypeMock);
-    assertEquals(petTypeMock, petTypeRepository.getPetTypeById(anyInt()));
+    assertEquals(petTypeMock, petTypeRepository.getById(anyInt()));
     verify(petTypeDAOMock).getById(anyInt());
     verifyNoMoreInteractions(petTypeDAOMock);
   }

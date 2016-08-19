@@ -32,17 +32,17 @@ public class RestfulVisitController {
 
   @ModelAttribute("pet")
   public Pet getPet(@PathVariable int petId) {
-    return petRepository.getPetById(petId);
+    return petRepository.getById(petId);
   }
 
   @PostMapping
   public void create(Pet pet, @Valid @RequestBody Visit visit) {
     visit.setPet(pet);
-    visitRepository.insertVisit(visit);
+    visitRepository.insert(visit);
   }
 
   @DeleteMapping("{id}")
   public void delete(@PathVariable int id) {
-    visitRepository.delete(id);
+    visitRepository.deleteById(id);
   }
 }

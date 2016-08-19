@@ -63,7 +63,7 @@ public class PetControllerTests {
   @Test
   public void shouldShowPetDetail() throws Exception {
     Pet pet = mock(Pet.class);
-    when(petRepository.getPetById(1)).thenReturn(pet);
+    when(petRepository.getById(1)).thenReturn(pet);
 
     mockMvc.perform(get("/pets/1"))
         .andExpect(status().isOk())
@@ -73,19 +73,19 @@ public class PetControllerTests {
         .andExpect(model().attribute("pet", pet))
         .andExpect(model().attribute("mode", ControllerBase.FormMode.Readonly));
 
-    verify(petRepository).getPetById(1);
+    verify(petRepository).getById(1);
   }
 
   @Test
   public void shouldFailToShowPetDetailWhenPetDoesNotExist() throws Exception {
-    when(petRepository.getPetById(anyInt())).thenReturn(null);
+    when(petRepository.getById(anyInt())).thenReturn(null);
 
     mockMvc.perform(get("/pets/100"))
         .andExpect(status().isOk())
         .andExpect(view().name("exception/default"))
         .andExpect(model().attributeExists("exception"));
 
-    verify(petRepository).getPetById(100);
+    verify(petRepository).getById(100);
   }
 
   @Test
@@ -101,7 +101,7 @@ public class PetControllerTests {
 
   @Test
   public void shouldCreatePet() throws Exception {
-    when(petRepository.insertPet(any())).thenReturn(123);
+    when(petRepository.insert(any())).thenReturn(123);
     when(petTypeFormatter.parse(any(), any())).thenReturn(mock(PetType.class));
     when(ownerFormatter.parse(any(), any())).thenReturn(mock(Owner.class));
     MockHttpServletRequestBuilder req = post("/pets/new")
@@ -117,7 +117,7 @@ public class PetControllerTests {
 
   @Test
   public void shouldFailToCreatePetWhenPetInformationIsIncomplete() throws Exception {
-    when(petRepository.insertPet(any())).thenReturn(123);
+    when(petRepository.insert(any())).thenReturn(123);
     MockHttpServletRequestBuilder req = post("/pets/new")
         .sessionAttr("id", "-1")
         .param("name", "puncha");
@@ -136,7 +136,7 @@ public class PetControllerTests {
   @Test
   public void shouldShowPetEditForm() throws Exception {
     Pet pet = mock(Pet.class);
-    when(petRepository.getPetById(1)).thenReturn(pet);
+    when(petRepository.getById(1)).thenReturn(pet);
 
     mockMvc.perform(get("/pets/1/edit"))
         .andExpect(status().isOk())
@@ -146,7 +146,7 @@ public class PetControllerTests {
         .andExpect(model().attribute("pet", pet))
         .andExpect(model().attribute("mode", ControllerBase.FormMode.Edit));
 
-    verify(petRepository).getPetById(1);
+    verify(petRepository).getById(1);
   }
 
   @Test
@@ -173,7 +173,7 @@ public class PetControllerTests {
   @Test
   public void shouldFailToDeletePetWhenPetDoesNotExist() throws Exception {
     RuntimeException exception = new RuntimeException();
-    doThrow(exception).when(petRepository).delete(100);
+    doThrow(exception).when(petRepository).deleteById(100);
     mockMvc.perform(get("/pets/100/delete"))
         .andExpect(status().isOk())
         .andExpect(view().name("exception/default"))

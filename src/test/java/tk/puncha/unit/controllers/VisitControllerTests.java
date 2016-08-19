@@ -37,7 +37,7 @@ public class VisitControllerTests {
   @Test
   public void shouldShowVisitCreationForm() throws Exception {
     Pet pet = mock(Pet.class);
-    when(petRepository.getPetById(1)).thenReturn(pet);
+    when(petRepository.getById(1)).thenReturn(pet);
     mockMvc.perform(get("/pets/1/visits/new"))
         .andExpect(status().isOk())
         .andExpect(view().name("visit/new"))
@@ -48,7 +48,7 @@ public class VisitControllerTests {
   @Test
   public void shouldCreateVisitAndShowPetDetail() throws Exception {
     Pet pet = mock(Pet.class);
-    when(petRepository.getPetById(1)).thenReturn(pet);
+    when(petRepository.getById(1)).thenReturn(pet);
     MockHttpServletRequestBuilder req = post("/pets/1/visits/new")
         .param("description", "...")
         .param("visitDate", "1999-09-09");
@@ -60,7 +60,7 @@ public class VisitControllerTests {
   @Test
   public void shouldFailToCreateVisitWhenVisitInformationIsIncomplete() throws Exception {
     Pet pet = mock(Pet.class);
-    when(petRepository.getPetById(1)).thenReturn(pet);
+    when(petRepository.getById(1)).thenReturn(pet);
     mockMvc.perform(post("/pets/1/visits/new"))
         .andExpect(status().isOk())
         .andExpect(view().name("visit/new"))
@@ -71,33 +71,33 @@ public class VisitControllerTests {
 
   @Test
   public void shouldDeleteVisitAndShowPetDetail() throws Exception {
-    when(petRepository.getPetById(1)).thenReturn(mock(Pet.class));
+    when(petRepository.getById(1)).thenReturn(mock(Pet.class));
     mockMvc.perform(get("/pets/1/visits/2/delete"))
         .andExpect(status().is(302))
         .andExpect(redirectedUrl("/pets/1"));
-    verify(visitRepository).delete(2);
+    verify(visitRepository).deleteById(2);
   }
 
   @Test
   public void shouldFailToDeleteVisitWhenVisitDoesNotExist() throws Exception {
-    when(petRepository.getPetById(1)).thenReturn(mock(Pet.class));
+    when(petRepository.getById(1)).thenReturn(mock(Pet.class));
     RuntimeException exception = new RuntimeException();
-    doThrow(exception).when(visitRepository).delete(2);
+    doThrow(exception).when(visitRepository).deleteById(2);
     mockMvc.perform(get("/pets/1/visits/2/delete"))
         .andExpect(status().isOk())
         .andExpect(view().name("exception/default"))
         .andExpect(model().attribute("exception", exception));
-    verify(visitRepository).delete(2);
+    verify(visitRepository).deleteById(2);
   }
 
   @Test
   public void shouldFailToDeleteVisitWhenPetDoesNotExist() throws Exception {
-    when(petRepository.getPetById(anyInt())).thenReturn(null);
+    when(petRepository.getById(anyInt())).thenReturn(null);
     mockMvc.perform(get("/pets/1/visits/2/delete"))
         .andExpect(status().isOk())
         .andExpect(view().name("exception/default"))
         .andExpect(model().attributeExists("exception"));
-    verify(petRepository).getPetById(1);
+    verify(petRepository).getById(1);
   }
 
   @Test

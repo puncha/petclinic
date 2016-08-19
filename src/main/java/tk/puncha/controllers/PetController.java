@@ -20,6 +20,7 @@ import tk.puncha.models.Pet;
 import tk.puncha.models.PetType;
 import tk.puncha.repositories.OwnerRepository;
 import tk.puncha.repositories.PetRepository;
+import tk.puncha.repositories.PetTypeRepository;
 import tk.puncha.views.json.view.PetJsonView;
 
 import javax.servlet.http.HttpSession;
@@ -34,15 +35,17 @@ public class PetController extends ControllerBase {
   private static final Logger logger = LoggerFactory.getLogger(PetController.class);
 
   private final PetRepository petRepository;
+  private final PetTypeRepository petTypeRepository;
   private final OwnerRepository ownerRepository;
   private final OwnerFormatter ownerFormatter;
   private final PetTypeFormatter petTypeFormatter;
 
 
   @Autowired
-  public PetController(OwnerRepository ownerRepository, PetRepository petRepository, OwnerFormatter ownerFormatter, PetTypeFormatter petTypeFormatter) {
+  public PetController(OwnerRepository ownerRepository, PetRepository petRepository, PetTypeRepository petTypeRepository, OwnerFormatter ownerFormatter, PetTypeFormatter petTypeFormatter) {
     this.ownerRepository = ownerRepository;
     this.petRepository = petRepository;
+    this.petTypeRepository = petTypeRepository;
     this.ownerFormatter = ownerFormatter;
     this.petTypeFormatter = petTypeFormatter;
   }
@@ -57,13 +60,13 @@ public class PetController extends ControllerBase {
   @ModelAttribute("types")
   List<PetType> getPetTypes() {
     logger.debug("getPetTypes()");
-    return petRepository.getAllTypes();
+    return petTypeRepository.getAllTypes();
   }
 
   @ModelAttribute("owners")
   List<Owner> getOwners() {
     logger.debug("getOwners()");
-    return ownerRepository.getAllOwners();
+    return ownerRepository.getAll();
   }
 
   @GetMapping(value = {"", "/index", "/default"}, produces = MediaType.TEXT_HTML_VALUE)
@@ -76,7 +79,7 @@ public class PetController extends ControllerBase {
   @GetMapping("{id}")
   public ModelAndView view(@PathVariable int id) {
     logger.debug("view()");
-    Pet pet = petRepository.getPetById(id);
+    Pet pet = petRepository.getById(id);
     ensureExist(pet);
     return createFormModelView(pet, FormMode.Readonly);
   }
@@ -84,7 +87,7 @@ public class PetController extends ControllerBase {
   @GetMapping("{id}/edit")
   public ModelAndView edit(@PathVariable int id, HttpSession httpSession) {
     logger.debug("edit()");
-    Pet pet = petRepository.getPetById(id);
+    Pet pet = petRepository.getById(id);
     ensureExist(pet);
     httpSession.setAttribute("id", pet.getId());
     return createFormModelView(pet, FormMode.Edit);
@@ -112,9 +115,9 @@ public class PetController extends ControllerBase {
     }
     if (petId != -1) {
       pet.setId(petId);
-      petRepository.updatePet(pet);
+      petRepository.update(pet);
     } else {
-      petId = petRepository.insertPet(pet);
+      petId = petRepository.insert(pet);
     }
     sessionStatus.setComplete();
     return "redirect:/pets/" + petId;
@@ -123,7 +126,7 @@ public class PetController extends ControllerBase {
   @GetMapping("{id}/delete")
   public String delete(@PathVariable int id) {
     logger.debug("delete()");
-    petRepository.delete(id);
+    petRepository.deleteById(id);
     return "redirect:/pets";
   }
 
