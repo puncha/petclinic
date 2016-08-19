@@ -1,53 +1,84 @@
 package tk.puncha.unit.repositories;
 
-import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.runners.MockitoJUnitRunner;
 import tk.puncha.dao.OwnerDAO;
 import tk.puncha.models.Owner;
 import tk.puncha.repositories.OwnerRepository;
 
-import java.util.Collections;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
+import static org.mockito.Matchers.anyInt;
+import static org.mockito.Mockito.*;
 
+@RunWith(MockitoJUnitRunner.class)
 public class OwnerRepositoryTests {
 
-  private OwnerRepository ownerRepository;
+  @Mock
+  private Owner ownerMock;
+  @Mock
+  private List<Owner> ownerListMock;
+  @Mock
   private OwnerDAO ownerDAOMock;
-  private Owner ownerSample;
-  private List<Owner> ownerListSample;
+  @InjectMocks
+  private OwnerRepository ownerRepository;
 
-  @Before
-  public void before() {
-    ownerDAOMock = mock(OwnerDAO.class);
-    ownerRepository = new OwnerRepository(ownerDAOMock);
-    ownerSample = createOwnerSample();
-    ownerListSample = createOwnerListSample();
-  }
-
-  private Owner createOwnerSample() {
-    Owner owner = new Owner();
-    owner.setFirstName("puncha");
-    owner.setLastName("feng");
-    return owner;
-  }
-
-  private List<Owner> createOwnerListSample() {
-    return Collections.singletonList(ownerSample);
+  @Test
+  public void shouldGetAllOwnersDispatchCallToDAO() throws Exception {
+    when(ownerDAOMock.getAll()).thenReturn(ownerListMock);
+    assertEquals(ownerListMock, ownerRepository.getAllOwners());
+    verify(ownerDAOMock).getAll();
+    verifyNoMoreInteractions(ownerDAOMock);
   }
 
   @Test
-  public void shouldGetAllOwnersReturnListOfOwners() throws Exception {
-    when(ownerDAOMock.getAll()).thenReturn(ownerListSample);
-    assertEquals(ownerListSample, ownerRepository.getAllOwners());
+  public void shouldGetOwnerByIdDispatchCallToDAO() throws Exception {
+    when(ownerDAOMock.getById(anyInt())).thenReturn(ownerMock);
+    assertEquals(ownerMock, ownerRepository.getOwnerById(anyInt()));
+    verify(ownerDAOMock).getById(anyInt());
+    verifyNoMoreInteractions(ownerDAOMock);
   }
 
   @Test
-  public void shouldGetOwnerByIdReturnAnOwnerIfExists() throws Exception {
-    when(ownerDAOMock.getById(0)).thenReturn(ownerSample);
-    assertEquals(ownerSample, ownerRepository.getOwnerById(0));
+  public void shouldGetByIdWithPetsDispatchCallToDAO() throws Exception {
+    when(ownerDAOMock.getByIdWithPets(anyInt())).thenReturn(ownerMock);
+    assertEquals(ownerMock, ownerRepository.getOwnerWithPetsById(anyInt()));
+    verify(ownerDAOMock).getByIdWithPets(anyInt());
+    verifyNoMoreInteractions(ownerDAOMock);
+  }
+
+  @Test
+  public void shouldFindByFirstNameDispatchCallToDAO() throws Exception {
+    when(ownerDAOMock.findByFirstName(anyString())).thenReturn(ownerListMock);
+    assertEquals(ownerListMock, ownerRepository.getOwnersByFirstName(anyString()));
+    verify(ownerDAOMock).findByFirstName(anyString());
+    verifyNoMoreInteractions(ownerDAOMock);
+  }
+
+  @Test
+  public void shouldInsertDispatchCallToDAO() throws Exception {
+    when(ownerDAOMock.insert(any(Owner.class))).thenReturn(123);
+    assertEquals(123, ownerRepository.insertOwner(any(Owner.class)));
+    verify(ownerDAOMock).insert(any(Owner.class));
+    verifyNoMoreInteractions(ownerDAOMock);
+  }
+
+  @Test
+  public void shouldDeleteByIdDispatchCallToDAO() throws Exception {
+    doNothing().when(ownerDAOMock).deleteById(anyInt());
+    ownerRepository.deleteOwner(anyInt());
+    verify(ownerDAOMock).deleteById(anyInt());
+    verifyNoMoreInteractions(ownerDAOMock);
+  }
+
+  @Test
+  public void shouldUpdateDispatchCallToDAO() throws Exception {
+    doNothing().when(ownerDAOMock).update(any(Owner.class));
+    ownerRepository.updateOwner(any(Owner.class));
+    verify(ownerDAOMock).update(any(Owner.class));
   }
 }

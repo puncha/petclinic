@@ -38,8 +38,8 @@ public class OwnerRepository {
   }
 
   @Transactional
-  public void insertOwner(Owner owner) {
-    ownerDAO.insert(owner);
+  public int insertOwner(Owner owner) {
+    return ownerDAO.insert(owner);
   }
 
   @Transactional

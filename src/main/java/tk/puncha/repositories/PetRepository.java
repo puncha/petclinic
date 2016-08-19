@@ -29,7 +29,6 @@ public class PetRepository {
     return petDAO.getAll();
   }
 
-
   @Transactional(readOnly = true)
   public Pet getPetById(int id) {
     return petDAO.getById(id);
