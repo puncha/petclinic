@@ -34,13 +34,13 @@ public class OwnerDAOTest {
   private OwnerDAO ownerDAO;
 
   @Test
-  public void shouldGetAllOwnersReturnAllOwnersList() throws Exception {
+  public void shouldGetAllReturnAllOwnersList() throws Exception {
     List<Owner> owners = ownerDAO.getAll();
     assertEquals(10, owners.size());
   }
 
   @Test
-  public void shouldGetOwnerByIdReturnOwnerWhenOwnerExists() throws Exception {
+  public void shouldGetByIdReturnOwnerWhenOwnerExists() throws Exception {
     Owner owner = ownerDAO.getById(1);
     assertNotNull(owner);
     assertEquals(1, owner.getId());
@@ -48,13 +48,13 @@ public class OwnerDAOTest {
   }
 
   @Test
-  public void shouldGetOwnerByIdReturnNullWhenOwnerNotExists() throws Exception {
+  public void shouldGetByIdReturnNullWhenOwnerNotExists() throws Exception {
     Owner owner = ownerDAO.getById(-1);
     assertNull(owner);
   }
 
   @Test
-  public void shouldGetOwnerWithPetsByIdReturnOwnerWithPetsWhenOwnerExists() throws Exception {
+  public void shouldGetByIdWithPetsReturnOwnerWithPetsWhenOwnerExists() throws Exception {
     Owner owner = ownerDAO.getByIdWithPets(1);
     assertNotNull(owner);
     assertEquals(1, owner.getId());
@@ -62,25 +62,25 @@ public class OwnerDAOTest {
   }
 
   @Test
-  public void shouldGetOwnerWithPetsByIdReturnNullWhenOwnerNotExists() throws Exception {
+  public void shouldGetByIdWithPetsReturnNullWhenOwnerNotExists() throws Exception {
     Owner owner = ownerDAO.getByIdWithPets(-1);
     assertNull(owner);
   }
 
   @Test
-  public void shouldGetOwnersByFirstNameReturnMatchedOwnersList() throws Exception {
+  public void shouldFindByFirstNameReturnMatchedOwnersList() throws Exception {
     List owners = ownerDAO.findByFirstName("eT");
     assertEquals(2, owners.size());
   }
 
   @Test
-  public void shouldGetOwnersByFirstNameReturnEmptyListWhenOnMatchedOwners() throws Exception {
+  public void shouldFindByFirstNameReturnEmptyListWhenOnMatchedOwners() throws Exception {
     List owners = ownerDAO.findByFirstName("puncha");
     assertTrue(owners.isEmpty());
   }
 
   @Test
-  public void shouldInsertOwnerSuccessWhenOwnerIsValid() throws Exception {
+  public void shouldInsertSucceededWhenOwnerIsValid() throws Exception {
     Owner owner = new Owner();
     owner.setFirstName("puncha");
     owner.setLastName("feng");
@@ -90,20 +90,20 @@ public class OwnerDAOTest {
   }
 
   @Test(expected = ConstraintViolationException.class)
-  public void shouldInsertOwnerThrowExceptionWhenOwnerIsInvalid() throws Exception {
+  public void shouldInsertThrowExceptionWhenOwnerIsInvalid() throws Exception {
     Owner owner = new Owner();
     ownerDAO.insert(owner);
   }
 
   @Test(expected = PersistenceException.class)
-  public void shouldInsertOwnerThrowExceptionWhenOwnerIdIsNotDefault() throws Exception {
+  public void shouldInsertThrowExceptionWhenOwnerIdIsNotDefault() throws Exception {
     Owner owner = new Owner();
     owner.setId(123);
     ownerDAO.insert(owner);
   }
 
   @Test
-  public void shouldUpdateOwnerSucceededWhenOwnerIsValid() {
+  public void shouldUpdateSucceededWhenOwnerIsValid() {
     Owner owner = ownerDAO.getById(1);
     owner.setFirstName("puncha");
     ownerDAO.update(owner);
@@ -112,7 +112,7 @@ public class OwnerDAOTest {
   }
 
   @Test(expected = ConstraintViolationException.class)
-  public void shouldUpdateOwnerThrowExceptionWhenOwnerIsInvalid() throws Exception {
+  public void shouldUpdateThrowExceptionWhenOwnerIsInvalid() throws Exception {
     Owner owner = ownerDAO.getById(1);
     owner.setFirstName("AB");
     ownerDAO.update(owner);
@@ -123,7 +123,7 @@ public class OwnerDAOTest {
   }
 
   @Test(expected = PersistenceException.class)
-  public void shouldUpdateOwnerThrowExceptionWhenOwnerNotExists() throws Exception {
+  public void shouldUpdateThrowExceptionWhenOwnerNotExists() throws Exception {
     Owner owner = ownerDAO.getById(1);
     owner.setId(123);
     ownerDAO.update(owner);
@@ -134,13 +134,13 @@ public class OwnerDAOTest {
   }
 
   @Test
-  public void shouldDeleteOwnerWhenOwnerExists() throws Exception {
+  public void shouldDeleteByIdWhenOwnerExists() throws Exception {
     ownerDAO.deleteById(1);
     assertEquals(9, ownerDAO.getAll().size());
   }
 
   @Test(expected = EntityNotFoundException.class)
-  public void shouldDeleteOwnerThrowExceptionWhenOwnerNotExists() throws Exception {
+  public void shouldDeleteByIdThrowExceptionWhenOwnerNotExists() throws Exception {
     ownerDAO.deleteById(123);
   }
 }

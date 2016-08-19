@@ -29,13 +29,13 @@ public class PetTypeDAOTest {
   private PetTypeDAO petTypeDAO;
 
   @Test
-  public void shouldGetAllPetTypesReturnAllPetTypesList() throws Exception {
+  public void shouldGetAllReturnAllPetTypesList() throws Exception {
     List<PetType> Pets = petTypeDAO.getAll();
     assertEquals(6, Pets.size());
   }
 
   @Test
-  public void shouldGetPetByIdReturnPetWhenPetExists() throws Exception {
+  public void shouldGetByIdReturnPetWhenPetExists() throws Exception {
     PetType petType = petTypeDAO.getById(1);
     assertNotNull(petType);
     assertEquals(1, petType.getId());
@@ -43,7 +43,7 @@ public class PetTypeDAOTest {
   }
 
   @Test
-  public void shouldGetPetByIdReturnNullWhenPetNotExists() throws Exception {
+  public void shouldGetByIdReturnNullWhenPetNotExists() throws Exception {
     PetType petType = petTypeDAO.getById(-1);
     assertNull(petType);
   }

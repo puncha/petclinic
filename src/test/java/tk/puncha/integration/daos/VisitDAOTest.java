@@ -35,7 +35,7 @@ public class VisitDAOTest {
   private VisitDAO visitDAO;
 
   @Test
-  public void shouldInsertVisitSuccessWhenVisitIsValid() throws Exception {
+  public void shouldInsertSucceededWhenVisitIsValid() throws Exception {
     Visit visit = new Visit();
     visit.setVisitDate(Date.valueOf("2011-08-09"));
     visit.setDescription("A test visit");
@@ -45,25 +45,25 @@ public class VisitDAOTest {
   }
 
   @Test(expected = ConstraintViolationException.class)
-  public void shouldInsertVisitThrowExceptionWhenVisitIsInvalid() throws Exception {
+  public void shouldInsertThrowExceptionWhenVisitIsInvalid() throws Exception {
     Visit Visit = new Visit();
     visitDAO.insert(Visit);
   }
 
   @Test(expected = PersistenceException.class)
-  public void shouldInsertVisitThrowExceptionWhenVisitIdIsNotDefault() throws Exception {
+  public void shouldInsertThrowExceptionWhenVisitIdIsNotDefault() throws Exception {
     Visit Visit = new Visit();
     Visit.setId(123);
     visitDAO.insert(Visit);
   }
 
   @Test
-  public void shouldDeleteVisitWhenVisitExists() throws Exception {
+  public void shouldDeleteByIdWhenVisitExists() throws Exception {
     visitDAO.deleteById(1);
   }
 
   @Test(expected = EntityNotFoundException.class)
-  public void shouldDeleteVisitThrowExceptionWhenVisitNotExists() throws Exception {
+  public void shouldDeleteByIdThrowExceptionWhenVisitNotExists() throws Exception {
     visitDAO.deleteById(123);
   }
 }
