@@ -72,7 +72,7 @@ public class PetController extends ControllerBase {
   @GetMapping(value = {"", "/index", "/default"}, produces = MediaType.TEXT_HTML_VALUE)
   public ModelAndView htmlIndex() {
     logger.debug("index()");
-    List<Pet> petViews = petRepository.getAllPets();
+    List<Pet> petViews = petRepository.getAll();
     return new ModelAndView("pet/index", "pets", petViews);
   }
 
@@ -148,7 +148,7 @@ public class PetController extends ControllerBase {
   @ResponseStatus(HttpStatus.OK)
   @ResponseBody
   public List<Pet> getAllPets() {
-    return petRepository.getAllPets();
+    return petRepository.getAll();
   }
 
 }

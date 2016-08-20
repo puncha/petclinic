@@ -1,5 +1,9 @@
 package tk.puncha;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.MapperFeature;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.context.support.ResourceBundleMessageSource;
 import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
@@ -26,7 +30,6 @@ public abstract class TestUtil {
     return localValidator;
   }
 
-
   public static <T> void assertViolation(
       T objToValidate, String property, Object invalidValue, String message) {
     Set<ConstraintViolation<T>> violations = createValidator().validate(objToValidate);
@@ -35,5 +38,26 @@ public abstract class TestUtil {
     assertEquals(property, violation.getPropertyPath().toString());
     assertEquals(invalidValue, violation.getInvalidValue());
     assertEquals(message, violation.getMessage());
+  }
+
+
+  public static byte[] objectToJsonBytes(Object object) throws JsonProcessingException {
+    ObjectMapper mapper = new ObjectMapper();
+    mapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
+    return mapper.writeValueAsBytes(object);
+  }
+
+  public static String objectToJsonString(Object object) throws JsonProcessingException {
+    return objectToJsonString(object, null);
+  }
+
+  public static String objectToJsonString(Object object, Class viewClass) throws JsonProcessingException {
+    ObjectMapper mapper = new ObjectMapper();
+    if (viewClass != null) {
+      mapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
+      mapper.disable(MapperFeature.DEFAULT_VIEW_INCLUSION);
+      mapper.setConfig(mapper.getSerializationConfig().withView(viewClass));
+    }
+    return mapper.writeValueAsString(object);
   }
 }

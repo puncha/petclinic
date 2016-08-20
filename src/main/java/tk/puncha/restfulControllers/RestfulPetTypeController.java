@@ -2,9 +2,10 @@ package tk.puncha.restfulControllers;
 
 import com.fasterxml.jackson.annotation.JsonView;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 import tk.puncha.models.PetType;
 import tk.puncha.repositories.PetTypeRepository;
 import tk.puncha.views.json.view.PetJsonView;
@@ -21,16 +22,9 @@ public class RestfulPetTypeController {
     this.petTypeRepository = petTypeRepository;
   }
 
-  @ExceptionHandler(Exception.class)
-  @ResponseStatus(value = HttpStatus.BAD_REQUEST)
-  @ResponseBody
-  public ErrorInfo handleException(Exception exception) {
-    return new ErrorInfo(String.format("Unhandled exception %s", exception.getMessage()));
-  }
-
   @GetMapping
   @JsonView(PetJsonView.class)
-  public List<PetType> query() {
+  public List<PetType> getAll() {
     return petTypeRepository.getAll();
   }
 }

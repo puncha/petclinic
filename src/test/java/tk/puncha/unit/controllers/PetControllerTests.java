@@ -65,34 +65,34 @@ public class PetControllerTests {
 
   @Test
   public void shouldShowAllPetsInHtml() throws Exception {
-    when(petRepository.getAllPets()).thenReturn(petListMock);
+    when(petRepository.getAll()).thenReturn(petListMock);
 
     mockMvc.perform(get("/pets"))
         .andExpect(status().isOk())
         .andExpect(view().name("pet/index"))
 //      .andExpect(content().contentType(MediaType.TEXT_HTML))  // it is NOT SET, why?
         .andExpect(model().attribute("pets", petListMock));
-    verify(petRepository).getAllPets();
+    verify(petRepository).getAll();
   }
 
   @Test
   public void shouldShowAllPetsInXml() throws Exception {
-    when(petRepository.getAllPets()).thenReturn(Collections.emptyList());
+    when(petRepository.getAll()).thenReturn(Collections.emptyList());
 
     mockMvc.perform(get("/pets.xml"))
         .andExpect(status().isOk())
         .andExpect(content().contentType("application/xml;charset=UTF-8"));
-    verify(petRepository).getAllPets();
+    verify(petRepository).getAll();
   }
 
   @Test
   public void shouldShowAllPetsInJson() throws Exception {
-    when(petRepository.getAllPets()).thenReturn(Collections.emptyList());
+    when(petRepository.getAll()).thenReturn(Collections.emptyList());
 
     mockMvc.perform(get("/pets.json"))
         .andExpect(status().isOk())
         .andExpect(content().contentType("application/json;charset=UTF-8"));
-    verify(petRepository).getAllPets();
+    verify(petRepository).getAll();
   }
 
   @Test

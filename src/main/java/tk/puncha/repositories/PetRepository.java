@@ -24,7 +24,7 @@ public class PetRepository {
   }
 
   @Transactional(readOnly = true)
-  public List<Pet> getAllPets() {
+  public List<Pet> getAll() {
     return petDAO.getAll();
   }
 

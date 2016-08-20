@@ -6,9 +6,11 @@ import tk.puncha.TestUtil;
 import tk.puncha.models.Visit;
 
 import javax.validation.ConstraintViolation;
+import java.sql.Date;
 import java.util.Set;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
 
 public class VisitTests {
 
@@ -31,5 +33,12 @@ public class VisitTests {
   public void shouldDefaultVisitNotValidate() throws Exception {
     Set<ConstraintViolation<Visit>> violations = TestUtil.createValidator().validate(visit);
     assertEquals(1, violations.size()); // visitDate
+  }
+
+  @Test
+  public void shouldVisitValidate() throws Exception {
+    visit.setVisitDate(new Date(2016,6,6));
+    Set<ConstraintViolation<Visit>> violations = TestUtil.createValidator().validate(visit);
+    assertEquals(0, violations.size());
   }
 }
