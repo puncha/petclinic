@@ -1,4 +1,4 @@
-package tk.puncha.handlers;
+package tk.puncha.viewResolvers;
 
 import org.springframework.boot.autoconfigure.web.ErrorViewResolver;
 import org.springframework.http.HttpStatus;
