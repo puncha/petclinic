@@ -38,9 +38,9 @@ public class RestfulPetTypeControllerTests {
 
   @Test
   public void shouldGetAllPetTypes() throws Exception {
-    List<PetType> petTypeList = createSamplePetTypeList();
+    List<PetType> petTypes = Collections.singletonList(TestUtil.createValidPetType());
 
-    when(petTypeRepository.getAll()).thenReturn(petTypeList);
+    when(petTypeRepository.getAll()).thenReturn(petTypes);
 
     MockHttpServletRequestBuilder req = get("/api/petTypes")
         .accept(MediaType.APPLICATION_JSON);
@@ -48,16 +48,10 @@ public class RestfulPetTypeControllerTests {
     mockMvc.perform(req)
         .andExpect(status().isOk())
         .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
-        .andExpect(content().json(TestUtil.objectToJsonString(petTypeList)));
+        .andExpect(content().json(TestUtil.objectToJsonString(petTypes)));
 
     verify(petTypeRepository).getAll();
     verifyNoMoreInteractions(petTypeRepository);
   }
 
-  private List<PetType> createSamplePetTypeList() {
-    return Collections.singletonList(new PetType() {{
-      setId(1);
-      setName("Tiger");
-    }});
-  }
 }

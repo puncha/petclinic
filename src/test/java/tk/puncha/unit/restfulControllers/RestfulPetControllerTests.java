@@ -13,9 +13,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
 import tk.puncha.TestUtil;
-import tk.puncha.models.Owner;
 import tk.puncha.models.Pet;
-import tk.puncha.models.PetType;
 import tk.puncha.repositories.PetRepository;
 import tk.puncha.restfulControllers.RestfulPetController;
 import tk.puncha.views.json.view.PetJsonView;
@@ -44,26 +42,9 @@ public class RestfulPetControllerTests {
   @MockBean
   private PetRepository petRepository;
 
-  private Pet createInvalidPet() {
-    return new Pet();
-  }
-
-  private Pet createValidPet() {
-    return new Pet() {{
-      setId(1);
-      setName("HelloKitty");
-      setOwner(new Owner() {{
-        setId(1);
-      }});
-      setType(new PetType() {{
-        setId(1);
-      }});
-    }};
-  }
-
   @Test
   public void shouldReturnAllPetsList() throws Exception {
-    List<Pet> petList = Collections.singletonList(createValidPet());
+    List<Pet> petList = Collections.singletonList(TestUtil.createValidPet());
     when(petRepository.getAll()).thenReturn(petList);
 
     mockMvc.perform(get("/api/pets").accept(MediaType.APPLICATION_JSON))
@@ -77,7 +58,7 @@ public class RestfulPetControllerTests {
 
   @Test
   public void shouldReturnPetWhenPetExists() throws Exception {
-    Pet pet = createValidPet();
+    Pet pet = TestUtil.createValidPet();
     when(petRepository.getById(1)).thenReturn(pet);
 
     System.out.printf(TestUtil.objectToJsonString(pet));
@@ -101,7 +82,7 @@ public class RestfulPetControllerTests {
 
   @Test
   public void shouldCreatePetWhenPetIsValid() throws Exception {
-    Pet pet = createValidPet();
+    Pet pet = TestUtil.createValidPet();
     when(petRepository.insert(pet)).thenReturn(1);
 
     MockHttpServletRequestBuilder req = post("/api/pets")
@@ -118,7 +99,7 @@ public class RestfulPetControllerTests {
     MockHttpServletRequestBuilder req = post("/api/pets")
         .accept(MediaType.APPLICATION_JSON)
         .contentType(MediaType.APPLICATION_JSON)
-        .content(TestUtil.objectToJsonString(createInvalidPet()));
+        .content(TestUtil.objectToJsonString(TestUtil.createInvalidPet()));
 
     mockMvc.perform(req)
         .andExpect(status().isBadRequest());
@@ -131,7 +112,7 @@ public class RestfulPetControllerTests {
     MockHttpServletRequestBuilder req = post("/api/pets/1")
         .accept(MediaType.APPLICATION_JSON)
         .contentType(MediaType.APPLICATION_JSON)
-        .content(TestUtil.objectToJsonString(createValidPet()));
+        .content(TestUtil.objectToJsonString(TestUtil.createValidPet()));
 
     mockMvc.perform(req)
         .andExpect(status().isNoContent());
@@ -142,19 +123,18 @@ public class RestfulPetControllerTests {
     MockHttpServletRequestBuilder req = post("/api/pets/1")
         .accept(MediaType.APPLICATION_JSON)
         .contentType(MediaType.APPLICATION_JSON)
-        .content(TestUtil.objectToJsonString(createInvalidPet()));
+        .content(TestUtil.objectToJsonString(TestUtil.createInvalidPet()));
 
     mockMvc.perform(req)
         .andExpect(status().isBadRequest());
   }
-
 
   @Test
   public void shouldFailToUpdatePetWhenPetNotExist() throws Exception {
     doThrow(EntityNotFoundException.class).when(petRepository).update(any(Pet.class));
     MockHttpServletRequestBuilder req = post("/api/pets/1")
         .accept(MediaType.APPLICATION_JSON)
-        .content(TestUtil.objectToJsonString(createValidPet()));
+        .content(TestUtil.objectToJsonString(TestUtil.createValidPet()));
 
     mockMvc.perform(req)
         .andExpect(status().isBadRequest());

@@ -7,6 +7,9 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.context.support.ResourceBundleMessageSource;
 import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
+import tk.puncha.models.Owner;
+import tk.puncha.models.Pet;
+import tk.puncha.models.PetType;
 
 import javax.validation.ConstraintViolation;
 import javax.validation.Validator;
@@ -40,13 +43,6 @@ public abstract class TestUtil {
     assertEquals(message, violation.getMessage());
   }
 
-
-  public static byte[] objectToJsonBytes(Object object) throws JsonProcessingException {
-    ObjectMapper mapper = new ObjectMapper();
-    mapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
-    return mapper.writeValueAsBytes(object);
-  }
-
   public static String objectToJsonString(Object object) throws JsonProcessingException {
     return objectToJsonString(object, null);
   }
@@ -59,5 +55,38 @@ public abstract class TestUtil {
       mapper.setConfig(mapper.getSerializationConfig().withView(viewClass));
     }
     return mapper.writeValueAsString(object);
+  }
+
+  public static Owner createInvalidOwner() {
+    return new Owner();
+  }
+
+  public static Owner createValidOwner() {
+    return new Owner() {{
+      setId(1);
+      setFirstName("PunCha");
+      setLastName("Feng");
+      setAddress("Shanghai");
+    }};
+  }
+
+  public static Pet createInvalidPet() {
+    return new Pet();
+  }
+
+  public static Pet createValidPet() {
+    return new Pet() {{
+      setId(1);
+      setName("HelloKitty");
+      setOwner(createValidOwner());
+      setType(createValidPetType());
+    }};
+  }
+
+  public static PetType createValidPetType() {
+    return new PetType() {{
+      setId(1);
+      setName("Tiger");
+    }};
   }
 }

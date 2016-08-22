@@ -46,19 +46,6 @@ public class RestfulOwnerControllerTests {
   @MockBean
   private OwnerRepository ownerRepository;
 
-  private Owner createInvalidOwner() {
-    return new Owner();
-  }
-
-  private Owner createValidOwner() {
-    return new Owner() {{
-      setId(1);
-      setFirstName("PunCha");
-      setLastName("Feng");
-      setAddress("Shanghai");
-    }};
-  }
-
   @Before
   public void makeValidatorSupportsAnyType() {
     when(ownerValidator.supports(any())).thenReturn(true);
@@ -66,7 +53,7 @@ public class RestfulOwnerControllerTests {
 
   @Test
   public void shouldReturnAllOwnersList() throws Exception {
-    List<Owner> ownerList = Collections.singletonList(createValidOwner());
+    List<Owner> ownerList = Collections.singletonList(TestUtil.createValidOwner());
     when(ownerRepository.getAll()).thenReturn(ownerList);
 
     mockMvc.perform(get("/api/owners").accept(MediaType.APPLICATION_JSON))
@@ -80,7 +67,7 @@ public class RestfulOwnerControllerTests {
 
   @Test
   public void shouldReturnOwnersListFilterByFirstName() throws Exception {
-    List<Owner> ownerList = Collections.singletonList(createValidOwner());
+    List<Owner> ownerList = Collections.singletonList(TestUtil.createValidOwner());
     when(ownerRepository.findByFirstName("puncha")).thenReturn(ownerList);
 
     mockMvc.perform(get("/api/owners?firstName=puncha").accept(MediaType.APPLICATION_JSON))
@@ -94,7 +81,7 @@ public class RestfulOwnerControllerTests {
 
   @Test
   public void shouldReturnOwnerWhenOwnerExists() throws Exception {
-    Owner owner = createValidOwner();
+    Owner owner = TestUtil.createValidOwner();
     when(ownerRepository.getByIdWithPets(1)).thenReturn(owner);
 
     System.out.printf(TestUtil.objectToJsonString(owner));
@@ -116,7 +103,7 @@ public class RestfulOwnerControllerTests {
 
   @Test
   public void shouldCreateOwnerWhenOwnerIsValid() throws Exception {
-    Owner owner = createValidOwner();
+    Owner owner = TestUtil.createValidOwner();
     when(ownerRepository.insert(owner)).thenReturn(1);
 
     MockHttpServletRequestBuilder req = post("/api/owners")
@@ -133,7 +120,7 @@ public class RestfulOwnerControllerTests {
     MockHttpServletRequestBuilder req = post("/api/owners")
         .accept(MediaType.APPLICATION_JSON)
         .contentType(MediaType.APPLICATION_JSON)
-        .content(TestUtil.objectToJsonString(createInvalidOwner()));
+        .content(TestUtil.objectToJsonString(TestUtil.createInvalidOwner()));
 
     mockMvc.perform(req)
         .andExpect(status().isBadRequest());
@@ -146,7 +133,7 @@ public class RestfulOwnerControllerTests {
     MockHttpServletRequestBuilder req = post("/api/owners/1")
         .accept(MediaType.APPLICATION_JSON)
         .contentType(MediaType.APPLICATION_JSON)
-        .content(TestUtil.objectToJsonString(createValidOwner()));
+        .content(TestUtil.objectToJsonString(TestUtil.createValidOwner()));
 
     mockMvc.perform(req)
         .andExpect(status().isNoContent());
@@ -157,7 +144,7 @@ public class RestfulOwnerControllerTests {
     MockHttpServletRequestBuilder req = post("/api/owners/1")
         .accept(MediaType.APPLICATION_JSON)
         .contentType(MediaType.APPLICATION_JSON)
-        .content(TestUtil.objectToJsonString(createInvalidOwner()));
+        .content(TestUtil.objectToJsonString(TestUtil.createInvalidOwner()));
 
     mockMvc.perform(req)
         .andExpect(status().isBadRequest());
@@ -169,7 +156,7 @@ public class RestfulOwnerControllerTests {
     doThrow(EntityNotFoundException.class).when(ownerRepository).update(any(Owner.class));
     MockHttpServletRequestBuilder req = post("/api/owners/1")
         .accept(MediaType.APPLICATION_JSON)
-        .content(TestUtil.objectToJsonString(createValidOwner()));
+        .content(TestUtil.objectToJsonString(TestUtil.createValidOwner()));
 
     mockMvc.perform(req)
         .andExpect(status().isBadRequest());

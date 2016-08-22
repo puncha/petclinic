@@ -11,6 +11,7 @@ import java.util.Set;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
+import static org.mockito.Mockito.mock;
 
 public class VisitTests {
 
@@ -37,7 +38,7 @@ public class VisitTests {
 
   @Test
   public void shouldVisitValidate() throws Exception {
-    visit.setVisitDate(new Date(2016,6,6));
+    visit.setVisitDate(mock(Date.class));
     Set<ConstraintViolation<Visit>> violations = TestUtil.createValidator().validate(visit);
     assertEquals(0, violations.size());
   }
