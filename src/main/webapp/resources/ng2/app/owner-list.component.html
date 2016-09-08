@@ -1,0 +1,28 @@
+<table class="table table-owners">
+  <thead class="thead-default">
+  <tr>
+    <th>First Name</th>
+    <th>Last Name</th>
+    <th>Address</th>
+    <th>City</th>
+    <th>Telephone</th>
+    <th></th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr *ngFor="let owner of owners">
+    <td>{{owner.firstName}}</td>
+    <td>{{owner.lastName}}</td>
+    <td>{{owner.address}}</td>
+    <td>{{owner.city}}</td>
+    <td>{{owner.telephone}}</td>
+    <td>
+      <div class="btn-group btn-group-xs">
+        <a class="btn btn-success" href (click)="view(owner)">View</a>
+        <a class="btn btn-primary" href (click)="edit(owner)">Edit</a>
+        <a class="btn btn-danger" href (click)="delete(owner)">Delete</a>
+      </div>
+    </td>
+  </tr>
+  </tbody>
+</table>
