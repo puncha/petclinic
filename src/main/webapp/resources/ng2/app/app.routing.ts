@@ -2,7 +2,7 @@ import {Routes, RouterModule} from "@angular/router";
 import {WelcomeComponent} from "./welcome.component";
 import {ModuleWithProviders} from "@angular/core";
 import {PetListComponent} from "./pet-list.component";
-import {OwnersComponent} from "./owners.component";
+import {OwnersComponent} from "./owners/owners.component";
 
 const appRoutes: Routes = [
   {path: '', pathMatch: 'full', redirectTo: '/welcome'},

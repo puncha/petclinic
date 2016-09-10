@@ -6,24 +6,20 @@ import {WelcomeComponent} from "./welcome.component";
 import {NavComponent} from "./nav.component";
 import {FooterComponent} from "./footer.component";
 import {routing, appRoutingProviders} from "./app.routing";
-import {OwnersComponent} from "./owners.component";
-import {OwnerListComponent} from "./owner-list.component";
 import {PetListComponent} from "./pet-list.component";
 import {FormsModule} from "@angular/forms";
 import {HttpModule} from "@angular/http";
-import OwnerService from "./owner.service";
+import {OwnersModule} from "./owners/owners.module";
 
 @NgModule({
-  imports: [BrowserModule, FormsModule, HttpModule, NgbModule, routing],
-  providers: [appRoutingProviders, OwnerService],
+  imports: [BrowserModule, FormsModule, HttpModule, NgbModule, routing, OwnersModule],
+  providers: [appRoutingProviders],
   bootstrap: [AppComponent],
   declarations: [
     AppComponent,
     WelcomeComponent,
     NavComponent,
     FooterComponent,
-    OwnersComponent,
-    OwnerListComponent,
     PetListComponent
   ],
 
