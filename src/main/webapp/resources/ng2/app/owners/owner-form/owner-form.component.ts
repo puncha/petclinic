@@ -32,6 +32,8 @@ export class OwnerFormComponent {
 
   //noinspection JSMethodCanBeStatic
   shouldShowErrorAlert(formControlModel: NgModel): boolean {
-    return formControlModel.invalid && formControlModel.pristine;
+    // We don't use !pristine here because we want to show validation marks
+    // if user touches or changes the input controls.
+    return formControlModel.invalid && (formControlModel.dirty || formControlModel.touched);
   }
 }
