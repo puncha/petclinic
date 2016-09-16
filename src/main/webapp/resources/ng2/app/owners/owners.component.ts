@@ -1,11 +1,11 @@
 import _ = require("lodash");
-import {Component, OnInit, OnDestroy, Input} from "@angular/core";
+import {Component, OnInit, OnDestroy, ViewChild} from "@angular/core";
 import {Owner} from "./Owner";
 import OwnerService from "./owner.service";
 import {Options, NotificationsService} from "angular2-notifications";
 import {Router, NavigationEnd} from "@angular/router";
 import {Subscription} from "rxjs";
-import 'rxjs/add/operator/filter';
+import "rxjs/add/operator/filter";
 
 
 @Component({
@@ -18,6 +18,10 @@ export class OwnersComponent implements OnInit, OnDestroy {
   private subscription: Subscription;
   private owners = [];
   private lastTimeFirstNameToSearch: string;
+
+  @ViewChild('ownerViewModal') ownerViewModal;
+  private owner: Owner;
+
 
   constructor(private router: Router,
               private notificationsService: NotificationsService,
@@ -34,12 +38,7 @@ export class OwnersComponent implements OnInit, OnDestroy {
     this.subscription = this.router.events
       .filter((event)=>event instanceof NavigationEnd)
       .filter((event)=>event.url === '/owners')
-      .subscribe(
-        (value)=> {
-          console.dir(value);
-          this.listOwners(this.lastTimeFirstNameToSearch);
-        }
-      );
+      .subscribe((value)=>this.listOwners(this.lastTimeFirstNameToSearch));
   }
 
   //noinspection JSUnusedGlobalSymbols
@@ -48,18 +47,14 @@ export class OwnersComponent implements OnInit, OnDestroy {
       this.subscription.unsubscribe();
   }
 
-  addNewOwner(): boolean {
-    this.router.navigate(["/owners/create"]);
-    return false;
-  }
-
 
   viewOwner(owner: Owner) {
-    this.toastAlert("View()", JSON.stringify(owner));
+    this.owner = owner;
+    this.ownerViewModal.showModal();
   }
 
   editOwner(owner: Owner) {
-    this.toastAlert("Edit()", JSON.stringify(owner));
+    this.toastAlert("TODO: Not implemented");
   }
 
   deleteOwner(owner: Owner) {

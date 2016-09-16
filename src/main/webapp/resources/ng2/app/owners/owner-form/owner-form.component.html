@@ -26,7 +26,7 @@
              required [(ngModel)]="owner.lastName"
              class="form-control"
              [class.form-control-danger]="shouldShowErrorAlert(lastName)"
-             [class.form-control-success]="!lastName.errors">
+             [class.form-control-success]="lastName.valid">
       <div class="form-control-feedback" [hidden]="!shouldShowErrorAlert(lastName)">Last name should not empty!</div>
     </div>
   </div>
@@ -34,12 +34,12 @@
     <label class="col-lg-2 col-md-2 col-xs-4 control-label">Address</label>
     <div class="col-lg-3 col-md-4 col-xs-8"
          [class.has-danger]="shouldShowErrorAlert(address)"
-         [class.has-success]="!address.errors">
+         [class.has-success]="address.valid">
       <input #address="ngModel" name="address"
              required [(ngModel)]="owner.address"
              class="form-control"
              [class.form-control-danger]="shouldShowErrorAlert(address)"
-             [class.form-control-success]="!address.errors">
+             [class.form-control-success]="address.valid">
       <div class="form-control-feedback" [hidden]="!shouldShowErrorAlert(address)">Address should not empty!</div>
     </div>
   </div>
@@ -67,5 +67,6 @@
   </div>
   <div>
     <button type="submit" class="btn btn-primary" [disabled]="theForm.form.invalid">Submit</button>
+    <a routerLink=".." class="btn btn-secondary">Cancel</a>
   </div>
 </form>
