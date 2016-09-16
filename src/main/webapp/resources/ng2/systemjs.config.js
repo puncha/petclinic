@@ -19,7 +19,7 @@
     'rxjs': {defaultExtension: 'js'},
     'lodash': {main: 'lodash.js', defaultExtension: 'js'},
     'angular2-in-memory-web-api': {main: 'index.js', defaultExtension: 'js'},
-    '@ng-bootstrap/ng-bootstrap': {main: 'index.js', defaultExtension: 'js'},
+    '@ng-bootstrap/ng-bootstrap': {main: 'bundles/ng-bootstrap.js', defaultExtension: 'js'},
     'angular2-notifications': {main: 'components.js', defaultExtension: 'js'}
   };
   var ngPackageNames = [
