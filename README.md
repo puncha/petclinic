@@ -1,4 +1,4 @@
-# Pet Clinic by Spring Boot in Java v1.0.0
+# Pet Clinic by Spring Boot in Java v1.1.0
 
 ------
 
@@ -48,6 +48,8 @@ node_modules/.bin/electron .
   - Official Site: http://projects.spring.io/spring-roo/
 
 ## Change Logs
+ - v1.1.0:
+  - Angular2 version is added.
  - v1.0.0:
   - CSS is changed to Bootstrap 4 alpha3.
   - Form validation is added.
