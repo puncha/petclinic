@@ -18,9 +18,9 @@
     <td>{{owner.telephone}}</td>
     <td>
       <div class="btn-group btn-group-xs">
-        <a class="btn btn-success" href (click)="view(owner)">View</a>
-        <a class="btn btn-primary" href (click)="edit(owner)">Edit</a>
-        <a class="btn btn-danger" href (click)="delete(owner)">Delete</a>
+        <a class="btn btn-success" (click)="onClickView(owner)">View</a>
+        <a class="btn btn-primary" (click)="onClickEdit(owner)">Edit</a>
+        <a class="btn btn-danger" (click)="onClickDelete(owner)">Delete</a>
       </div>
     </td>
   </tr>

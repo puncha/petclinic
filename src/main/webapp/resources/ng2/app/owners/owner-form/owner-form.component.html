@@ -1,0 +1,61 @@
+<h3>New Owner</h3>
+<hr/>
+<form #theForm="ngForm" novalidate (ngSubmit)="onSubmit()">
+  <div class="form-group row">
+    <label class="col-lg-2 col-md-2 col-xs-4 control-label">First name</label>
+    <div class="col-lg-3 col-md-4 col-xs-8"
+         [class.has-danger]="shouldShowErrorAlert(firstName)"
+         [class.has-success]="firstName.valid">
+      <input #firstName="ngModel" name="firstName"
+             required [(ngModel)]="owner.firstName"
+             class="form-control"
+             [class.form-control-danger]="shouldShowErrorAlert(firstName)"
+             [class.form-control-success]="firstName.valid">
+      <div class="form-control-feedback"
+           [hidden]="!shouldShowErrorAlert(firstName)">
+        First name should not empty!
+      </div>
+    </div>
+  </div>
+  <div class="form-group row">
+    <label class="col-lg-2 col-md-2 col-xs-4 control-label">Last name</label>
+    <div class="col-lg-3 col-md-4 col-xs-8"
+         [class.has-danger]="shouldShowErrorAlert(lastName)"
+         [class.has-success]="lastName.valid">
+      <input #lastName="ngModel" name="lastName"
+             required [(ngModel)]="owner.lastName"
+             class="form-control"
+             [class.form-control-danger]="shouldShowErrorAlert(lastName)"
+             [class.form-control-success]="!lastName.errors">
+      <div class="form-control-feedback" [hidden]="!shouldShowErrorAlert(lastName)">Last name should not empty!</div>
+    </div>
+  </div>
+  <div class="form-group row">
+    <label class="col-lg-2 col-md-2 col-xs-4 control-label">Address</label>
+    <div class="col-lg-3 col-md-4 col-xs-8"
+         [class.has-danger]="shouldShowErrorAlert(address)"
+         [class.has-success]="!address.errors">
+      <input #address="ngModel" name="address"
+             required [(ngModel)]="owner.address"
+             class="form-control"
+             [class.form-control-danger]="shouldShowErrorAlert(address)"
+             [class.form-control-success]="!address.errors">
+      <div class="form-control-feedback" [hidden]="!shouldShowErrorAlert(address)">Address should not empty!</div>
+    </div>
+  </div>
+  <div class="form-group row">
+    <label class="col-lg-2 col-md-2 col-xs-4 control-label">City</label>
+    <div class="col-lg-3 col-md-4 col-xs-8">
+      <input name="city" [(ngModel)]="owner.city" class="form-control">
+    </div>
+  </div>
+  <div class="form-group row">
+    <label class="col-lg-2 col-md-2 col-xs-4 control-label">Telephone</label>
+    <div class="col-lg-3 col-md-4 col-xs-8">
+      <input name="telephone" [(ngModel)]="owner.telephone" class="form-control">
+    </div>
+  </div>
+  <div>
+    <button type="submit" class="btn btn-primary" [disabled]="theForm.form.invalid">Submit</button>
+  </div>
+</form>

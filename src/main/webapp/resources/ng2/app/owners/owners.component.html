@@ -1,9 +1,7 @@
 <div class="container-fluid">
-  <a class="btn btn-xs btn-primary" href (click)="addNewOwner()">
-    <i class="fa fa-plus fa-2x"></i> Add new owner
-  </a>
+  <router-outlet></router-outlet>
 
-  <form class="form-inline" (ngSubmit)="searchOwners(firstNameToSearch.value)">
+  <form class="form-inline" (ngSubmit)="listOwners(firstNameToSearch.value)">
     <div class="form-group m-y-1">
       <label class="label m-r-1" for="search-first-name">First Name: </label>
       <input #firstNameToSearch id="search-first-name"
@@ -13,5 +11,12 @@
     </button>
   </form>
 
-  <ptc-owner-list></ptc-owner-list>
+  <ptc-owner-table [owners]="owners"
+                   (viewOwner)="viewOwner($event)"
+                   (editOwner)="editOwner($event)"
+                   (deleteOwner)="deleteOwner($event)">
+  </ptc-owner-table>
+
+  <simple-notifications [options]="notificationsOptions"></simple-notifications>
+
 </div>
