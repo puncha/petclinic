@@ -45,14 +45,24 @@
   </div>
   <div class="form-group row">
     <label class="col-lg-2 col-md-2 col-xs-4 control-label">City</label>
-    <div class="col-lg-3 col-md-4 col-xs-8">
-      <input name="city" [(ngModel)]="owner.city" class="form-control">
+    <!-- this field doesn't require validation, so we show
+     "success" mark if user touches it. -->
+    <div class="col-lg-3 col-md-4 col-xs-8" [class.has-success]="city.touched">
+      <input #city="ngModel" name="city"
+             class="form-control"
+             [(ngModel)]="owner.city"
+             [class.form-control-success]="city.touched">
     </div>
   </div>
   <div class="form-group row">
     <label class="col-lg-2 col-md-2 col-xs-4 control-label">Telephone</label>
-    <div class="col-lg-3 col-md-4 col-xs-8">
-      <input name="telephone" [(ngModel)]="owner.telephone" class="form-control">
+    <!-- this field doesn't require validation, so we show
+     "success" mark if user touches it. -->
+    <div class="col-lg-3 col-md-4 col-xs-8" [class.has-success]="telephone.touched">
+      <input #telephone="ngModel" name="telephone"
+             class="form-control"
+             [(ngModel)]="owner.telephone"
+             [class.form-control-success]="telephone.touched">
     </div>
   </div>
   <div>
