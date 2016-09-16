@@ -22,7 +22,7 @@ import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 import org.springframework.web.servlet.handler.SimpleMappingExceptionResolver;
 import org.springframework.web.servlet.view.XmlViewResolver;
-import tk.puncha.handlers.MyErrorViewResolver;
+import tk.puncha.viewResolvers.MyErrorViewResolver;
 import tk.puncha.viewResolvers.AtomFeedViewResolver;
 import tk.puncha.viewResolvers.ExcelViewResolver;
 import tk.puncha.viewResolvers.JsonViewResolver;
@@ -39,6 +39,7 @@ public class WebConfig extends WebMvcConfigurerAdapter {
   @Override
   public void addResourceHandlers(ResourceHandlerRegistry registry) {
     registry.addResourceHandler("/ng1/**").addResourceLocations("/resources/ng1/");
+    registry.addResourceHandler("/ng2/**").addResourceLocations("/resources/ng2/");
   }
 
   @Override

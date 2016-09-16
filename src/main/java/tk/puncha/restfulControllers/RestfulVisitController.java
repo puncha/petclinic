@@ -9,6 +9,7 @@ import tk.puncha.models.Visit;
 import tk.puncha.repositories.PetRepository;
 import tk.puncha.repositories.VisitRepository;
 
+import javax.persistence.EntityNotFoundException;
 import javax.validation.Valid;
 
 @RestController  // Includes @ResponseBody
@@ -32,17 +33,24 @@ public class RestfulVisitController {
 
   @ModelAttribute("pet")
   public Pet getPet(@PathVariable int petId) {
-    return petRepository.getPetById(petId);
+    return petRepository.getById(petId);
   }
 
   @PostMapping
+  @ResponseStatus(HttpStatus.CREATED)
   public void create(Pet pet, @Valid @RequestBody Visit visit) {
+    if(pet == null)
+      throw new EntityNotFoundException("Pet doesn't exist.");
     visit.setPet(pet);
-    visitRepository.insertVisit(visit);
+    visitRepository.insert(visit);
   }
 
   @DeleteMapping("{id}")
-  public void delete(@PathVariable int id) {
-    visitRepository.delete(id);
+  @ResponseStatus(HttpStatus.NO_CONTENT)
+  public void delete(Pet pet, @PathVariable int id) {
+    if(pet == null)
+      throw new EntityNotFoundException("Pet doesn't exist.");
+
+    visitRepository.deleteById(id);
   }
 }

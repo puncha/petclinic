@@ -17,37 +17,37 @@ public class MyBatisOwnerDAO implements OwnerDAO {
   private OwnerMapper mapper;
 
   @Override
-  public List<Owner> getAllOwners() {
+  public List<Owner> getAll() {
     return mapper.getAllOwners();
   }
 
   @Override
-  public List<Owner> getOwnersByFirstName(String firstName) {
+  public List<Owner> findByFirstName(String firstName) {
     throw new RuntimeException("Not implemented");
   }
 
   @Override
-  public Owner getOwnerById(int ownerId) {
+  public Owner getById(int ownerId) {
     return mapper.getOwnerById(ownerId);
   }
 
   @Override
-  public Owner getOwnerWithPetsById(int ownerId) {
+  public Owner getByIdWithPets(int ownerId) {
     return mapper.getOwnerWithPetsById(ownerId);
   }
 
   @Override
-  public int insertOwner(Owner owner) {
+  public int insert(Owner owner) {
     return mapper.insertOwner(owner);
   }
 
   @Override
-  public void updateOwner(Owner owner) {
+  public void update(Owner owner) {
     mapper.updateOwner(owner);
   }
 
   @Override
-  public void deleteOwner(int id) {
+  public void deleteById(int id) {
     mapper.deleteOwner(id);
   }
 }

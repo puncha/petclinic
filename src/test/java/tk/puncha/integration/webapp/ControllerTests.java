@@ -2,6 +2,7 @@ package tk.puncha.integration.webapp;
 
 import com.gargoylesoftware.htmlunit.WebClient;
 import com.gargoylesoftware.htmlunit.html.*;
+import org.junit.Ignore;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.autoconfigure.orm.jpa.AutoConfigureTestDatabase;
@@ -15,6 +16,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 @AutoConfigureTestDatabase
 @TestPropertySource(locations = "classpath:test.properties")
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+@Ignore
 abstract class ControllerTests {
 
   @Value("${local.server.port}")

@@ -27,7 +27,7 @@ public class HibernateOwnerDAO implements OwnerDAO {
   private EntityManager em;
 
   @Override
-  public List<Owner> getAllOwners() {
+  public List<Owner> getAll() {
     return em.createQuery("select distinct o from Owner o", Owner.class)
         .setHint(HINT_FETCHGRAPH, em.getEntityGraph("graph.Owners.lazyPets"))
         .getResultList();
@@ -35,7 +35,7 @@ public class HibernateOwnerDAO implements OwnerDAO {
 
   @Override
   @SuppressWarnings("unchecked")
-  public List<Owner> getOwnersByFirstName(String firstName) {
+  public List<Owner> findByFirstName(String firstName) {
     Owner owner = new Owner();
     owner.setFirstName(firstName);
     return em.unwrap(Session.class).createCriteria(Owner.class)
@@ -44,30 +44,30 @@ public class HibernateOwnerDAO implements OwnerDAO {
   }
 
   @Override
-  public Owner getOwnerById(int ownerId) {
+  public Owner getById(int ownerId) {
     return em.find(Owner.class, ownerId);
   }
 
-  public Owner getOwnerWithPetsById(int ownerId) {
+  public Owner getByIdWithPets(int ownerId) {
     String query = "select owner from Owner owner left join fetch owner.pets where owner.id = :ownerId";
     return em.createQuery(query, Owner.class)
         .setParameter("ownerId", ownerId)
-        .getSingleResult();
+        .getResultList().stream().findFirst().orElse(null);
   }
 
   @Override
-  public int insertOwner(Owner owner) {
+  public int insert(Owner owner) {
     em.persist(owner);
     return owner.getId();
   }
 
   @Override
-  public void updateOwner(Owner owner) {
+  public void update(Owner owner) {
     em.merge(owner);
   }
 
   @Override
-  public void deleteOwner(int id) {
+  public void deleteById(int id) {
     Owner reference = em.getReference(Owner.class, id);
     logger.error("reference got!");
     em.remove(reference);

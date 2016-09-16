@@ -9,6 +9,7 @@ import tk.puncha.models.Owner;
 import java.util.List;
 
 @Repository
+@Transactional
 public class OwnerRepository {
 
   private final OwnerDAO ownerDAO;
@@ -18,37 +19,35 @@ public class OwnerRepository {
     this.ownerDAO = ownerDAO;
   }
 
-  @Transactional
-  public List<Owner> getAllOwners() {
-    return ownerDAO.getAllOwners();
+  @Transactional(readOnly = true)
+  public List<Owner> getAll() {
+    return ownerDAO.getAll();
   }
 
-  public List<Owner> getOwnersByFirstName(String firstName){
-    return ownerDAO.getOwnersByFirstName(firstName);
+  @Transactional(readOnly = true)
+  public List<Owner> findByFirstName(String firstName){
+    return ownerDAO.findByFirstName(firstName);
   }
 
-  @Transactional
-  public Owner getOwnerById(int ownerId) {
-    return ownerDAO.getOwnerById(ownerId);
+  @Transactional(readOnly = true)
+  public Owner getById(int ownerId) {
+    return ownerDAO.getById(ownerId);
   }
 
-  @Transactional
-  public Owner getOwnerWithPetsById(int ownerId) {
-    return ownerDAO.getOwnerWithPetsById(ownerId);
+  @Transactional(readOnly = true)
+  public Owner getByIdWithPets(int ownerId) {
+    return ownerDAO.getByIdWithPets(ownerId);
   }
 
-  @Transactional
-  public void insertOwner(Owner owner) {
-    ownerDAO.insertOwner(owner);
+  public int insert(Owner owner) {
+    return ownerDAO.insert(owner);
   }
 
-  @Transactional
-  public void updateOwner(Owner owner) {
-    ownerDAO.updateOwner(owner);
+  public void update(Owner owner) {
+    ownerDAO.update(owner);
   }
 
-  @Transactional
-  public void deleteOwner(int ownerId) {
-    ownerDAO.deleteOwner(ownerId);
+  public void deleteById(int ownerId) {
+    ownerDAO.deleteById(ownerId);
   }
 }

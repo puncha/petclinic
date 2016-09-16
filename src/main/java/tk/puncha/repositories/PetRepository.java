@@ -6,7 +6,6 @@ import org.springframework.transaction.annotation.Transactional;
 import tk.puncha.dao.PetDAO;
 import tk.puncha.dao.PetTypeDAO;
 import tk.puncha.models.Pet;
-import tk.puncha.models.PetType;
 
 import java.util.List;
 
@@ -25,34 +24,28 @@ public class PetRepository {
   }
 
   @Transactional(readOnly = true)
-  public List<Pet> getAllPets() {
-    return petDAO.getAllPets();
-  }
-
-
-  @Transactional(readOnly = true)
-  public Pet getPetById(int id) {
-    return petDAO.getPetById(id);
-  }
-
-  public void updatePet(Pet pet) {
-    petDAO.updatePet(pet);
-  }
-
-  public int insertPet(Pet pet) {
-    return petDAO.insertPet(pet);
-  }
-
-  public void delete(int id) {
-    petDAO.delete(id);
+  public List<Pet> getAll() {
+    return petDAO.getAll();
   }
 
   @Transactional(readOnly = true)
-  public List<PetType> getAllTypes() {
-    return petTypeDAO.getAllTypes();
+  public Pet getById(int id) {
+    return petDAO.getById(id);
   }
 
-  public void deletePetsByOwnerId(int ownerId) {
-    petDAO.deletePetsByOwnerId(ownerId);
+  public void update(Pet pet) {
+    petDAO.update(pet);
+  }
+
+  public int insert(Pet pet) {
+    return petDAO.insert(pet);
+  }
+
+  public void deleteById(int id) {
+    petDAO.deleteById(id);
+  }
+
+  public void deleteByOwnerId(int ownerId) {
+    petDAO.deleteByOwnerId(ownerId);
   }
 }

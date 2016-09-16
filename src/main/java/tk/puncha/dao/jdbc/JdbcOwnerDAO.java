@@ -45,25 +45,25 @@ public class JdbcOwnerDAO extends JdbcDaoSupport implements OwnerDAO {
     };
   }
 
-  public List<Owner> getAllOwners() {
+  public List<Owner> getAll() {
     return this.getJdbcTemplate().query(SQL_QUERY_ALL, ownerRowMapper);
   }
 
   @Override
-  public List<Owner> getOwnersByFirstName(String firstName) {
+  public List<Owner> findByFirstName(String firstName) {
     throw new RuntimeException("Not implemented");
   }
 
-  public Owner getOwnerById(int ownerId) {
+  public Owner getById(int ownerId) {
     return this.getJdbcTemplate().queryForObject(SQL_QUERY_BY_ID, ownerRowMapper, ownerId);
   }
 
   @Override
-  public Owner getOwnerWithPetsById(int ownerId) {
+  public Owner getByIdWithPets(int ownerId) {
     throw new RuntimeException("Not implemented yet.");
   }
 
-  public int insertOwner(Owner owner) {
+  public int insert(Owner owner) {
     HashMap<String, Object> parameters = new HashMap<>(5);
     parameters.put("first_name", owner.getFirstName());
     parameters.put("last_name", owner.getLastName());
@@ -75,7 +75,7 @@ public class JdbcOwnerDAO extends JdbcDaoSupport implements OwnerDAO {
     return owner.getId();
   }
 
-  public void updateOwner(Owner owner) {
+  public void update(Owner owner) {
     this.getJdbcTemplate().update(
         SQL_UPDATE, owner.getFirstName(), owner.getLastName(),
         owner.getAddress(), owner.getCity(), owner.getTelephone(),
@@ -86,7 +86,7 @@ public class JdbcOwnerDAO extends JdbcDaoSupport implements OwnerDAO {
   // the caller should make sure the owner's pets are
   // deleted.
   @Transactional
-  public void deleteOwner(int id) {
+  public void deleteById(int id) {
     this.getJdbcTemplate().update(SQL_DELETE_BY_ID, id);
   }
 

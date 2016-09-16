@@ -17,13 +17,13 @@ public class HibernatePetTypeDAO implements PetTypeDAO {
   private EntityManager em;
 
   @Override
-  public List<PetType> getAllTypes() {
+  public List<PetType> getAll() {
     String query = "select petType from PetType petType";
     return em.createQuery(query, PetType.class).getResultList();
   }
 
   @Override
-  public PetType getTypeById(int id) {
+  public PetType getById(int id) {
     return em.find(PetType.class, id);
   }
 }

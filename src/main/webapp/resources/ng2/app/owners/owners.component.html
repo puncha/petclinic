@@ -1,0 +1,26 @@
+<div class="container-fluid">
+  <router-outlet></router-outlet>
+
+  <form class="form-inline" (ngSubmit)="listOwners(firstNameToSearch.value)">
+    <div class="form-group m-y-1">
+      <label class="label m-r-1" for="search-first-name">First Name: </label>
+      <input #firstNameToSearch id="search-first-name"
+             type="text" class="form-control" placeholder="first name to search">
+    </div>
+    <button type="submit" class="btn btn-primary"><i class="fa fa-search"></i> Search
+    </button>
+  </form>
+
+  <ptc-owner-table [owners]="owners"
+                   (viewOwner)="viewOwner($event)"
+                   (editOwner)="editOwner($event)"
+                   (deleteOwner)="deleteOwner($event)">
+  </ptc-owner-table>
+
+  <simple-notifications [options]="notificationsOptions"></simple-notifications>
+
+  <template ngbModalContainer></template>
+
+  <ptc-owner-view-modal #ownerViewModal [owner]="owner"></ptc-owner-view-modal>
+
+</div>

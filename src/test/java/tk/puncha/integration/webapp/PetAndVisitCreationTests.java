@@ -2,6 +2,7 @@ package tk.puncha.integration.webapp;
 
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.context.annotation.Configuration;
@@ -9,6 +10,7 @@ import tk.puncha.Application;
 
 import static org.junit.Assert.assertTrue;
 
+@Ignore
 public class PetAndVisitCreationTests extends ControllerTests {
 
   @Configuration

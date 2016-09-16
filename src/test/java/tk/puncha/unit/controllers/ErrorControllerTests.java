@@ -29,7 +29,7 @@ public class ErrorControllerTests {
     String exceptionMsg = new RuntimeException(ErrorController.DEFAULT_EXCEPTION).toString();
 
     mockMvc.perform(get("/errors"))
-        .andExpect(status().is(200))
+        .andExpect(status().isOk())
         .andExpect(view().name("exception/default"))
         .andExpect(model().attribute("exception", hasToString(exceptionMsg)));
   }

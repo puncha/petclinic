@@ -2,6 +2,7 @@ package tk.puncha.unit.controllers;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
@@ -21,6 +22,7 @@ import tk.puncha.repositories.OwnerRepository;
 import tk.puncha.repositories.PetRepository;
 import tk.puncha.repositories.PetTypeRepository;
 
+import java.util.Collections;
 import java.util.List;
 
 import static org.mockito.Mockito.*;
@@ -37,6 +39,19 @@ public class PetControllerTests {
   @Autowired
   private MockMvc mockMvc;
 
+  @Mock
+  private Pet petMock;
+  @Mock
+  private List<Pet> petListMock;
+  @Mock
+  private Owner ownerMock;
+  @Mock
+  private PetType petTypeMock;
+  @Mock
+  private List<Owner> ownerListMock;
+  @Mock
+  private List<PetType> petTypeListMock;
+
   @MockBean
   private PetRepository petRepository;
   @MockBean
@@ -49,43 +64,64 @@ public class PetControllerTests {
   private PetTypeFormatter petTypeFormatter;
 
   @Test
-  public void shouldShowAllPets() throws Exception {
-    List<Pet> pets = mock(List.class);
-    when(petRepository.getAllPets()).thenReturn(pets);
+  public void shouldShowAllPetsInHtml() throws Exception {
+    when(petRepository.getAll()).thenReturn(petListMock);
 
     mockMvc.perform(get("/pets"))
         .andExpect(status().isOk())
         .andExpect(view().name("pet/index"))
-        .andExpect(model().attribute("pets", pets));
-    verify(petRepository).getAllPets();
+//      .andExpect(content().contentType(MediaType.TEXT_HTML))  // it is NOT SET, why?
+        .andExpect(model().attribute("pets", petListMock));
+    verify(petRepository).getAll();
+  }
+
+  @Test
+  public void shouldShowAllPetsInXml() throws Exception {
+    when(petRepository.getAll()).thenReturn(Collections.emptyList());
+
+    mockMvc.perform(get("/pets.xml"))
+        .andExpect(status().isOk())
+        .andExpect(content().contentType("application/xml;charset=UTF-8"));
+    verify(petRepository).getAll();
+  }
+
+  @Test
+  public void shouldShowAllPetsInJson() throws Exception {
+    when(petRepository.getAll()).thenReturn(Collections.emptyList());
+
+    mockMvc.perform(get("/pets.json"))
+        .andExpect(status().isOk())
+        .andExpect(content().contentType("application/json;charset=UTF-8"));
+    verify(petRepository).getAll();
   }
 
   @Test
   public void shouldShowPetDetail() throws Exception {
-    Pet pet = mock(Pet.class);
-    when(petRepository.getPetById(1)).thenReturn(pet);
+    when(petRepository.getById(1)).thenReturn(petMock);
+    when(ownerRepository.getAll()).thenReturn(ownerListMock);
+    when(petTypeRepository.getAll()).thenReturn(petTypeListMock);
 
     mockMvc.perform(get("/pets/1"))
         .andExpect(status().isOk())
         .andExpect(view().name("pet/viewOrEdit"))
-        .andExpect(model().attributeExists("owners"))
-        .andExpect(model().attributeExists("types"))
-        .andExpect(model().attribute("pet", pet))
+        .andExpect(model().attribute("owners", ownerListMock))
+        .andExpect(model().attribute("types", petTypeListMock))
+        .andExpect(model().attribute("pet", petMock))
         .andExpect(model().attribute("mode", ControllerBase.FormMode.Readonly));
 
-    verify(petRepository).getPetById(1);
+    verify(petRepository).getById(1);
   }
 
   @Test
   public void shouldFailToShowPetDetailWhenPetDoesNotExist() throws Exception {
-    when(petRepository.getPetById(anyInt())).thenReturn(null);
+    when(petRepository.getById(anyInt())).thenReturn(null);
 
     mockMvc.perform(get("/pets/100"))
         .andExpect(status().isOk())
         .andExpect(view().name("exception/default"))
         .andExpect(model().attributeExists("exception"));
 
-    verify(petRepository).getPetById(100);
+    verify(petRepository).getById(100);
   }
 
   @Test
@@ -101,23 +137,23 @@ public class PetControllerTests {
 
   @Test
   public void shouldCreatePet() throws Exception {
-    when(petRepository.insertPet(any())).thenReturn(123);
-    when(petTypeFormatter.parse(any(), any())).thenReturn(mock(PetType.class));
-    when(ownerFormatter.parse(any(), any())).thenReturn(mock(Owner.class));
+    when(petRepository.insert(any())).thenReturn(123);
+    when(ownerFormatter.parse(any(), any())).thenReturn(ownerMock);
+    when(petTypeFormatter.parse(any(), any())).thenReturn(petTypeMock);
     MockHttpServletRequestBuilder req = post("/pets/new")
         .sessionAttr("id", "-1")
-        .param("id", "111") // cheat
+        .param("id", "111") // cheat the server
         .param("name", "puncha")
         .param("owner", "1")
         .param("type", "1");
     mockMvc.perform(req)
-        .andExpect(status().is(302))
+        .andExpect(status().isFound())
         .andExpect(redirectedUrl("/pets/123"));
   }
 
   @Test
   public void shouldFailToCreatePetWhenPetInformationIsIncomplete() throws Exception {
-    when(petRepository.insertPet(any())).thenReturn(123);
+    when(petRepository.insert(any())).thenReturn(123);
     MockHttpServletRequestBuilder req = post("/pets/new")
         .sessionAttr("id", "-1")
         .param("name", "puncha");
@@ -135,45 +171,44 @@ public class PetControllerTests {
 
   @Test
   public void shouldShowPetEditForm() throws Exception {
-    Pet pet = mock(Pet.class);
-    when(petRepository.getPetById(1)).thenReturn(pet);
+    when(petRepository.getById(1)).thenReturn(petMock);
 
     mockMvc.perform(get("/pets/1/edit"))
         .andExpect(status().isOk())
         .andExpect(view().name("pet/viewOrEdit"))
         .andExpect(model().attributeExists("owners"))
         .andExpect(model().attributeExists("types"))
-        .andExpect(model().attribute("pet", pet))
+        .andExpect(model().attribute("pet", petMock))
         .andExpect(model().attribute("mode", ControllerBase.FormMode.Edit));
 
-    verify(petRepository).getPetById(1);
+    verify(petRepository).getById(1);
   }
 
   @Test
   public void shouldUpdatePetAnsShowPetDetail() throws Exception {
-    when(petTypeFormatter.parse(any(), any())).thenReturn(mock(PetType.class));
-    when(ownerFormatter.parse(any(), any())).thenReturn(mock(Owner.class));
+    when(petTypeFormatter.parse(any(), any())).thenReturn(petTypeMock);
+    when(ownerFormatter.parse(any(), any())).thenReturn(ownerMock);
     MockHttpServletRequestBuilder req = post("/pets/new")
         .sessionAttr("id", "123")
         .param("id", "456")  // cheat the server
         .param("owner", "1")
         .param("type", "1");
     mockMvc.perform(req)
-        .andExpect(status().is(302))
+        .andExpect(status().isFound())
         .andExpect(redirectedUrl("/pets/123")); // make sure the server not cheated
   }
 
   @Test
   public void shouldDeletePetAndShowAllPets() throws Exception {
     mockMvc.perform(get("/pets/1/delete"))
-        .andExpect(status().is(302))
+        .andExpect(status().isFound())
         .andExpect(redirectedUrl("/pets"));
   }
 
   @Test
   public void shouldFailToDeletePetWhenPetDoesNotExist() throws Exception {
     RuntimeException exception = new RuntimeException();
-    doThrow(exception).when(petRepository).delete(100);
+    doThrow(exception).when(petRepository).deleteById(100);
     mockMvc.perform(get("/pets/100/delete"))
         .andExpect(status().isOk())
         .andExpect(view().name("exception/default"))

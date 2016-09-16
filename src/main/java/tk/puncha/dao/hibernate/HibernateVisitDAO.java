@@ -16,13 +16,13 @@ public class HibernateVisitDAO implements VisitDAO {
   private EntityManager em;
 
   @Override
-  public void deleteVisit(int visitId) {
+  public void deleteById(int visitId) {
     em.remove(em.getReference(Visit.class, visitId));
   }
 
   @Override
-  public int insertVisit(Visit visit) {
-    visit = em.merge(visit);
+  public int insert(Visit visit) {
+    em.persist(visit);
     return visit.getId();
   }
 

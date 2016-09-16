@@ -13,7 +13,7 @@ import java.sql.Date;
 public class Visit {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
-  private int id;
+  private int id = -1;
   private String description;
 
   @Column(name = "VISIT_DATE")

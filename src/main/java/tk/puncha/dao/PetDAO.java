@@ -6,15 +6,15 @@ import java.util.List;
 
 
 public interface PetDAO {
-  List<Pet> getAllPets();
+  List<Pet> getAll();
 
-  Pet getPetById(int id);
+  Pet getById(int id);
 
-  void deletePetsByOwnerId(int ownerId);
+  int insert(Pet pet);
 
-  void updatePet(Pet pet);
+  void update(Pet pet);
 
-  int insertPet(Pet pet);
+  void deleteById(int id);
 
-  void delete(int id);
+  void deleteByOwnerId(int ownerId);
 }

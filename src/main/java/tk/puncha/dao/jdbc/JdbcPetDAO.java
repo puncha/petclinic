@@ -42,23 +42,23 @@ public class JdbcPetDAO extends JdbcDaoSupport implements PetDAO {
   }
 
   @Override
-  public List<Pet> getAllPets() {
+  public List<Pet> getAll() {
     return this.getJdbcTemplate().query(SQL_QUERY_ALL, rowMapper);
   }
 
   @Override
-  public Pet getPetById(int id) {
+  public Pet getById(int id) {
     return this.getJdbcTemplate().queryForObject(SQL_QUERY_BY_ID, rowMapper, id);
   }
 
   @Override
   @Transactional
-  public void deletePetsByOwnerId(int ownerId) {
+  public void deleteByOwnerId(int ownerId) {
     this.getJdbcTemplate().update(SQL_DELETE_BY_OWNER, ownerId);
   }
 
   @Override
-  public void updatePet(Pet pet) {
+  public void update(Pet pet) {
     // TODO: FIX ME
     throw new RuntimeException();
 //    this.getJdbcTemplate().update(
@@ -66,7 +66,7 @@ public class JdbcPetDAO extends JdbcDaoSupport implements PetDAO {
   }
 
   @Override
-  public int insertPet(Pet pet) {
+  public int insert(Pet pet) {
     // TODO: FIX ME
     throw new RuntimeException();
 //    HashMap<String, Object> parameters = new HashMap<>();
@@ -80,7 +80,7 @@ public class JdbcPetDAO extends JdbcDaoSupport implements PetDAO {
   }
 
   @Override
-  public void delete(int id) {
+  public void deleteById(int id) {
     this.getJdbcTemplate().update(SQL_DELETE_BY_ID, id);
   }
 }

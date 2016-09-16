@@ -6,17 +6,17 @@ import java.util.List;
 
 
 public interface OwnerDAO {
-  List<Owner> getAllOwners();
+  List<Owner> getAll();
 
-  List getOwnersByFirstName(String firstName);
+  List<Owner> findByFirstName(String firstName);
 
-  Owner getOwnerById(int ownerId);
+  Owner getById(int ownerId);
 
-  Owner getOwnerWithPetsById(int ownerId);
+  Owner getByIdWithPets(int ownerId);
 
-  int insertOwner(Owner owner);
+  int insert(Owner owner);
 
-  void updateOwner(Owner owner);
+  void update(Owner owner);
 
-  void deleteOwner(int id);
+  void deleteById(int id);
 }

@@ -31,13 +31,13 @@ public class JdbcPetTypeDAO extends JdbcDaoSupport implements PetTypeDAO {
   }
 
   @Override
-  public List<PetType> getAllTypes() {
+  public List<PetType> getAll() {
     return this.getJdbcTemplate().query(SQL_QUERY_ALL, rowMapper);
   }
 
 
   @Override
-  public PetType getTypeById(int id) {
+  public PetType getById(int id) {
     return this.getJdbcTemplate().queryForObject(SQL_QUERY_BY_ID, rowMapper, id);
   }
 }

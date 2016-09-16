@@ -1,4 +1,4 @@
-# Pet Clinic by Spring Boot in Java v1.0.0
+# Pet Clinic by Spring Boot in Java v1.1.0
 
 ------
 
@@ -11,6 +11,18 @@ Implement the Spring 4 Sample Pet Clinic project for practice.
 3. CodeShip CI: [![Build Status](https://codeship.com/projects/4b274a90-45f7-0134-2d77-0aad117e5610/status)](https://codeship.com/projects/168779)
 4. Heroku Demo: https://java-petclinic.herokuapp.com/
 
+## Features
+It contains three versions:
+ - SpringMVC + Jsp (backend rendering)
+ - SpringMVC Restful + AngularJs1 + Bootstrap4
+ - SpringMVC Restful + Angular2 + Bootstrap4 (TypeScript)
+
+## Install
+```bash
+cd src/main/webapp/resources/ng2
+npm i
+```
+
 ## Run
 ```bash
 ./gradlew bootRun
@@ -22,7 +34,7 @@ Implement the Spring 4 Sample Pet Clinic project for practice.
 ```
 
 ## Cross platform desktop app
-Install nodejs 6.x first and run:
+Install NodeJs 6.x first and run:
 ```bash
 cd src/main/electron_app/
 npm i
@@ -36,6 +48,8 @@ node_modules/.bin/electron .
   - Official Site: http://projects.spring.io/spring-roo/
 
 ## Change Logs
+ - v1.1.0:
+  - Angular2 version is added.
  - v1.0.0:
   - CSS is changed to Bootstrap 4 alpha3.
   - Form validation is added.

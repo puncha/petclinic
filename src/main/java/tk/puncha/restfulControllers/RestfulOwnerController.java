@@ -13,14 +13,13 @@ import tk.puncha.repositories.OwnerRepository;
 import tk.puncha.validators.OwnerValidator;
 import tk.puncha.views.json.view.OwnerJsonView;
 
+import javax.persistence.EntityNotFoundException;
 import javax.validation.Valid;
 import java.util.List;
 
 @RestController  // Includes @ResponseBody
 @RequestMapping(path = "/api/owners", produces = MediaType.APPLICATION_JSON_VALUE)
 public class RestfulOwnerController {
-
-
   private final OwnerRepository ownerRepository;
   private final OwnerValidator ownerValidator;
 
@@ -47,20 +46,18 @@ public class RestfulOwnerController {
   @JsonView(OwnerJsonView.Default.class)
   public List<Owner> getAllOwners(@RequestParam(required = false) String firstName) {
     if (firstName != null && !firstName.isEmpty())
-      return ownerRepository.getOwnersByFirstName(firstName);
+      return ownerRepository.findByFirstName(firstName);
     else
-      return ownerRepository.getAllOwners();
+      return ownerRepository.getAll();
   }
 
   @GetMapping("{ownerId}")
   @JsonView(OwnerJsonView.WithPets.class)
-  public Owner getOwner(@PathVariable int ownerId) {
-    return ownerRepository.getOwnerWithPetsById(ownerId);
-  }
-
-  @DeleteMapping("{ownerId}")
-  public void deleteOwner(@PathVariable int ownerId) {
-    ownerRepository.deleteOwner(ownerId);
+  public ResponseEntity<Owner> getOwner(@PathVariable int ownerId) {
+    Owner owner = ownerRepository.getByIdWithPets(ownerId);
+    if (owner == null)
+      return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    return ResponseEntity.ok(owner);
   }
 
   @PostMapping
@@ -70,8 +67,8 @@ public class RestfulOwnerController {
           String.format("Field: %s is invalid.", error.getFieldError().getField()));
       return ResponseEntity.badRequest().body(errorInfo);
     }
-    ownerRepository.insertOwner(owner);
-    return ResponseEntity.ok(owner);
+    ownerRepository.insert(owner);
+    return new ResponseEntity(HttpStatus.CREATED);
   }
 
   @PostMapping("{ownerId}")
@@ -83,7 +80,18 @@ public class RestfulOwnerController {
     }
     // clear the pet collection to avoid updating pets
     owner.getPets().clear();
-    ownerRepository.updateOwner(owner);
+    ownerRepository.update(owner);
     return ResponseEntity.noContent().build();
+  }
+
+  @DeleteMapping("{ownerId}")
+  @ResponseStatus(HttpStatus.NO_CONTENT)
+  public ResponseEntity deleteOwner(@PathVariable int ownerId) {
+    try {
+      ownerRepository.deleteById(ownerId);
+      return new ResponseEntity(HttpStatus.NO_CONTENT);
+    } catch (EntityNotFoundException e) {
+      return new ResponseEntity(HttpStatus.NOT_FOUND);
+    }
   }
 }

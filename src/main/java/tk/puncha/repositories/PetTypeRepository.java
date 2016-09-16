@@ -2,12 +2,14 @@ package tk.puncha.repositories;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 import tk.puncha.dao.PetTypeDAO;
 import tk.puncha.models.PetType;
 
 import java.util.List;
 
 @Repository
+@Transactional(readOnly = true)
 public class PetTypeRepository {
 
   private final PetTypeDAO petTypeDAO;
@@ -17,11 +19,11 @@ public class PetTypeRepository {
     this.petTypeDAO = petTypeDAO;
   }
 
-  public List<PetType> getAllTypes() {
-    return petTypeDAO.getAllTypes();
+  public List<PetType> getAll() {
+    return petTypeDAO.getAll();
   }
 
-  public PetType getPetTypeById(int id) {
-    return petTypeDAO.getTypeById(id);
+  public PetType getById(int id) {
+    return petTypeDAO.getById(id);
   }
 }

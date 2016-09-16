@@ -46,7 +46,8 @@ public class Owner {
   private String telephone;
 
   @OneToMany(mappedBy = "owner", fetch = FetchType.LAZY,
-      cascade = {CascadeType.REMOVE, CascadeType.PERSIST})
+      cascade = {CascadeType.REMOVE, CascadeType.PERSIST},
+      orphanRemoval = true)
   private List<Pet> pets = new ArrayList<>();
 
   @JsonView({OwnerJsonView.Default.class, PetJsonView.class})

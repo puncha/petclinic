@@ -21,7 +21,7 @@ public class OwnerFormatter implements Formatter<Owner> {
 
   @Override
   public Owner parse(String text, Locale locale) throws ParseException {
-    return ownerRepository.getOwnerById(Integer.parseInt(text));
+    return ownerRepository.getById(Integer.parseInt(text));
   }
 
   @Override
